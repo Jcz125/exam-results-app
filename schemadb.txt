@@ -1,3 +1,13 @@
+//Enums, ne sera pas dans SQLite mais à remplacer par CHECK(... in {...})
+Enum mentions {
+  TB
+  B
+  AB
+  S
+}
+
+//Tables
+
 Table etat_reponse{
   code integer [pk]
   etat text [not null]
@@ -25,7 +35,6 @@ Table concours {
 }
 
 Ref: concours.code < candidat.filiere_concours
-Ref: concours.code < epreuve.filiere_concours
 
 Table voeux {
   candidat integer
@@ -57,11 +66,30 @@ Table candidat{
   mail text [note: 'doit contenir @ et un .']
   tel integer [note: '10 chiffres ? avec préfixe ?']
   por integer [note: '10 chiffres ? avec préfixe ?']
-  rang integer [note: 'unique ?']  
-  autres_infos text [note: 'completer cette table et creer une autre']
+  rang integer [note: 'unique ?']
   code_pays_naissance integer [note: 'code du pays']
   code_pays_nationalite integer [note: 'code du pays']
   ville_ecrit text
+  ine text [note: 'unique ?']
+  csp_pere integer
+  csp_mere integer
+  
+  //bac
+  bac integer [ref: > serie_bac.code]
+  annee_bac integer
+  mois_bac integer
+  mention_bac mentions [note: 'du text avec check( in {TB,B,AB,S})']
+  dep_bac integer [note: 'departement du bac, peut être NULL (pas l info à chaque fois']
+  
+  dossier integer [ref: > etat_dossier.code]
+  qualite text [note: 'Boursier ou NULL']
+  decla_handicap binary [note: 'oui ou non']
+  arrondissement_naissance integer [note: 'mais qu est-ce que c est ?']
+  option1 integer [ref: > ep_option.id]
+  option2 integer [ref: > ep_option.id]
+  option3 integer [ref: > ep_option.id]
+  option4 integer [ref: > ep_option.id]
+  tipe text
 }
 
 Table classement {
@@ -74,7 +102,6 @@ Ref: classement.etudiant > candidat.code
 
 Table epreuve {
   id integer
-  filiere_concours integer
   label text [note: 'matiere ou nom de epreuve']
 }
 
@@ -90,9 +117,11 @@ Ref: notes.candidat > candidat.code
 Ref: notes.epreuve > epreuve.id
 
 Table autres_prenoms {
-  id integer [pk]
   etudiant integer
-  prenoms text [not null]
+  prenom text
+  Indexes{
+    (etudiant,prenom) [pk]
+  }
 }
 
 Ref: autres_prenoms.etudiant > candidat.code
@@ -105,3 +134,30 @@ Table pays {
 Ref: pays.code < candidat.code_adr_pays
 Ref: pays.code < candidat.code_pays_naissance
 Ref: pays.code < candidat.code_pays_nationalite
+
+Table csp_parent {
+  cod integer [pk]
+  lib text
+}
+
+Ref: csp_parent.cod < candidat.csp_pere
+Ref: csp_parent.cod < candidat.csp_mere
+
+Table serie_bac {
+  code integer [pk]
+  lib text [note: 'unique ?']
+}
+
+Table etat_dossier {
+  code integer [pk]
+  libelle text [note: 'unique ?']
+}
+
+Table ep_option {
+  id integer [pk]
+  epreuve text
+  option text
+  Indexes {
+    (epreuve,option) [unique]
+  }
+}
