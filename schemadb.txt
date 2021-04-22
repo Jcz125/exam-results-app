@@ -1,0 +1,107 @@
+Table etat_reponse{
+  code integer [pk]
+  etat text [not null]
+}
+
+Table ecole{
+  code integer [pk]
+  name text
+}
+Ref: candidat.etablissement > etablissement.rne
+
+Table etablissement{
+  rne text [pk, note: 'code etablissement']
+  type text
+  name text
+  cp integer
+  vile text
+  pays text
+}
+
+Table concours {
+  code integer [pk]
+  nom text
+  voie text
+}
+
+Ref: concours.code < candidat.filiere_concours
+Ref: concours.code < epreuve.filiere_concours
+
+Table voeux {
+  candidat integer
+  ordre integer
+  ecole integer
+  Indexes {
+    (candidat, ecole) [pk]
+    (candidat, ordre) [unique]
+  }
+}
+Ref: ecole.code < voeux.ecole
+Ref: candidat.code < voeux.candidat
+
+Table candidat{
+  code integer [pk]
+  civilite binary [note: 'M. et Mme']
+  nom text
+  prenom text
+  date_de_naissance date [note: 'choisir un forma pour la date']
+  classe_filiere text [note: 'classe origine']
+  puissance text [note: '3/2 5/2 7/2']
+  filiere_concours integer 
+  etablissement text
+  adresse1 text
+  adresse2 text [note: 'valeur par défaut vide']
+  code_postal integer [note: '5 chiffres en principe']
+  commune text [note: 'commune existante']
+  code_adr_pays integer [note: 'existant ?']
+  mail text [note: 'doit contenir @ et un .']
+  tel integer [note: '10 chiffres ? avec préfixe ?']
+  por integer [note: '10 chiffres ? avec préfixe ?']
+  rang integer [note: 'unique ?']  
+  autres_infos text [note: 'completer cette table et creer une autre']
+  code_pays_naissance integer [note: 'code du pays']
+  code_pays_nationalite integer [note: 'code du pays']
+  ville_ecrit text
+}
+
+Table classement {
+  id integer [pk]
+  etudiant integer
+  rang integer
+  type text
+}
+Ref: classement.etudiant > candidat.code
+
+Table epreuve {
+  id integer
+  filiere_concours integer
+  label text [note: 'matiere ou nom de epreuve']
+}
+
+Table notes {
+  candidat integer
+  epreuve integer
+  score integer
+  Indexes{
+    (candidat,epreuve) [pk]
+  }
+}
+Ref: notes.candidat > candidat.code
+Ref: notes.epreuve > epreuve.id
+
+Table autres_prenoms {
+  id integer [pk]
+  etudiant integer
+  prenoms text [not null]
+}
+
+Ref: autres_prenoms.etudiant > candidat.code
+
+Table pays {
+  code integer [pk, note: 'verifier les codes pays']
+  nom text
+}
+
+Ref: pays.code < candidat.code_adr_pays
+Ref: pays.code < candidat.code_pays_naissance
+Ref: pays.code < candidat.code_pays_nationalite
