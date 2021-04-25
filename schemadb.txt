@@ -30,11 +30,11 @@ Table etablissement{
 
 Table concours {
   code integer [pk]
-  nom text
+  lib text
   voie text
 }
 
-Ref: concours.code < candidat.filiere_concours
+Ref: concours.code < candidat.voie_concours
 
 Table voeux {
   candidat integer
@@ -54,9 +54,9 @@ Table candidat{
   nom text
   prenom text
   date_de_naissance date [note: 'choisir un forma pour la date']
-  classe_filiere text [note: 'classe origine']
+  classe text [note: 'classe origine, avec un check ?']
   puissance text [note: '3/2 5/2 7/2']
-  filiere_concours integer 
+  voie_concours integer [note : 'la voie du concours']
   etablissement text
   adresse1 text
   adresse2 text [note: 'valeur par défaut vide']
@@ -83,8 +83,8 @@ Table candidat{
   
   dossier integer [ref: > etat_dossier.code]
   qualite text [note: 'Boursier ou NULL']
-  decla_handicap binary [note: 'oui ou non']
-  arrondissement_naissance integer [note: 'mais qu est-ce que c est ?']
+  decla_handicap binary [note: 'oui ou non, non par defaut ?']
+  arrondissement_naissance integer [note: 'mais qu est-ce que c est ? non par defaut ?']
   option1 integer [ref: > ep_option.id]
   option2 integer [ref: > ep_option.id]
   option3 integer [ref: > ep_option.id]
@@ -102,7 +102,7 @@ Ref: classement.etudiant > candidat.code
 
 Table epreuve {
   id integer
-  label text [note: 'matiere ou nom de epreuve']
+  label text [note: 'matiere ou libelle de epreuve']
 }
 
 Table notes {
@@ -128,7 +128,7 @@ Ref: autres_prenoms.etudiant > candidat.code
 
 Table pays {
   code integer [pk, note: 'verifier les codes pays']
-  nom text
+  lib text
 }
 
 Ref: pays.code < candidat.code_adr_pays
@@ -136,16 +136,16 @@ Ref: pays.code < candidat.code_pays_naissance
 Ref: pays.code < candidat.code_pays_nationalite
 
 Table csp_parent {
-  cod integer [pk]
-  lib text
+  cod integer [pk, note : 'code associe a ces professions']
+  lib text [note : 'libelle des domaines de professions']
 }
 
 Ref: csp_parent.cod < candidat.csp_pere
 Ref: csp_parent.cod < candidat.csp_mere
 
 Table serie_bac {
-  code integer [pk]
-  lib text [note: 'unique ?']
+  code integer [pk, note : 'code_serie du bac']
+  lib text [note: 'unique ? avec un check plutot ?']
 }
 
 Table etat_dossier {
@@ -154,7 +154,7 @@ Table etat_dossier {
 }
 
 Table ep_option {
-  id integer [pk]
+  id integer [pk, note : 'couple unique epreuve et option']
   epreuve text
   option text
   Indexes {
