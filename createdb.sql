@@ -46,7 +46,7 @@ CREATE TABLE classement(
 CREATE TABLE epreuve(
     id INTEGER,
     lib TEXT
-)
+);
 
 CREATE TABLE notes(
     candidat INTEGER,
@@ -56,7 +56,7 @@ CREATE TABLE notes(
     PRIMARY KEY(candidat, epreuve),
     FOREIGN KEY(candidat) REFERENCES candidat(code),
     FOREIGN KEY(epreuve) REFERENCES epreuve(id)
-)
+);
 
 CREATE TABLE autre_prenoms(
     etudiant INTEGER,
@@ -64,27 +64,27 @@ CREATE TABLE autre_prenoms(
     
     PRIMARY KEY(etudiant, prenom)
     FOREIGN KEY(etudiant) REFERENCES candidat(code)
-)
+);
 
 CREATE TABLE pays(
     code INTEGER PRIMARY KEY,
     lib TEXT
-)
+);
 
 CREATE TABLE csp_parent(
     code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE
-)
+);
 
 CREATE TABLE serie_bac(
     code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE
-)
+);
 
 CREATE TABLE etat_dossier(
     code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE
-)
+);
 
 CREATE TABLE ep_option(
     id INTEGER PRIMARY KEY,
@@ -92,7 +92,7 @@ CREATE TABLE ep_option(
     option TEXT,
 
     UNIQUE(epreuve, candidat)
-)
+);
 
 CREATE TABLE candidat(
     code INTEGER PRIMARY KEY,
@@ -149,4 +149,4 @@ CREATE TABLE candidat(
     FOREIGN KEY(option2) REFERENCES ep_option(id),
     FOREIGN KEY(option3) REFERENCES ep_option(id),
     FOREIGN KEY(option4) REFERENCES ep_option(id),
-)
+);
