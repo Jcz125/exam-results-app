@@ -24,7 +24,7 @@ Table etablissement{
   type text
   name text
   cp integer
-  vile text
+  ville text
   pays text
 }
 
