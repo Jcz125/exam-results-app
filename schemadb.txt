@@ -23,7 +23,7 @@ Table etablissement{
   rne text [pk, note: 'code etablissement']
   type text
   name text
-  cp integer
+  cp integer [note: 'pas forcement que des chiffres']
   ville text
   pays text
 }
@@ -60,7 +60,7 @@ Table candidat{
   etablissement text
   adresse1 text
   adresse2 text [note: 'valeur par défaut vide']
-  code_postal integer [note: '5 chiffres en principe']
+  code_postal integer [note: '5 chiffres en principe, il existe aussi en lettre ?']
   commune text [note: 'commune existante']
   code_adr_pays integer [note: 'existant ?']
   mail text [note: 'doit contenir @ et un .']
