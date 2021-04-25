@@ -138,7 +138,7 @@ Ref: pays.code < candidat.code_pays_nationalite
 
 Table csp_parent {
   code integer [pk, note: 'code associe a ces professions']
-  lib text [note: 'libelle des domaines de professions']
+  lib text [unique, note: 'libelle des domaines de professions']
 }
 
 Ref: csp_parent.code < candidat.csp_pere
