@@ -53,7 +53,7 @@ Table candidat{
   civilite text [note: 'ecrire un check pour M. et Mme']
   nom text
   prenom text
-  date_de_naissance date [note: 'choisir un forma pour la date']
+  date_de_naissance date [note: 'format 2000-12-31']
   classe text [note: 'ajouter un check']
   puissance text [note: 'ajouter check 3/2 5/2 7/2']
   voie_concours integer [note: 'la voie du concours']
