@@ -23,7 +23,7 @@ Table etablissement{
   rne text [pk, note: 'code etablissement']
   type text
   name text
-  cp integer [note: 'pas forcement que des chiffres']
+  cp text [note: 'pas forcement que des chiffres']
   ville text
   pays text
 }
@@ -50,27 +50,26 @@ Ref: candidat.code < voeux.candidat
 
 Table candidat{
   code integer [pk]
-  civilite binary [note: 'M. et Mme']
+  civilite text [note: 'ecrire un check pour M. et Mme']
   nom text
   prenom text
   date_de_naissance date [note: 'choisir un forma pour la date']
-  classe text [note: 'classe origine, avec un check ?']
-  puissance text [note: '3/2 5/2 7/2']
+  classe text [note: 'ajouter un check']
+  puissance text [note: 'ajouter check 3/2 5/2 7/2']
   voie_concours integer [note: 'la voie du concours']
   etablissement text
   adresse1 text
   adresse2 text [note: 'valeur par défaut vide']
-  code_postal integer [note: '5 chiffres en principe, il existe aussi en lettre ?']
-  commune text [note: 'commune existante']
-  code_adr_pays integer [note: 'existant ?']
-  mail text [note: 'doit contenir @ et un .']
-  tel integer [note: '10 chiffres ? avec préfixe ?']
-  por integer [note: '10 chiffres ? avec préfixe ?']
-  rang integer [note: 'unique ?']
+  code_postal text [note: 'des chiffres et des lettres']
+  commune text [note: 'commune du domicile']
+  code_adr_pays integer
+  mail text
+  tel text [note: 'contient des +33 ou des ()']
+  por text [note: 'contient des +33 ou des ()']
   code_pays_naissance integer [note: 'code du pays']
   code_pays_nationalite integer [note: 'code du pays']
   ville_ecrit text
-  ine text [note: 'unique ?']
+  ine text [unique]
   csp_pere integer
   csp_mere integer
   
@@ -82,9 +81,11 @@ Table candidat{
   dep_bac integer [note: 'departement du bac, peut être NULL (pas l info à chaque fois']
   
   dossier integer [ref: > etat_dossier.code]
-  qualite text [note: 'Boursier ou NULL']
+  qualite text [note: 'check Boursier ou NULL']
   decla_handicap binary [note: 'oui ou non, non par defaut ?']
-  arrondissement_naissance integer [note: 'mais qu est-ce que c est ? non par defaut ?']
+  arrondissement_naissance integer [note: '0 par defaut, c est quoi ?']
+
+  // option peut etre null
   option1 integer [ref: > ep_option.id]
   option2 integer [ref: > ep_option.id]
   option3 integer [ref: > ep_option.id]
@@ -96,13 +97,13 @@ Table classement {
   id integer [pk]
   etudiant integer
   rang integer
-  type text
+  type text [note: 'rang sur les feuilles admis, admissible, etc.']
 }
 Ref: classement.etudiant > candidat.code
 
 Table epreuve {
   id integer
-  label text [note: 'matiere ou libelle de epreuve']
+  lib text
 }
 
 Table notes {
@@ -145,12 +146,12 @@ Ref: csp_parent.cod < candidat.csp_mere
 
 Table serie_bac {
   code integer [pk, note: 'code_serie du bac']
-  lib text [note: 'unique ? avec un check plutot ?']
+  lib text [unique]
 }
 
 Table etat_dossier {
   code integer [pk]
-  libelle text [note: 'unique ?']
+  libelle text [unique]
 }
 
 Table ep_option {
