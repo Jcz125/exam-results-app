@@ -96,7 +96,7 @@ Table candidat{
 Table classement {
   id integer [pk]
   etudiant integer
-  rang integer
+  rang integer [note: 'rang > 0']
   type text [note: 'rang sur les feuilles admis, admissible, etc.']
 }
 Ref: classement.etudiant > candidat.code
