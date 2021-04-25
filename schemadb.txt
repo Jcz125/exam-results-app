@@ -83,7 +83,7 @@ Table candidat{
   dossier integer [ref: > etat_dossier.code]
   qualite text [note: 'check Boursier ou NULL']
   decla_handicap binary [note: 'oui ou non, non par defaut ?']
-  arrondissement_naissance integer [note: '0 par defaut, c est quoi ?']
+  arr_naissance integer [note: '0 par defaut, c est quoi ?']
 
   // option peut etre null
   option1 integer [ref: > ep_option.id]
