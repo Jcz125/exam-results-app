@@ -25,7 +25,7 @@ CREATE TABLE concours(
 
 CREATE TABLE voeux(
     candidat INTEGER,
-    ordre INTEGER,
+    ordre INTEGER CHECK (ordre > 0),
     ecole INTEGER,
 
     PRIMARY KEY(candidat, ecole),
