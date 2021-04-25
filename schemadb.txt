@@ -50,7 +50,7 @@ Ref: candidat.code < voeux.candidat
 
 Table candidat{
   code integer [pk]
-  civilite binary [note: 'M. et Mme']
+  civilite text [note: 'ecrire un check pour M. et Mme']
   nom text
   prenom text
   date_de_naissance date [note: 'choisir un forma pour la date']
