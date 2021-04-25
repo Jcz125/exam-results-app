@@ -86,14 +86,6 @@ CREATE TABLE etat_dossier(
     lib TEXT UNIQUE
 );
 
-CREATE TABLE ep_option(
-    id INTEGER PRIMARY KEY,
-    epreuve TEXT,
-    option TEXT,
-
-    UNIQUE(epreuve, candidat)
-);
-
 CREATE TABLE candidat(
     code INTEGER PRIMARY KEY,
     civilite TEXT CHECK(civilite IN ('M.', 'Mme')),
@@ -149,4 +141,12 @@ CREATE TABLE candidat(
     FOREIGN KEY(option2) REFERENCES ep_option(id),
     FOREIGN KEY(option3) REFERENCES ep_option(id),
     FOREIGN KEY(option4) REFERENCES ep_option(id),
+);
+
+CREATE TABLE ep_option(
+    id INTEGER PRIMARY KEY,
+    epreuve TEXT,
+    option TEXT,
+
+    UNIQUE(epreuve, candidat)
 );
