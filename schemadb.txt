@@ -137,12 +137,12 @@ Ref: pays.code < candidat.code_pays_naissance
 Ref: pays.code < candidat.code_pays_nationalite
 
 Table csp_parent {
-  cod integer [pk, note: 'code associe a ces professions']
+  code integer [pk, note: 'code associe a ces professions']
   lib text [note: 'libelle des domaines de professions']
 }
 
-Ref: csp_parent.cod < candidat.csp_pere
-Ref: csp_parent.cod < candidat.csp_mere
+Ref: csp_parent.code < candidat.csp_pere
+Ref: csp_parent.code < candidat.csp_mere
 
 Table serie_bac {
   code integer [pk, note: 'code_serie du bac']
