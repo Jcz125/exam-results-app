@@ -56,7 +56,7 @@ Table candidat{
   date_de_naissance date [note: 'choisir un forma pour la date']
   classe text [note: 'classe origine, avec un check ?']
   puissance text [note: '3/2 5/2 7/2']
-  voie_concours integer [note : 'la voie du concours']
+  voie_concours integer [note: 'la voie du concours']
   etablissement text
   adresse1 text
   adresse2 text [note: 'valeur par défaut vide']
@@ -136,15 +136,15 @@ Ref: pays.code < candidat.code_pays_naissance
 Ref: pays.code < candidat.code_pays_nationalite
 
 Table csp_parent {
-  cod integer [pk, note : 'code associe a ces professions']
-  lib text [note : 'libelle des domaines de professions']
+  cod integer [pk, note: 'code associe a ces professions']
+  lib text [note: 'libelle des domaines de professions']
 }
 
 Ref: csp_parent.cod < candidat.csp_pere
 Ref: csp_parent.cod < candidat.csp_mere
 
 Table serie_bac {
-  code integer [pk, note : 'code_serie du bac']
+  code integer [pk, note: 'code_serie du bac']
   lib text [note: 'unique ? avec un check plutot ?']
 }
 
@@ -154,7 +154,7 @@ Table etat_dossier {
 }
 
 Table ep_option {
-  id integer [pk, note : 'couple unique epreuve et option']
+  id integer [pk, note: 'couple unique epreuve et option']
   epreuve text
   option text
   Indexes {
