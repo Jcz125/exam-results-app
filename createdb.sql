@@ -1,12 +1,12 @@
 CREATE TABLE etat_reponse (
     code INTEGER PRIMARY KEY,
     etat TEXT NOT NULL
-)
+);
 
 CREATE TABLE ecole (
     code INTEGER PRIMARY KEY,
     name TEXT
-)
+);
 
 CREATE TABLE etablissement(
     rne TEXT PRIMARY KEY,
@@ -15,13 +15,13 @@ CREATE TABLE etablissement(
     cp INTEGER,
     ville TEXT,
     pays TEXT,
-)
+);
 
 CREATE TABLE concours(
     code INTEGER PRIMARY KEY,
     lib TEXT,
     voie TEXT
-)
+);
 
 CREATE TABLE voeux(
     candidat INTEGER,
@@ -29,4 +29,4 @@ CREATE TABLE voeux(
     ecole INTEGER,
     PRIMARY KEY(candidat, ecole),
     UNIQUE(candidat, ordre),
-)
+);
