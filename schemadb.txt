@@ -151,7 +151,7 @@ Table serie_bac {
 
 Table etat_dossier {
   code integer [pk]
-  libelle text [unique]
+  lib text [unique]
 }
 
 Table ep_option {
