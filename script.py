@@ -1,14 +1,13 @@
 import pandas as pd
-from sqlalchemy import create_engine
+import sqlite3 as sql
 
 df = pd.read_excel('listeEcoles.xlsx')
 dt = pd.read_excel('listeEtablissements.xlsx')
+db = sql.connect("data.db")
 
 
-engine = create_engine('sqlite:///mydata.db')
 
-df.to_sql('ecole', con=engine, if_exists='replace',index=False,index_label=None)
-dt.to_sql('etablissement', con=engine, if_exists='replace',index=False,index_label=None)
-
+df.to_sql('ecole', db, if_exists='replace',index=False,index_label=None)
+dt.to_sql('etablissement', db, if_exists='replace',index=False,index_label=None)
 
 
