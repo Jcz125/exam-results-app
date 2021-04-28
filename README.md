@@ -7,3 +7,6 @@
 - script.py : script pour remplir ecole et etablissement (mais ça supprime les contraintes d'intégrité..HELP)
 
 # How to install pandas and SQLAlchemy
+
+`pip install pandas`
+`pip install sqlalchemy`
