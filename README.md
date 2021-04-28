@@ -6,9 +6,7 @@
 - createdb.sql : Fichier pour créer les tables sous SQLite3
 - script.py : script pour remplir ecole et etablissement (mais ça supprime les contraintes d'intégrité..HELP)
 
-# How to install pandas and SQLAlchemy
+# How to install pandas 
 
 `pip install pandas`
 
-
-`pip install sqlalchemy`
