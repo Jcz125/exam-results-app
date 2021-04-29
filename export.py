@@ -2,8 +2,13 @@ import pandas as pd
 import sqlite3 as sql
 
 data = pd.read_excel('Inscription.xlsx', header=1)
+
 # print(data['NOM']) # pour verifier le contenu
+# data = data.values()
+
 database = sql.connect("concours.db")
+
+# c = database.cursor()
 
 for i in range(len(data)): # exemple
     nom = data['NOM'][i]
