@@ -117,7 +117,7 @@ def test_csp_parent(path_db, path_file):
                 if line[45].value not in L:
                     L.append(line[45].value)
                     if line[45].value.isdecimal():
-                        con.execute("INSERT INTO csp_parent VALUES(?,?)", (line[45].value, line[46].value))
+                        con.execute("INSERT INTO csp_parent VALUES(?,?)", (int(line[45].value), line[46].value))
         file = xl.load_workbook(path_file, read_only=True)
         tab = file["Export Workbook"]
         rows = tab.rows
@@ -127,7 +127,7 @@ def test_csp_parent(path_db, path_file):
                 if line[47].value not in L:
                     L.append(line[47].value)
                     if line[47].value.isdecimal() :
-                        con.execute("INSERT INTO csp_parent VALUES(?,?)", (line[47].value, line[48].value))
+                        con.execute("INSERT INTO csp_parent VALUES(?,?)", (int(line[47].value), line[48].value))
         file.close()
 
     except sql.DatabaseError as e:
