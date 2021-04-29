@@ -2,6 +2,7 @@
 
 ## Files
 
+- requirements.txt : liste des bibliothèques à installer
 - schemadb.txt : Code du schema de la base de donnée pour dbdiagram.io
 - createdb.sql : Fichier pour créer les tables sous SQLite3
 - concours.db : Fichier database, notre base de données
@@ -14,13 +15,13 @@ Avant d'exécuter le fichier export.py vous devez avoir un environnement (de pr�
 Commandes pour avoir ces bibliothèques :
 
 - Dans un environnement python (venv) :
-    $ pip install nom_library
+    $ pip3 install -r requirements.txt
 
 - Dans une console (Linux):
     $ sudo apt-get install python3-pip
     $ sudo -H pip3 install nom_library
 
-Pour avoir python3 : sudo apt-get install python3
+Pour avoir python3 : $ sudo apt-get install python3
 
 Pensez également à mettre à jour les modules :
 $ sudo apt update
