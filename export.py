@@ -13,7 +13,8 @@ database = sql.connect("concours.db")
 for i in range(len(data)): # exemple
     nom = data['NOM'][i]
     code = data['CODE_CANDIDAT'][i]
-    
+    print(code, nom)
+    break
     # pas encore fini, à remplir suivant votre fonction
 
     # str_test = "insert into candidat(code, nom, date_de_naissance) values (?, ?, ?)"
