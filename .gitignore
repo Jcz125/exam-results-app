@@ -1,0 +1,4 @@
+venv/*
+concours.db
+sqlite3.exe
+.idea/*
