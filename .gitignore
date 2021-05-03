@@ -1,4 +1,20 @@
-venv/*
-concours.db
-sqlite3.exe
+### VisualStudioCode ###
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+*.code-workspace
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+### PyCharm ###
 .idea/*
+venv/*
+
+### Files ###
+Inscription.xlsx
+
+### App ###
+sqlite3*
