@@ -20,7 +20,9 @@ CREATE TABLE etablissement(
 CREATE TABLE concours(
     code INTEGER PRIMARY KEY,
     lib TEXT,
-    voie TEXT
+    voie TEXT,
+
+    UNIQUE(lib, voie)
 );
 
 CREATE TABLE voeux(
@@ -45,7 +47,8 @@ CREATE TABLE classement(
 
 CREATE TABLE epreuve(
     id INTEGER,
-    lib TEXT
+    lib TEXT,
+    type TEXT CHECK IN ('ECRIT', 'ORAL')
 );
 
 CREATE TABLE notes(
@@ -58,7 +61,7 @@ CREATE TABLE notes(
     FOREIGN KEY(epreuve) REFERENCES epreuve(id)
 );
 
-CREATE TABLE autre_prenoms(
+CREATE TABLE autres_prenoms(
     etudiant INTEGER,
     prenom TEXT,
     
