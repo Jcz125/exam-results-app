@@ -45,7 +45,8 @@ CREATE TABLE classement(
 
 CREATE TABLE epreuve(
     id INTEGER,
-    lib TEXT
+    lib TEXT,
+    type TEXT CHECK (type IN ('ECRIT', 'ORAL', 'SPECIFIQUE', 'CLASSEMENT'))
 );
 
 CREATE TABLE notes(
@@ -135,6 +136,9 @@ CREATE TABLE candidat(
     option3 INTEGER,
     option4 INTEGER,
     tipe TEXT,
+
+    etat_classes INTEGER,
+    type_admissible TEXT,
 
     FOREIGN KEY(voie_concours) REFERENCES concours(code),
     FOREIGN KEY(etablissement) REFERENCES etablissement(rne),
