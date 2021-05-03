@@ -1,9 +1,9 @@
-CREATE TABLE etat_reponse (
+CREATE TABLE etat_reponse(
     code INTEGER PRIMARY KEY,
     etat TEXT NOT NULL
 );
 
-CREATE TABLE ecole (
+CREATE TABLE ecole(
     code INTEGER PRIMARY KEY,
     name TEXT NOT NULL
 );
@@ -11,7 +11,7 @@ CREATE TABLE ecole (
 CREATE TABLE etablissement(
     rne TEXT PRIMARY KEY,
     type TEXT,
-    name TEXT,
+    name TEXT NOT NULL,
     cp TEXT,
     ville TEXT,
     pays TEXT
