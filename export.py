@@ -5,14 +5,17 @@ import sqlite3 as sql
 database = sql.connect("concours.db")
 c = database.cursor()
 
-data = pd.read_excel('Inscription.xlsx', header=1)
-liste_etat_dossier = []
-liste_concours = []
-liste_autres_prenoms = []
-liste_serie_bac = []
+# data = pd.read_excel('Inscription.xlsx', header=1)
+# liste_etat_dossier = []
+# liste_concours = []
+# liste_autres_prenoms = []
+# liste_serie_bac = []
+# dico_ep_option = {(float('nan'), float('nan')): 0}
+# dico_ind = 0
+liste_ep_option = []
 
 for i in range(len(data)):
-
+    """
     ####### etat_dossier
     code_etat_dossier = data['CODE_ETAT_DOSSIER'][i]
     lib_etat_dossier = data['LIBELLE_ETAT_DOSSIER'][i]
@@ -46,12 +49,25 @@ for i in range(len(data)):
         liste_serie_bac.append(code_serie)
         consigne_sql = "INSERT INTO serie_bac VALUES (?, ?);"
         c.execute(consigne_sql, (int(code_serie), nom_serie))
-
+    """
+    ####### ep_option à revoir y a problème d'intégrité
+    # c.execute("INSERT INTO ep_option(id) VALUES (0);")
+    # for j in range(1, 5):
+    #     ep, op = data[f'EPREUVE{j}'][i], data[f'OPTION{j}'][i]
+    #     if (ep, op) not in dico_ep_option:
+    #         dico_ind += 1
+    #         dico_ep_option[(ep, op)] = dico_ind
+    #         consigne_sql = "INSERT INTO ep_option VALUES (?, ?, ?);"
+    #         c.execute(consigne_sql, (dico_ind, ep, op))
+    for j in range(1, 5):
+        ep, op = data[f'EPREUVE{j}'][i], data[f'OPTION{j}'][i]
+        if [ep, op] not in liste_ep_option:
+            liste_ep_option.append([ep, op])
+            consigne_sql = "INSERT INTO ep_option(epreuve, option) VALUES (?, ?);"
+            c.execute(consigne_sql, (ep, op))
 
 database.commit()
 database.close()
-
-
 
 
 """ Aides utiles

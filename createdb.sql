@@ -1,9 +1,9 @@
-CREATE TABLE etat_reponse (
+CREATE TABLE etat_reponse(
     code INTEGER PRIMARY KEY,
     etat TEXT NOT NULL
 );
 
-CREATE TABLE ecole (
+CREATE TABLE ecole(
     code INTEGER PRIMARY KEY,
     name TEXT NOT NULL
 );
@@ -48,7 +48,7 @@ CREATE TABLE classement(
 CREATE TABLE epreuve(
     id INTEGER,
     lib TEXT,
-    type TEXT CHECK IN ('ECRIT', 'ORAL')
+    type TEXT CHECK (type IN ('ECRIT', 'ORAL', 'SPECIFIQUE', 'CLASSEMENT'))
 );
 
 CREATE TABLE notes(
@@ -138,6 +138,9 @@ CREATE TABLE candidat(
     option3 INTEGER,
     option4 INTEGER,
     tipe TEXT,
+
+    etat_classes INTEGER,
+    type_admissible TEXT,
 
     FOREIGN KEY(voie_concours) REFERENCES concours(code),
     FOREIGN KEY(etablissement) REFERENCES etablissement(rne),
