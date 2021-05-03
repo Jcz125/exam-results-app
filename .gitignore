@@ -15,6 +15,7 @@ venv/*
 
 ### Files ###
 Inscription.xlsx
+concours.db
 
 ### App ###
 sqlite3*
