@@ -5,14 +5,14 @@ import sqlite3 as sql
 database = sql.connect("concours.db")
 c = database.cursor()
 
-# data = pd.read_excel('Inscription.xlsx', header=1)
-# liste_etat_dossier = []
-# liste_concours = []
-# liste_autres_prenoms = []
+data = pd.read_excel('Inscription.xlsx', header=1)
+liste_etat_dossier = []
+liste_concours = []
+liste_autres_prenoms = []
 liste_serie_bac = []
 
 for i in range(len(data)):
-    """
+
     ####### etat_dossier
     code_etat_dossier = data['CODE_ETAT_DOSSIER'][i]
     lib_etat_dossier = data['LIBELLE_ETAT_DOSSIER'][i]
@@ -46,7 +46,7 @@ for i in range(len(data)):
         liste_serie_bac.append(code_serie)
         consigne_sql = "INSERT INTO serie_bac VALUES (?, ?);"
         c.execute(consigne_sql, (int(code_serie), nom_serie))
-    """
+
 
 database.commit()
 database.close()
