@@ -10,9 +10,94 @@ c = database.cursor()
 # liste_concours = []
 # liste_autres_prenoms = []
 # liste_serie_bac = []
-# dico_ep_option = {(float('nan'), float('nan')): 0}
-# dico_ind = 0
-liste_ep_option = []
+
+####### initialisation de la table ep_option pour 0/NULL/NULL
+# liste_ep_option = []
+# c.execute("INSERT INTO ep_option(id) VALUES (0);")
+# database.commit()
+
+# dictionnaires des épreuves
+dico_epreuves = {
+
+    ##### ECRITES #####
+    "Langue": 28,
+    "Informatique ou Sciences industrielles": 599,
+    "Mathématiques 1": 600,
+    "Mathématiques 2": 601,
+    "Physique 1": 602,
+    "Physique 2": 603,
+    "Chimie": 604,
+    "Français": 605,
+    "Sciences industrielles": 606,
+    "Informatique": 1050,
+    "bonification_ecrit": 9898,
+    "total_ecrit": 9899,
+
+    ##### SPECIFIQUES CMT #####
+    "QCM info/physique": 1,
+    "Entretien nouvelles technologies": 2,
+    "QCM anglais": 3,
+    "Mathématiques": 4,
+
+    ##### ORALES CMT #####
+    "Physique ou Sciences industrielles": 5,
+    "Entretien": 6,
+    "Anglais": 7,
+    "Mathématiques": 8,
+
+    ##### ORALES CCMP #####
+    "Physique": 9,
+    "Français": 10,
+    "Anglais": 11,
+    "Mathématiques": 12,
+
+    ##### TOTAL ORAL #####
+    "Mathématiques (harmonisé)": 400,
+    "Mathématiques (affichée)":401,
+    "max_physique": 9900,
+    "max_anglais": 9901,
+    "bonification_oral": 9998,
+    "total_oral": 9999,
+
+    ##### TOTAL (ECRIT+ORAL) ######
+    "total": 10000,
+
+    ##### CLASSEMENT #####
+    "bonus_interclassement": 10198,
+    "total_avec_interclassement": 10199,
+    "note_entretien_exaequo": 10200,
+    "note_anglais_exaequo": 10201,
+
+    ##### ECRITES PT #####
+    "Mathématiques B": 700,
+    "Mathématiques C": 701,
+    "Physique A": 702,
+    "Physique B": 703,
+    "Informatique modélisation": 704,
+    "Sciences industrielles A": 705,
+    "Français B": 706,
+    "Langue A": 707,
+
+    ##### ECRITES TSI #####
+    "Mathématiques 1": 800,
+    "Mathématiques 2": 801,
+    "Physique 1": 802,
+    "Physique 2": 803,
+    "Français": 804,
+    "Langue": 805,
+    "Sciences industrielles": 806,
+    "Informatique": 807,
+
+    ##### ORALES CCS #####
+    "Mathématiques 1": 13,
+    "Mathématiques 2": 14,
+    "Physique-chimie 1": 15,
+    "Physique-chimie 2": 16,
+    "Langue vivante": 17,
+    "TP Physique-chimie": 18,
+    "S2I": 19,
+
+}
 
 for i in range(len(data)):
     """
@@ -49,22 +134,17 @@ for i in range(len(data)):
         liste_serie_bac.append(code_serie)
         consigne_sql = "INSERT INTO serie_bac VALUES (?, ?);"
         c.execute(consigne_sql, (int(code_serie), nom_serie))
-    """
-    ####### ep_option à revoir y a problème d'intégrité
-    # c.execute("INSERT INTO ep_option(id) VALUES (0);")
-    # for j in range(1, 5):
-    #     ep, op = data[f'EPREUVE{j}'][i], data[f'OPTION{j}'][i]
-    #     if (ep, op) not in dico_ep_option:
-    #         dico_ind += 1
-    #         dico_ep_option[(ep, op)] = dico_ind
-    #         consigne_sql = "INSERT INTO ep_option VALUES (?, ?, ?);"
-    #         c.execute(consigne_sql, (dico_ind, ep, op))
+
+    ####### ep_option
     for j in range(1, 5):
         ep, op = data[f'EPREUVE{j}'][i], data[f'OPTION{j}'][i]
-        if [ep, op] not in liste_ep_option:
+        if ((type(ep) == str) or (type(op) == str)) & ([ep, op] not in liste_ep_option):
             liste_ep_option.append([ep, op])
             consigne_sql = "INSERT INTO ep_option(epreuve, option) VALUES (?, ?);"
             c.execute(consigne_sql, (ep, op))
+    """
+    ####### epreuve
+
 
 database.commit()
 database.close()
