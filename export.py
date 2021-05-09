@@ -37,17 +37,17 @@ dico_epreuves = {
     "QCM info/physique": 1,
     "Entretien nouvelles technologies": 2,
     "QCM anglais": 3,
-    "Mathématiques": 4,
+    "Mathématiques spe CMT": 4,
 
     ##### ORALES CMT #####
     "Physique ou Sciences industrielles": 5,
     "Entretien": 6,
-    "Anglais": 7,
-    "Mathématiques": 8,
+    "Anglais oral CMT": 7,
+    "Mathématiques oral CMT": 8,
 
     ##### ORALES CCMP #####
     "Physique": 9,
-    "Français": 10,
+    "Français oral CCMP": 10,
     "Anglais": 11,
     "Mathématiques": 12,
 
@@ -79,26 +79,34 @@ dico_epreuves = {
     "Langue A": 707,
 
     ##### ECRITES TSI #####
-    "Mathématiques 1": 800,
-    "Mathématiques 2": 801,
-    "Physique 1": 802,
-    "Physique 2": 803,
-    "Français": 804,
-    "Langue": 805,
-    "Sciences industrielles": 806,
-    "Informatique": 807,
+    "Mathématiques 1 TSI": 800,
+    "Mathématiques 2 TSI": 801,
+    "Physique 1 TSI": 802,
+    "Physique 2 TSI": 803,
+    "Français TSI": 804,
+    "Langue TSI": 805,
+    "Sciences industrielles TSI": 806,
+    "Informatique TSI": 807,
 
     ##### ORALES CCS #####
-    "Mathématiques 1": 13,
-    "Mathématiques 2": 14,
-    "Physique-chimie 1": 15,
-    "Physique-chimie 2": 16,
-    "Langue vivante": 17,
-    "TP Physique-chimie": 18,
-    "S2I": 19,
+    "Mathématiques 1 oral TSI": 13,
+    "Mathématiques 2 oral TSI": 14,
+    "Physique-chimie 1 TSI": 15,
+    "Physique-chimie 2 TSI": 16,
+    "Langue vivante TSI": 17,
+    "TP Physique-chimie TSI": 18,
+    "S2I TSI": 19
 
 }
 
+liste_ecrits = [28, 599, 600, 601, 602, 603, 604, 605, 606, 1050, 9898, 9899, 700, 701, 702, 703, 704, 705, 706, 707,
+                800, 801, 802, 803, 804, 805, 806, 807]
+liste_oraux = [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999, 400, 401, 9900, 9901, 9998, 9999, 13, 14,
+               15, 16, 17, 18, 19]
+liste_specifique = [1, 2, 3, 4]
+liste_classement = [10198, 10199, 10200, 10201]
+
+""" BOUCLE DANS LE FICHIER INSCRIPTION """
 for i in range(len(data)):
     """
     ####### etat_dossier
@@ -143,8 +151,11 @@ for i in range(len(data)):
             consigne_sql = "INSERT INTO ep_option(epreuve, option) VALUES (?, ?);"
             c.execute(consigne_sql, (ep, op))
     """
-    ####### epreuve
 
+""" BOUCLE DANS LE DICO DES EPREUVES """
+for ep in dico_epreuves:
+    ####### epreuve
+    dico_epreuves(ep)
 
 database.commit()
 database.close()
