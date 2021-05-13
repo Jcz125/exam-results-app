@@ -37,17 +37,17 @@ dico_epreuves = {
     "QCM info/physique": 1,
     "Entretien nouvelles technologies": 2,
     "QCM anglais": 3,
-    "Mathématiques spe CMT": 4,
+    "Mathématiques spe CMT": 4,                 # ajout de spe CMT
 
     ##### ORALES CMT #####
     "Physique ou Sciences industrielles": 5,
     "Entretien": 6,
-    "Anglais oral CMT": 7,
-    "Mathématiques oral CMT": 8,
+    "Anglais oral CMT": 7,                      # ajout de oral CMT
+    "Mathématiques oral CMT": 8,                # ajout de oral CMT
 
     ##### ORALES CCMP #####
     "Physique": 9,
-    "Français oral CCMP": 10,
+    "Français oral CCMP": 10,                   # ajout de oral CCMP
     "Anglais": 11,
     "Mathématiques": 12,
 
@@ -79,25 +79,187 @@ dico_epreuves = {
     "Langue A": 707,
 
     ##### ECRITES TSI #####
-    "Mathématiques 1 TSI": 800,
-    "Mathématiques 2 TSI": 801,
-    "Physique 1 TSI": 802,
-    "Physique 2 TSI": 803,
-    "Français TSI": 804,
-    "Langue TSI": 805,
-    "Sciences industrielles TSI": 806,
-    "Informatique TSI": 807,
+    "Mathématiques 1 TSI": 800,                 # ajout de TSI
+    "Mathématiques 2 TSI": 801,                 # ajout de TSI
+    "Physique 1 TSI": 802,                      # ajout de TSI
+    "Physique 2 TSI": 803,                      # ajout de TSI
+    "Français TSI": 804,                        # ajout de TSI
+    "Langue TSI": 805,                          # ajout de TSI
+    "Sciences industrielles TSI": 806,          # ajout de TSI
+    "Informatique TSI": 807,                    # ajout de TSI
 
     ##### ORALES CCS #####
-    "Mathématiques 1 oral TSI": 13,
-    "Mathématiques 2 oral TSI": 14,
-    "Physique-chimie 1 TSI": 15,
-    "Physique-chimie 2 TSI": 16,
-    "Langue vivante TSI": 17,
-    "TP Physique-chimie TSI": 18,
-    "S2I TSI": 19
+    "Mathématiques 1 oral TSI": 13,             # ajout de oral TSI
+    "Mathématiques 2 oral TSI": 14,             # ajout de oral TSI
+    "Physique-chimie 1 oral TSI": 15,           # ajout de oral TSI
+    "Physique-chimie 2 oral TSI": 16,           # ajout de oral TSI
+    "Langue vivante oral TSI": 17,              # ajout de oral TSI
+    "TP Physique-chimie oral TSI": 18,          # ajout de oral TSI
+    "S2I oral TSI": 19                          # ajout de oral TSI
 
 }
+
+liste_ep = [
+    ##### ECRITES #####
+    "Langue", #: 28,
+    "Informatique ou Sciences industrielles", #: 599,
+    "Mathématiques 1", #: 600,
+    "Mathématiques 2", #: 601,
+    "Physique 1", #: 602,
+    "Physique 2", #: 603,
+    "Chimie", #: 604,
+    "Français", #: 605,
+    "Sciences industrielles", #: 606,
+    "Informatique", #: 1050,
+    "bonification_ecrit", #: 9898,
+    "total_ecrit", #: 9899,
+
+    ##### SPECIFIQUES CMT #####
+    "QCM info/physique", #: 1,
+    "Entretien nouvelles technologies", #: 2,
+    "QCM anglais", #: 3,
+    "Mathématiques", #: 4,                 # ajout de spe CMT
+
+    ##### ORALES CMT #####
+    "Physique ou Sciences industrielles", #: 5,
+    "Entretien", #: 6,
+    "Anglais", #: 7,                      # ajout de oral CMT
+    "Mathématiques", #: 8,                # ajout de oral CMT
+
+    ##### ORALES CCMP #####
+    "Physique", #: 9,
+    "Français", #: 10,                   # ajout de oral CCMP
+    "Anglais", #: 11,
+    "Mathématiques", #: 12,
+
+    ##### TOTAL ORAL #####
+    "Mathématiques (harmonisé)", #: 400,
+    "Mathématiques (affichée)", #:401,
+    "max_physique", #: 9900,
+    "max_anglais", #: 9901,
+    "bonification_oral", #: 9998,
+    "total_oral", #: 9999,
+
+    ##### TOTAL (ECRIT+ORAL) ######
+    "total", #: 10000,
+
+    ##### CLASSEMENT #####
+    "bonus_interclassement", #: 10198,
+    "total_avec_interclassement", #: 10199,
+    "note_entretien_exaequo", #: 10200,
+    "note_anglais_exaequo", #: 10201,
+
+    ##### ECRITES PT #####
+    "Mathématiques B", #: 700,
+    "Mathématiques C", #: 701,
+    "Physique A", #: 702,
+    "Physique B", #: 703,
+    "Informatique modélisation", #: 704,
+    "Sciences industrielles A", #: 705,
+    "Français B", #: 706,
+    "Langue A", #: 707,
+
+    ##### ECRITES TSI #####
+    "Mathématiques 1", #: 800,                 # ajout de TSI
+    "Mathématiques 2", #: 801,                 # ajout de TSI
+    "Physique 1", #: 802,                      # ajout de TSI
+    "Physique 2", #: 803,                      # ajout de TSI
+    "Français", #: 804,                        # ajout de TSI
+    "Langue", #: 805,                          # ajout de TSI
+    "Sciences industrielles", #: 806,          # ajout de TSI
+    "Informatique", #: 807,                    # ajout de TSI
+
+    ##### ORALES CCS #####
+    "Mathématiques 1", #: 13,             # ajout de oral TSI
+    "Mathématiques 2", #: 14,             # ajout de oral TSI
+    "Physique-chimie 1", #: 15,           # ajout de oral TSI
+    "Physique-chimie 2", #: 16,           # ajout de oral TSI
+    "Langue vivante", #: 17,              # ajout de oral TSI
+    "TP Physique-chimie", #: 18,          # ajout de oral TSI
+    "S2I", #: 19                          # ajout de oral TSI
+]
+
+liste_cle_ep = [
+
+    ##### ECRITES #####
+    28,     # "Langue"
+    599,    # "Informatique ou Sciences industrielles"
+    600,    # "Mathématiques 1"
+    601,    # "Mathématiques 2"
+    602,    # "Physique 1"
+    603,    # "Physique 2"
+    604,    # "Chimie"
+    605,    # "Français"
+    606,    # "Sciences industrielles"
+    1050,   # "Informatique"
+    9898,   # "bonification_ecrit"
+    9899,   # "total_ecrit"
+
+##### SPECIFIQUES CMT #####
+    1,      # "QCM info/physique"
+    2,      # "Entretien nouvelles technologies"
+    3,      # "QCM anglais"
+    4,      # "Mathématiques spe CMT" # ajout de spe CMT
+
+##### ORALES CMT #####
+    5,      # "Physique ou Sciences industrielles"
+    6,      # "Entretien"
+    7,      # "Anglais oral CMT" # ajout de oral CMT
+    8,      # "Mathématiques oral CMT" # ajout de oral CMT
+
+##### ORALES CCMP #####
+    9,      # "Physique"
+    10,     # "Français oral CCMP" # ajout de oral CCMP
+    11,     # "Anglais"
+    12,     # "Mathématiques"
+
+##### TOTAL ORAL #####
+    400,    # "Mathématiques (harmonisé)"
+    401,    # "Mathématiques (affichée)"
+    9900,   # "max_physique"
+    9901,   # "max_anglais"
+    9998,   # "bonification_oral"
+    9999,   # "total_oral"
+
+##### TOTAL (ECRIT+ORAL) ######
+    10000,  # "total"
+
+##### CLASSEMENT #####
+    10198,  # "bonus_interclassement"
+    10199,  # "total_avec_interclassement"
+    10200,  # "note_entretien_exaequo"
+    10201,  # "note_anglais_exaequo"
+
+##### ECRITES PT #####
+    700,    # "Mathématiques B"
+    701,    # "Mathématiques C"
+    702,    # "Physique A"
+    703,    # "Physique B"
+    704,    # "Informatique modélisation"
+    705,    # "Sciences industrielles A"
+    706,    # "Français B"
+    707,    # "Langue A"
+
+##### ECRITES TSI #####
+    800,    # "Mathématiques 1 TSI" # ajout de TSI
+    801,    # "Mathématiques 2 TSI" # ajout de TSI
+    802,    # "Physique 1 TSI" # ajout de TSI
+    803,    # "Physique 2 TSI" # ajout de TSI
+    804,    # "Français TSI" # ajout de TSI
+    805,    # "Langue TSI" # ajout de TSI
+    806,    # "Sciences industrielles TSI" # ajout de TSI
+    807,    # "Informatique TSI" # ajout de TSI
+
+##### ORALES CCS #####
+    13,     # "Mathématiques 1 oral TSI" # ajout de oral TSI
+    14,     # "Mathématiques 2 oral TSI" # ajout de oral TSI
+    15,     # "Physique-chimie 1 oral TSI" # ajout de oral TSI
+    16,     # "Physique-chimie 2 oral TSI" # ajout de oral TSI
+    17,     # "Langue vivante oral TSI" # ajout de oral TSI
+    18,     # "TP Physique-chimie oral TSI" # ajout de oral TSI
+    19      # "S2I oral TSI" # ajout de oral TSI
+
+]
 
 liste_ecrits = [28, 599, 600, 601, 602, 603, 604, 605, 606, 1050, 9898, 9899, 700, 701, 702, 703, 704, 705, 706, 707,
                 800, 801, 802, 803, 804, 805, 806, 807]
@@ -107,8 +269,8 @@ liste_specifique = [1, 2, 3, 4]
 liste_classement = [10198, 10199, 10200, 10201]
 
 """ BOUCLE DANS LE FICHIER INSCRIPTION """
-for i in range(len(data)):
-    """
+# for i in range(len(data)):
+"""
     ####### etat_dossier
     code_etat_dossier = data['CODE_ETAT_DOSSIER'][i]
     lib_etat_dossier = data['LIBELLE_ETAT_DOSSIER'][i]
@@ -150,12 +312,25 @@ for i in range(len(data)):
             liste_ep_option.append([ep, op])
             consigne_sql = "INSERT INTO ep_option(epreuve, option) VALUES (?, ?);"
             c.execute(consigne_sql, (ep, op))
-    """
+"""
 
 """ BOUCLE DANS LE DICO DES EPREUVES """
-for ep in dico_epreuves:
+for k in range(len(liste_ep)):
     ####### epreuve
-    dico_epreuves(ep)
+    ep, cle = liste_ep[k], liste_cle_ep[k]
+    type = float('nan')
+
+    if cle in liste_ecrits:
+        type = "ECRIT"
+    elif cle in liste_oraux:
+        type = "ORAL"
+    elif cle in liste_specifique:
+        type = "SPECIFIQUE"
+    elif cle in liste_classement:
+        type = "CLASSEMENT"
+
+    consigne_sql = "INSERT INTO epreuve VALUES (?, ?, ?)"
+    c.execute(consigne_sql, (cle, ep, type))
 
 database.commit()
 database.close()
