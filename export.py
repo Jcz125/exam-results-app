@@ -414,7 +414,7 @@ try:
                 continue
             if line[k].value != None:
                 consigne_sql = "INSERT INTO notes VALUES(?, ?, ?);"
-                c.execute(consigne_sql, (line[0].value, liste_ep_PC[p], line[k].value))
+                c.execute(consigne_sql, (line[0].value, liste_ep_PSI[p], line[k].value))
             p += 1
 except sql.DatabaseError as e:
     print(e)
