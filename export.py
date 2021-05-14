@@ -274,7 +274,8 @@ liste_ep_PSI = [28, 600, 601, 602, 603, 604, 605, 606, 1050, 9898, 9899, 1, 2, 3
                 401, 9900, 9901, 9998, 9999, 10000, 10198, 10199, 10200, 10201]
 liste_ep_PT = [700, 701, 702, 703, 704, 705, 706, 707, 9898, 9899, 1, 2, 3, 4, 5, 6, 7, 8, 400, 401, 9900, 9901, 9998,
                9999, 10000, 10198, 10199, 10200, 10201]
-liste_ep_TSI = []
+liste_ep_TSI = [800, 801, 802, 803, 804, 805, 806, 807, 9898, 9899, 1, 2, 3, 4, 13, 14, 15, 16, 17, 18, 19, 400, 401,
+                9998, 9999, 10000, 10198, 10199, 10201]
 
 
 ########## REMPLISSAGE DE LA DB ##########
@@ -421,7 +422,7 @@ except sql.DatabaseError as e:
     print(e)
 finally:
     file.close()
-"""
+
 ### PT ###
 try:
     file = xl.load_workbook("Classes_PT_CMT_spe_XXXX.xlsx", read_only=True)
@@ -443,6 +444,29 @@ except sql.DatabaseError as e:
     print(e)
 finally:
     file.close()
+"""
+### TSI ###
+try:
+    file = xl.load_workbook("Classes_TSI_CMT_spe_XXXX.xlsx", read_only=True)
+    tab = file["extraction_classes_TSI"]
+
+    rows = tab.rows
+    next(rows)
+    next(rows)
+    for line in rows:
+        p = 0
+        for k in range(13, 43):
+            if k == 23:
+                continue
+            if line[k].value != None:
+                consigne_sql = "INSERT INTO notes VALUES(?, ?, ?);"
+                c.execute(consigne_sql, (line[0].value, liste_ep_TSI[p], line[k].value))
+            p += 1
+except sql.DatabaseError as e:
+    print(e)
+finally:
+    file.close()
+
 
 database.commit()
 database.close()
