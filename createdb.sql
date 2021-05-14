@@ -52,7 +52,7 @@ CREATE TABLE epreuve(
 CREATE TABLE notes(
     candidat INTEGER,
     epreuve INTEGER,
-    score INTEGER,
+    score REAL,
 
     PRIMARY KEY(candidat, epreuve),
     FOREIGN KEY(candidat) REFERENCES candidat(code),
