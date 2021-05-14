@@ -268,7 +268,8 @@ liste_classement = [10198, 10199, 10200, 10201]
 
 liste_ep_MP = [28, 599, 600, 601, 602, 603, 604, 605, 1050, 9898, 9899, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 400, 401,
                9900, 9901, 9998, 9999, 10000, 10198, 10199, 10200, 10201]
-liste_ep_PC = []
+liste_ep_PC = [28, 600, 601, 602, 603, 604, 605, 1050, 9898, 9899, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 400, 401,
+               9900, 9901, 9998, 9999, 10000, 10198, 10199, 10200, 10201]
 liste_ep_PSI = []
 liste_ep_PT = []
 liste_ep_TSI = []
@@ -349,15 +350,17 @@ for k in range(len(liste_ep)):
     consigne_sql = "INSERT INTO epreuve VALUES (?, ?, ?)"
     c.execute(consigne_sql, (cle, ep, type))
 
-"""
 
 ##### BOUCLES POUR LES FICHIERS CLASSES #####
+
 ##### notes
+### MP ###
 try:
     file = xl.load_workbook("Classes_MP_CMT_spe_XXXX.xlsx", read_only=True)
     tab = file["extraction_classes_MP"]
 
     rows = tab.rows
+    next(rows)
     next(rows)
     for line in rows:
         p = 0
@@ -372,6 +375,29 @@ except sql.DatabaseError as e:
     print(e)
 finally:
     file.close()
+"""
+### PC ###
+try:
+    file = xl.load_workbook("Classes_PC_CMT_spe_XXXX.xlsx", read_only=True)
+    tab = file["extraction_classes_PC"]
+
+    rows = tab.rows
+    next(rows)
+    next(rows)
+    for line in rows:
+        p = 0
+        for k in range(13, 47):
+            if k == 23:
+                continue
+            if line[k].value != None:
+                consigne_sql = "INSERT INTO notes VALUES(?, ?, ?);"
+                c.execute(consigne_sql, (line[0].value, liste_ep_PC[p], line[k].value))
+            p += 1
+except sql.DatabaseError as e:
+    print(e)
+finally:
+    file.close()
+
 database.commit()
 database.close()
 
