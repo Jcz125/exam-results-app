@@ -354,17 +354,20 @@ for k in range(len(liste_ep)):
 ##### BOUCLES POUR LES FICHIERS CLASSES #####
 ##### notes
 try:
-    file = xl.load_workbook(Path("Classes_MP_CMT_spe_XXXX.xlsx"), read_only=True)
-    tab = file["Export Workbook"]
+    file = xl.load_workbook("Classes_MP_CMT_spe_XXXX.xlsx", read_only=True)
+    tab = file["extraction_classes_MP"]
 
     rows = tab.rows
     next(rows)
     for line in rows:
+        p = 0
         for k in range(13, 48):
-            if line[k] != float('nan'):
-                with c:
-                    consigne_sql = "INSERT INTO notes VALUES(?, ?, ?)"
-                    c.execute(consigne_sql, (line[0], liste_ep_MP[k], line[k]))
+            if k == 24:
+                continue
+            if line[k].value != None:
+                consigne_sql = "INSERT INTO notes VALUES(?, ?, ?);"
+                c.execute(consigne_sql, (line[0].value, liste_ep_MP[p], line[k].value))
+            p += 1
 except sql.DatabaseError as e:
     print(e)
 finally:
