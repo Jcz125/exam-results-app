@@ -1,11 +1,9 @@
 import pandas as pd
 import sqlite3 as sql
+import openpyxl as xl
+from pathlib import Path
 
 
-database = sql.connect("concours.db")
-c = database.cursor()
-
-# data = pd.read_excel('Inscription.xlsx', header=1)
 # liste_etat_dossier = []
 # liste_concours = []
 # liste_autres_prenoms = []
@@ -268,9 +266,26 @@ liste_oraux = [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999, 400,
 liste_specifique = [1, 2, 3, 4]
 liste_classement = [10198, 10199, 10200, 10201]
 
-""" BOUCLE DANS LE FICHIER INSCRIPTION """
-# for i in range(len(data)):
+liste_ep_MP = [28, 599, 600, 601, 602, 603, 604, 605, 1050, 9898, 9899, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 400, 401,
+               9900, 9901, 9998, 9999, 10000, 10198, 10199, 10200, 10201]
+liste_ep_PC = []
+liste_ep_PSI = []
+liste_ep_PT = []
+liste_ep_TSI = []
+
+
+########## REMPLISSAGE DE LA DB ##########
+
+database = sql.connect("concours.db")
+c = database.cursor()
+
+# data = pd.read_excel('Inscription.xlsx', header=1)
+
 """
+##### BOUCLE DANS LE FICHIER INSCRIPTION #####
+
+for i in range(len(data)):
+
     ####### etat_dossier
     code_etat_dossier = data['CODE_ETAT_DOSSIER'][i]
     lib_etat_dossier = data['LIBELLE_ETAT_DOSSIER'][i]
@@ -312,10 +327,12 @@ liste_classement = [10198, 10199, 10200, 10201]
             liste_ep_option.append([ep, op])
             consigne_sql = "INSERT INTO ep_option(epreuve, option) VALUES (?, ?);"
             c.execute(consigne_sql, (ep, op))
-"""
 
-""" BOUCLE DANS LE DICO DES EPREUVES """
+data.close()
+
+##### BOUCLE DANS LE DICO DES EPREUVES #####
 for k in range(len(liste_ep)):
+
     ####### epreuve
     ep, cle = liste_ep[k], liste_cle_ep[k]
     type = float('nan')
@@ -332,6 +349,26 @@ for k in range(len(liste_ep)):
     consigne_sql = "INSERT INTO epreuve VALUES (?, ?, ?)"
     c.execute(consigne_sql, (cle, ep, type))
 
+"""
+
+##### BOUCLES POUR LES FICHIERS CLASSES #####
+##### notes
+try:
+    file = xl.load_workbook(Path("Classes_MP_CMT_spe_XXXX.xlsx"), read_only=True)
+    tab = file["Export Workbook"]
+
+    rows = tab.rows
+    next(rows)
+    for line in rows:
+        for k in range(13, 48):
+            if line[k] != float('nan'):
+                with c:
+                    consigne_sql = "INSERT INTO notes VALUES(?, ?, ?)"
+                    c.execute(consigne_sql, (line[0], liste_ep_MP[k], line[k]))
+except sql.DatabaseError as e:
+    print(e)
+finally:
+    file.close()
 database.commit()
 database.close()
 
