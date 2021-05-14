@@ -5,7 +5,6 @@ import sqlite3 as sql
 #######ecole
 data = pd.read_excel('listeEcoles.xlsx', header=0)
 database = sql.connect("concours.db")
-
 c = database.cursor()
 
 for i in range(len(data)): 
@@ -18,9 +17,7 @@ for i in range(len(data)):
 
 #######etat_reponse
 data = pd.read_excel('listeEtatsReponsesAppel.xlsx', header=0)
-database = sql.connect("concours.db")
 
-c = database.cursor()
 
 for i in range(len(data)):
     code = int(data['Ata _cod'][i])
@@ -32,9 +29,7 @@ for i in range(len(data)):
 
 #######etablissement
 data = pd.read_excel('listeEtablissements.xlsx', header=0)
-database = sql.connect("concours.db")
 
-c = database.cursor()
 
 for i in range(len(data)):
     rne = data['rne'][i]
@@ -50,9 +45,7 @@ for i in range(len(data)):
 
 #######csp_parent
 data = pd.read_excel('Inscription.xlsx', header=1)
-database = sql.connect("concours.db")
 L = []
-c = database.cursor()
 
 for i in range(len(data)):
     code = int(data['COD_CSP_PERE'][i])
@@ -71,12 +64,8 @@ for i in range(len(data)):
         c.execute("INSERT INTO csp_parent VALUES (?,?)", (code,lib))
         database.commit()
 
-
 ##########pays
-data = pd.read_excel('Inscription.xlsx', header=1)
-database = sql.connect("concours.db")
 L = []
-c = database.cursor()
 for i in range(len(data)):
     code = int(data['CODE_PAYS_NAISSANCE'][i])
     pays = data['PAYS_NAISSANCE'][i]
