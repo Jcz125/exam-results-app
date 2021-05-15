@@ -44,7 +44,7 @@ CREATE TABLE classement(
 );
 
 CREATE TABLE epreuve(
-    id INTEGER,
+    id INTEGER PRIMARY KEY,
     lib TEXT,
     type TEXT CHECK (type IN ('ECRIT', 'ORAL', 'SPECIFIQUE', 'CLASSEMENT'))
 );
