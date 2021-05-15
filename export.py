@@ -444,7 +444,7 @@ except sql.DatabaseError as e:
     print(e)
 finally:
     file.close()
-"""
+
 ### TSI ###
 try:
     file = xl.load_workbook("Classes_TSI_CMT_spe_XXXX.xlsx", read_only=True)
@@ -466,7 +466,7 @@ except sql.DatabaseError as e:
     print(e)
 finally:
     file.close()
-
+"""
 
 database.commit()
 database.close()
