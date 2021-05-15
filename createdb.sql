@@ -1,9 +1,9 @@
-CREATE TABLE etat_reponse(
+CREATE TABLE IF NOT EXISTS etat_reponse(
     code INTEGER PRIMARY KEY,
     etat TEXT NOT NULL
 );
 
-CREATE TABLE ecole(
+CREATE TABLE IF NOT EXISTS ecole(
     code INTEGER PRIMARY KEY,
     name TEXT NOT NULL
 );
@@ -17,13 +17,13 @@ CREATE TABLE etablissement(
     pays TEXT
 );
 
-CREATE TABLE concours(
+CREATE TABLE IF NOT EXISTS concours(
     code INTEGER PRIMARY KEY,
     lib TEXT,
     voie TEXT
 );
 
-CREATE TABLE voeux(
+CREATE TABLE IF NOT EXISTS voeux(
     candidat INTEGER,
     ordre INTEGER CHECK (ordre > 0),
     ecole INTEGER,
@@ -34,7 +34,7 @@ CREATE TABLE voeux(
     FOREIGN KEY(ecole) REFERENCES ecole(code)
 );
 
-CREATE TABLE classement(
+CREATE TABLE IF NOT EXISTS classement(
     id INTEGER PRIMARY KEY,
     etudiant INTEGER,
     rang INTEGER CHECK (rang > 0),
@@ -43,13 +43,13 @@ CREATE TABLE classement(
     FOREIGN KEY(etudiant) REFERENCES candidat(code)
 );
 
-CREATE TABLE epreuve(
-    id INTEGER,
+CREATE TABLE IF NOT EXISTS epreuve(
+    id INTEGER PRIMARY KEY,
     lib TEXT,
     type TEXT CHECK (type IN ('ECRIT', 'ORAL', 'SPECIFIQUE', 'CLASSEMENT'))
 );
 
-CREATE TABLE notes(
+CREATE TABLE IF NOT EXISTS notes(
     candidat INTEGER,
     epreuve INTEGER,
     score REAL,
@@ -59,7 +59,7 @@ CREATE TABLE notes(
     FOREIGN KEY(epreuve) REFERENCES epreuve(id)
 );
 
-CREATE TABLE autre_prenoms(
+CREATE TABLE IF NOT EXISTS autre_prenoms(
     etudiant INTEGER,
     prenom TEXT,
     
@@ -67,27 +67,27 @@ CREATE TABLE autre_prenoms(
     FOREIGN KEY(etudiant) REFERENCES candidat(code)
 );
 
-CREATE TABLE pays(
+CREATE TABLE IF NOT EXISTS pays(
     code INTEGER PRIMARY KEY,
     lib TEXT
 );
 
-CREATE TABLE csp_parent(
+CREATE TABLE IF NOT EXISTS csp_parent(
     code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE
 );
 
-CREATE TABLE serie_bac(
+CREATE TABLE IF NOT EXISTS serie_bac(
     code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE
 );
 
-CREATE TABLE etat_dossier(
+CREATE TABLE IF NOT EXISTS etat_dossier(
     code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE
 );
 
-CREATE TABLE ep_option(
+CREATE TABLE IF NOT EXISTS ep_option(
     id INTEGER PRIMARY KEY,
     epreuve TEXT,
     option TEXT,
@@ -95,7 +95,7 @@ CREATE TABLE ep_option(
     UNIQUE(epreuve, option)
 );
 
-CREATE TABLE candidat(
+CREATE TABLE IF NOT EXISTS candidat(
     code INTEGER PRIMARY KEY,
     civilite TEXT CHECK(civilite IN ('M.', 'Mme')),
     nom TEXT,
