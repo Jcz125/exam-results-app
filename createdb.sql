@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS ecole(
     name TEXT NOT NULL
 );
 
-CREATE TABLE etablissement(
+CREATE TABLE IF NOT EXISTS etablissement(
     rne TEXT PRIMARY KEY,
     type TEXT,
     name TEXT NOT NULL,
