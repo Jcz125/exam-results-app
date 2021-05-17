@@ -467,6 +467,8 @@ except sql.DatabaseError as e:
 finally:
     file.close()
 """
+#######
+
 
 database.commit()
 database.close()
