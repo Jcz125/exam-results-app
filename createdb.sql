@@ -20,7 +20,9 @@ CREATE TABLE IF NOT EXISTS etablissement(
 CREATE TABLE IF NOT EXISTS concours(
     code INTEGER PRIMARY KEY,
     lib TEXT,
-    voie TEXT
+    voie TEXT,
+    
+    UNIQUE(lib, voie)
 );
 
 CREATE TABLE IF NOT EXISTS voeux(
