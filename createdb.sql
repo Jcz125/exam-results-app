@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS candidat(
     nom TEXT,
     prenom TEXT,
     date_de_naissance DATE,
-    classe TEXT CHECK(classe IN ('MP', 'MP*', 'PC', 'PC*', 'PSI', 'PSI*', 'TSI', 'TSI*', 'PT', 'PT*')),
+    classe TEXT,
     puissance TEXT CHECK(puissance IN ('3/2', '5/2', '7/2')),
     voie_concours INTEGER,
     etablissement TEXT,
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS candidat(
     dep_bac INTEGER,
 
     dossier INTEGER,
-    qualite TEXT CHECK(qualite IN ('Boursier')),
+    qualite TEXT,
     decla_handicap INTEGER DEFAULT 0 CHECK(decla_handicap IN (0, 1)),
     arr_naissance INTEGER DEFAULT 0,
 
