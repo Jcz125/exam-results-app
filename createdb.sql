@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS ep_option(
 );
 
 CREATE TABLE civilite(
-    code INTERGER PRIMARY KEY,
+    code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE
 );
 
