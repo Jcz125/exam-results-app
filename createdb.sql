@@ -43,7 +43,8 @@ CREATE TABLE IF NOT EXISTS classement(
     type INTEGER,
 
     FOREIGN KEY(etudiant) REFERENCES candidat(code),
-    FOREIGN KEY(type) REFERENCES type_classement(id)
+    FOREIGN KEY(type) REFERENCES type_classement(id),
+    UNIQUE(etudiant, type)
 );
 
 CREATE TABLE IF NOT EXISTS type_classement(
