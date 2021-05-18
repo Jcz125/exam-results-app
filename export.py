@@ -537,7 +537,7 @@ for i in range(len(ecrit)):
     else:
         consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), dico_class['ECRIT']))
-"""
+
 ##### PT ECRIT #####
 ecrit = pd.read_excel('Ecrit_PT.xlsx', header=0)
 
@@ -547,6 +547,32 @@ for i in range(len(ecrit)):
     if rank != float('nan'):
         consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), int(rank), dico_class['ECRIT']))
+    else:
+        consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), dico_class['ECRIT']))
+
+##### TSI ECRIT ##### n'a pas de données en écrit id : 7656 à 7876 (inclus)
+ecrit = pd.read_excel('Ecrit_TSI.xlsx', header=0)
+
+for i in range(len(ecrit)):
+    code_ed = ecrit['Can _cod'][i]
+    rank = ecrit['rang'][i]
+    if rank != float('nan'):
+        consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), rank, dico_class['ECRIT']))
+    else:
+        consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), dico_class['ECRIT']))
+"""
+##### MP ECRIT #####
+ecrit = pd.read_excel('Oral_MP.xlsx', header=0)
+
+for i in range(len(ecrit)):
+    code_ed = ecrit['Can _cod'][i]
+    rank = ecrit['rang'][i]
+    if rank != float('nan'):
+        consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), rank, dico_class['ECRIT']))
     else:
         consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), dico_class['ECRIT']))
