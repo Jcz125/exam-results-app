@@ -104,12 +104,12 @@ CREATE TABLE IF NOT EXISTS ep_option(
     UNIQUE(epreuve, option)
 );
 
-CREATE TABLE civilite(
+CREATE TABLE IF NOT EXISTS civilite(
     code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE NOT NULL
 );
 
-CREATE TABLE classe(
+CREATE TABLE IF NOT EXISTS classe(
     code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE NOT NULL
 );
@@ -172,4 +172,5 @@ CREATE TABLE IF NOT EXISTS candidat(
     FOREIGN KEY(option2) REFERENCES ep_option(id),
     FOREIGN KEY(option3) REFERENCES ep_option(id),
     FOREIGN KEY(option4) REFERENCES ep_option(id)
+    FOREIGN KEY(civ) REFERENCES civilite(code)
 );
