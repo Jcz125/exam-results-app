@@ -648,9 +648,29 @@ for i in range(len(donnees)):
     else:
         consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), dico_class['RANG_CLASSE']))
-"""
+
 ##### PC classes CMT #####
 donnees = pd.read_excel('Classes_PC_CMT_spe_XXXX.xlsx', header=1)
+
+for i in range(len(donnees)):
+    code_ed = donnees['login'][i]
+    rank_ad = donnees['rang_admissible'][i]
+    rank_cl = donnees['rang_classe'][i]
+    if rank_ad != float('nan'):
+        consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), int(rank_ad), dico_class['RANG_ADMISSIBLE']))
+    else:
+        consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), dico_class['RANG_ADMISSIBLE']))
+    if rank_cl != float('nan'):
+        consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), int(rank_cl), dico_class['RANG_CLASSE']))
+    else:
+        consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), dico_class['RANG_CLASSE']))
+"""
+##### PSI classes CMT #####
+donnees = pd.read_excel('Classes_PSI_CMT_spe_XXXX.xlsx', header=1)
 
 for i in range(len(donnees)):
     code_ed = donnees['login'][i]
