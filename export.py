@@ -708,7 +708,7 @@ for i in range(len(donnees)):
     else:
         consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), dico_class['RANG_CLASSE']))
-"""
+
 ##### TSI classes CMT #####
 donnees = pd.read_excel('Classes_TSI_CMT_spe_XXXX.xlsx', header=1)
 
@@ -728,7 +728,7 @@ for i in range(len(donnees)):
     else:
         consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), dico_class['RANG_CLASSE']))
-
+"""
 
 
 database.commit()
