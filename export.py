@@ -565,11 +565,11 @@ for i in range(len(ecrit)):
         c.execute(consigne_sql, (int(code_ed), dico_class['ECRIT']))
 
 ##### MP ORAL #####
-ecrit = pd.read_excel('Oral_MP.xlsx', header=0)
+oral = pd.read_excel('Oral_MP.xlsx', header=0)
 
 for i in range(len(ecrit)):
-    code_ed = ecrit['Can _cod'][i]
-    rank = ecrit['rang'][i]
+    code_ed = oral['Can _cod'][i]
+    rank = oral['rang'][i]
     if rank != float('nan'):
         consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), int(rank), dico_class['ORAL']))
@@ -578,11 +578,11 @@ for i in range(len(ecrit)):
         c.execute(consigne_sql, (int(code_ed), dico_class['ORAL']))
 
 ##### PC ORAL #####
-ecrit = pd.read_excel('Oral_PC.xlsx', header=0)
+oral = pd.read_excel('Oral_PC.xlsx', header=0)
 
 for i in range(len(ecrit)):
-    code_ed = ecrit['Can _cod'][i]
-    rank = ecrit['rang'][i]
+    code_ed = oral['Can _cod'][i]
+    rank = oral['rang'][i]
     if rank != float('nan'):
         consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), rank, dico_class['ORAL']))
@@ -591,11 +591,11 @@ for i in range(len(ecrit)):
         c.execute(consigne_sql, (int(code_ed), dico_class['ORAL']))
 
 ##### PSI ORAL #####
-ecrit = pd.read_excel('Oral_PSI.xlsx', header=0)
+oral = pd.read_excel('Oral_PSI.xlsx', header=0)
 
 for i in range(len(ecrit)):
-    code_ed = ecrit['Can _cod'][i]
-    rank = ecrit['rang'][i]
+    code_ed = oral['Can _cod'][i]
+    rank = oral['rang'][i]
     if rank != float('nan'):
         consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), int(rank), dico_class['ORAL']))
@@ -604,11 +604,11 @@ for i in range(len(ecrit)):
         c.execute(consigne_sql, (int(code_ed), dico_class['ORAL']))
 
 ##### PT ORAL #####
-ecrit = pd.read_excel('Oral_PT.xlsx', header=0)
+oral = pd.read_excel('Oral_PT.xlsx', header=0)
 
 for i in range(len(ecrit)):
-    code_ed = ecrit['Can _cod'][i]
-    rank = ecrit['rang'][i]
+    code_ed = oral['Can _cod'][i]
+    rank = oral['rang'][i]
     if rank != float('nan'):
         consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), int(rank), dico_class['ORAL']))
@@ -617,18 +617,58 @@ for i in range(len(ecrit)):
         c.execute(consigne_sql, (int(code_ed), dico_class['ORAL']))
 
 ##### TSI ORAL #####
-ecrit = pd.read_excel('Oral_TSI.xlsx', header=0)
+oral = pd.read_excel('Oral_TSI.xlsx', header=0)
 
 for i in range(len(ecrit)):
-    code_ed = ecrit['Can _cod'][i]
-    rank = ecrit['rang'][i]
+    code_ed = oral['Can _cod'][i]
+    rank = oral['rang'][i]
     if rank != float('nan'):
         consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), int(rank), dico_class['ORAL']))
     else:
         consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), dico_class['ORAL']))
+
+##### MP classes CMT #####
+donnees = pd.read_excel('Classes_MP_CMT_spe_XXXX.xlsx', header=1)
+
+for i in range(len(donnees)):
+    code_ed = donnees['login'][i]
+    rank_ad = donnees['rang_admissible'][i]
+    rank_cl = donnees['rang_classe'][i]
+    if rank_ad != float('nan'):
+        consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), int(rank_ad), dico_class['RANG_ADMISSIBLE']))
+    else:
+        consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), dico_class['RANG_ADMISSIBLE']))
+    if rank_cl != float('nan'):
+        consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), int(rank_cl), dico_class['RANG_CLASSE']))
+    else:
+        consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), dico_class['RANG_CLASSE']))
 """
+##### PC classes CMT #####
+donnees = pd.read_excel('Classes_PC_CMT_spe_XXXX.xlsx', header=1)
+
+for i in range(len(donnees)):
+    code_ed = donnees['login'][i]
+    rank_ad = donnees['rang_admissible'][i]
+    rank_cl = donnees['rang_classe'][i]
+    if rank_ad != float('nan'):
+        consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), int(rank_ad), dico_class['RANG_ADMISSIBLE']))
+    else:
+        consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), dico_class['RANG_ADMISSIBLE']))
+    if rank_cl != float('nan'):
+        consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), int(rank_cl), dico_class['RANG_CLASSE']))
+    else:
+        consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), dico_class['RANG_CLASSE']))
+
 
 database.commit()
 database.close()
