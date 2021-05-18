@@ -26,10 +26,7 @@ def import_candidat():
         next(rows)
         C = {case.value: case.column - 1 for case in next(rows)}
         for line in rows:
-            if line[C['CIVILITE']].value == '1':
-                civ = 'M.'
-            else:
-                civ = 'Mme'
+
             date_n = '-'.join(reversed(line[C['DATE_NAISSANCE']].value.split('/')))
 
             c = db.cursor()
@@ -62,15 +59,16 @@ def import_candidat():
 
             c.execute(
                 "INSERT INTO candidat OR ROLLBACK VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                (line[C['CODE_CANDIDAT']].value, civ, line[C['NOM']].value, line[C['PRENOM']].value, date_n,
+                (line[C['CODE_CANDIDAT']].value, line[C['CIVILITE']].value, line[C['NOM']].value, line[C['PRENOM']].value, date_n,
                 line[C['CLASSE']].value, line[C['PUISSANCE']].value, int(line[C['CODE_CONCOURS']].value), line[C['CODE_ETABLISSEMENT']].value, line[C['ADRESSE1']].value,
                 line[C['ADRESSE2']].value, line[C['CP']].value, line[C['VILLE']].value, line[C['CODE_PAYS']].value, line[C['EMAIL']].value,
                 line[C['TELEPHONE']].value, line[C['TEL_PORTABLE']].value, line[C['CODE_PAYS_NAISSANCE']].value, line[C['CODE_PAYS_NATIONALITE']].value, line[C['LIBELLE_VILLE_ECRIT']].value,
                 line[C['NUMERO_INE']].value, int(line[C['COD_CSP_PERE']].value), int(line[C['COD_CSP_MERE']].value), int(line[C['CODE_SERIE']].value), int(line[C['ANNEE_BAC']].value),
                 int(line[C['MOIS_BAC']].value), line[C['MENTION']].value, line[C['CAN_DEP_BAC']].value, int(line[C['CODE_ETAT_DOSSIER']].value), line[C['QUALITE']].value,
-                handi, line[C['ARRONDISSEMENT_NAISSANCE']].value, o1, o2, o3, o4, line[C['SUJET_TIPE']].value,None,None))
+                handi, line[C['ARRONDISSEMENT_NAISSANCE']].value, o1, o2, o3, o4, line[C['SUJET_TIPE']].value, None, None))
 
     file.close()
+
 
 def import_ats():
     file = xl.load_workbook(Path(f"../PPII_ressources/data/public/ADMISSIBLE_ATS.xlsx"), read_only=True)
@@ -82,7 +80,10 @@ def import_ats():
         C = {case.value: case.column - 1 for case in next(rows)}
 
         for line in rows:
-
+            if line[C['Civ _lib']].value == 'M.':
+                civ = 1
+            else:
+                civ = 2
             pays = c.execute('SELECT code FROM pays WHERE lib = ?', (line[C['Can _pay _adr']].value,)).fetchone()
             if pays is None:
                 c.execute('INSERT INTO pays(lib) VALUES(?)', (line[C['Can _pay _adr']].value,))
@@ -91,7 +92,7 @@ def import_ats():
 
             c.execute(
                 "INSERT INTO candidat(code, civilite, nom, prenom, adresse1, adresse2, code_postal, commune, code_adr_pays, mail, tel, por, classe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                (line[C['Can _cod']].value,line[C['Civ _lib']].value,line[C['Nom']].value,line[C['Prenom']].value,line[C['Can _ad 1']].value,line[C['Can _ad 2']].value,line[C['Can _cod _pos']].value,line[C['Can _com']].value, pays, line[C['Can _mel']].value,line[C['Can _tel']].value,line[C['Can _por']].value, 'ATS'))
+                (line[C['Can _cod']].value, civ, line[C['Nom']].value, line[C['Prenom']].value, line[C['Can _ad 1']].value, line[C['Can _ad 2']].value, line[C['Can _cod _pos']].value, line[C['Can _com']].value, pays, line[C['Can _mel']].value, line[C['Can _tel']].value, line[C['Can _por']].value, 'ATS'))
     file.close()
 
 

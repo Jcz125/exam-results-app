@@ -173,3 +173,5 @@ CREATE TABLE IF NOT EXISTS candidat(
     FOREIGN KEY(option3) REFERENCES ep_option(id),
     FOREIGN KEY(option4) REFERENCES ep_option(id)
 );
+
+INSERT INTO civilite VALUES (1,'M.'),(2,'Mme');
