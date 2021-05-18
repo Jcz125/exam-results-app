@@ -11,8 +11,42 @@ from pathlib import Path
 
 ####### initialisation de la table ep_option pour 0/NULL/NULL
 # liste_ep_option = []
+
+database = sql.connect("concours.db")
+c = database.cursor()
 # c.execute("INSERT INTO ep_option(id) VALUES (0);")
-# database.commit()
+"""
+##### REMPLISSAGE TABLE civilite #####
+c.execute("INSERT INTO civilite VALUES (?, ?);", (1, 'M.'))
+c.execute("INSERT INTO civilite VALUES (?, ?);", (2, 'Mme'))
+
+##### REMPLISSAGE TABLE classe #####
+c.execute("INSERT INTO classe VALUES (?, ?);", (10, 'MP'))
+c.execute("INSERT INTO classe VALUES (?, ?);", (11, 'MP*'))
+c.execute("INSERT INTO classe VALUES (?, ?);", (20, 'PC'))
+c.execute("INSERT INTO classe VALUES (?, ?);", (21, 'PC*'))
+c.execute("INSERT INTO classe VALUES (?, ?);", (30, 'PSI'))
+c.execute("INSERT INTO classe VALUES (?, ?);", (31, 'PSI*'))
+c.execute("INSERT INTO classe VALUES (?, ?);", (40, 'PT'))
+c.execute("INSERT INTO classe VALUES (?, ?);", (41, 'PT*'))
+c.execute("INSERT INTO classe VALUES (?, ?);", (50, 'TSI'))
+c.execute("INSERT INTO classe VALUES (?, ?);", (51, 'TSI*'))
+
+##### REMPLISSAGE TABLE type_classement #####
+c.execute("INSERT INTO type_classement VALUES (?, ?);", (1, 'ECRIT'))
+c.execute("INSERT INTO type_classement VALUES (?, ?);", (2, 'ORAL'))
+c.execute("INSERT INTO type_classement VALUES (?, ?);", (3, 'RANG_ADMISSIBLE'))
+c.execute("INSERT INTO type_classement VALUES (?, ?);", (4, 'RANG_CLASSE'))
+database.commit()
+"""
+
+# dictionnaire classement
+dico_class = {
+    'ECRIT': 1,
+    'ORAL': 2,
+    'RANG_ADMISSIBLE': 3,
+    'RANG_CLASSE': 4
+}
 
 # dictionnaires des épreuves
 dico_epreuves = {
@@ -280,9 +314,6 @@ liste_ep_TSI = [800, 801, 802, 803, 804, 805, 806, 807, 9898, 9899, 1, 2, 3, 4, 
 
 ########## REMPLISSAGE DE LA DB ##########
 
-database = sql.connect("concours.db")
-c = database.cursor()
-
 # data = pd.read_excel('Inscription.xlsx', header=1)
 
 """
@@ -467,7 +498,19 @@ except sql.DatabaseError as e:
 finally:
     file.close()
 """
-#######
+####### classement
+##### MP ECRIT #####
+ecrit = pd.read_excel('Ecrit_MP.xlsx', header=0)
+
+for i in range(len(ecrit)):
+    code_ed = ecrit['Can _cod'][i]
+    rank = ecrit['rang'][i]
+    if rank != float('nan'):
+        consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), rank, dico_class['ECRIT']))
+    else:
+        consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), dico_class['ECRIT']))
 
 
 database.commit()
