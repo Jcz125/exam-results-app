@@ -61,7 +61,7 @@ def import_candidat():
                 handi = 1
 
             c.execute(
-                "INSERT INTO candidat VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO candidat OR ROLLBACK VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (line[C['CODE_CANDIDAT']].value, civ, line[C['NOM']].value, line[C['PRENOM']].value, date_n,
                 line[C['CLASSE']].value, line[C['PUISSANCE']].value, int(line[C['CODE_CONCOURS']].value), line[C['CODE_ETABLISSEMENT']].value, line[C['ADRESSE1']].value,
                 line[C['ADRESSE2']].value, line[C['CP']].value, line[C['VILLE']].value, line[C['CODE_PAYS']].value, line[C['EMAIL']].value,
@@ -72,9 +72,32 @@ def import_candidat():
 
     file.close()
 
+def import_ats():
+    file = xl.load_workbook(Path(f"../PPII_ressources/data/public/ADMISSIBLE_ATS.xlsx"), read_only=True)
+    tab = file[file.sheetnames[0]]
+
+    with db:
+        c = db.cursor()
+        rows = tab.rows
+        C = {case.value: case.column - 1 for case in next(rows)}
+
+        for line in rows:
+
+            pays = c.execute('SELECT code FROM pays WHERE lib = ?', (line[C['Can _pay _adr']].value,)).fetchone()
+            if pays is None:
+                c.execute('INSERT INTO pays(lib) VALUES(?)', (line[C['Can _pay _adr']].value,))
+                pays = c.execute('SELECT code FROM pays WHERE lib = ?', (line[C['Can _pay _adr']].value,)).fetchone()
+            pays = pays[0]
+
+            c.execute(
+                "INSERT INTO candidat(code, civilite, nom, prenom, adresse1, adresse2, code_postal, commune, code_adr_pays, mail, tel, por, classe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                (line[C['Can _cod']].value,line[C['Civ _lib']].value,line[C['Nom']].value,line[C['Prenom']].value,line[C['Can _ad 1']].value,line[C['Can _ad 2']].value,line[C['Can _cod _pos']].value,line[C['Can _com']].value, pays, line[C['Can _mel']].value,line[C['Can _tel']].value,line[C['Can _por']].value, 'ATS'))
+    file.close()
+
 
 if __name__ == '__main__':
     db = sql.connect("concours.db")
     # import_voeux()
-    import_candidat()
+    # import_candidat()
+    import_ats()
     db.close()
