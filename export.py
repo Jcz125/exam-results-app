@@ -497,7 +497,7 @@ except sql.DatabaseError as e:
     print(e)
 finally:
     file.close()
-"""
+
 ####### classement
 ##### MP ECRIT #####
 ecrit = pd.read_excel('Ecrit_MP.xlsx', header=0)
@@ -525,7 +525,6 @@ for i in range(len(ecrit)):
         consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), dico_class['ECRIT']))
 
-"""
 ##### PSI ECRIT #####
 ecrit = pd.read_excel('Ecrit_PSI.xlsx', header=0)
 
@@ -534,11 +533,24 @@ for i in range(len(ecrit)):
     rank = ecrit['rang'][i]
     if rank != float('nan'):
         consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
-        c.execute(consigne_sql, (int(code_ed), rank, dico_class['ECRIT']))
+        c.execute(consigne_sql, (int(code_ed), int(rank), dico_class['ECRIT']))
     else:
         consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
         c.execute(consigne_sql, (int(code_ed), dico_class['ECRIT']))
 """
+##### PT ECRIT #####
+ecrit = pd.read_excel('Ecrit_PT.xlsx', header=0)
+
+for i in range(len(ecrit)):
+    code_ed = ecrit['Can _cod'][i]
+    rank = ecrit['rang'][i]
+    if rank != float('nan'):
+        consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), int(rank), dico_class['ECRIT']))
+    else:
+        consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
+        c.execute(consigne_sql, (int(code_ed), dico_class['ECRIT']))
+
 database.commit()
 database.close()
 
