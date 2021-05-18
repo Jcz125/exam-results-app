@@ -572,10 +572,10 @@ for i in range(len(ecrit)):
     rank = ecrit['rang'][i]
     if rank != float('nan'):
         consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
-        c.execute(consigne_sql, (int(code_ed), rank, dico_class['ECRIT']))
+        c.execute(consigne_sql, (int(code_ed), int(rank), dico_class['ORAL']))
     else:
         consigne_sql = "INSERT INTO classement(etudiant, type) VALUES (?, ?, ?);"
-        c.execute(consigne_sql, (int(code_ed), dico_class['ECRIT']))
+        c.execute(consigne_sql, (int(code_ed), dico_class['ORAL']))
 
 database.commit()
 database.close()
