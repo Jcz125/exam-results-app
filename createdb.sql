@@ -10,11 +10,11 @@ CREATE TABLE IF NOT EXISTS ecole(
 
 CREATE TABLE IF NOT EXISTS etablissement(
     rne TEXT PRIMARY KEY,
-    type TEXT,
+    type TEXT NOT NULL,
     name TEXT NOT NULL,
-    cp TEXT,
-    ville TEXT,
-    pays TEXT
+    cp TEXT NOT NULL,
+    ville TEXT NOT NULL,
+    pays TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS concours(
@@ -116,32 +116,32 @@ CREATE TABLE IF NOT EXISTS classe(
 
 CREATE TABLE IF NOT EXISTS candidat(
     code INTEGER PRIMARY KEY,
-    civ INTEGER,
+    civ INTEGER NOT NULL,
     nom TEXT NOT NULL,
     prenom TEXT NOT NULL,
-    date_de_naissance DATE,
+    date_de_naissance DATE NOT NULL,
     classe INTEGER,
     puissance TEXT CHECK(puissance IN ('3/2', '5/2', '7/2')),
-    voie_concours INTEGER,
-    etablissement TEXT,
-    adresse1 TEXT,
+    voie_concours INTEGER NOT NULL,
+    etablissement TEXT NOT NULL,
+    adresse1 TEXT NOT NULL,
     adresse2 TEXT,
-    code_postal TEXT,
-    commune TEXT,
+    code_postal TEXT NOT NULL,
+    commune TEXT NOT NULL,
     code_adr_pays INTEGER,
-    mail TEXT,
+    mail TEXT NOT NULL,
     tel TEXT,
     por TEXT,
-    code_pays_naissance INTEGER,
-    code_pays_nationalite INTEGER,
-    ville_ecrit TEXT,
+    code_pays_naissance INTEGER NOT NULL,
+    code_pays_nationalite INTEGER NOT NULL,
+    ville_ecrit TEXT NOT NULL,
     ine TEXT UNIQUE,
-    csp_pere INTEGER,
-    csp_mere INTEGER,
+    csp_pere INTEGER NOT NULL,
+    csp_mere INTEGER NOT NULL,
 
-    bac INTEGER,
-    annee_bac INTEGER,
-    mois_bac INTEGER,
+    bac INTEGER NOT NULL,
+    annee_bac INTEGER NOT NULL,
+    mois_bac INTEGER NOT NULL,
     mention_bac TEXT CHECK(mention_bac IN ('TB', 'B', 'AB', 'S')),
     dep_bac INTEGER,
 
