@@ -57,10 +57,18 @@ def import_candidat():
             else:
                 handi = 1
 
+            c.execute('SELECT code FROM classe WHERE lib = ?',(line[C['CLASSE']].value,))
+            classe = c.fetchone()
+            if classe is None:
+                c.execute('INSERT INTO classe(lib) VALUES(?)', (line[C['CLASSE']].value,))
+                c.execute('SELECT code FROM classe WHERE lib = ?', (line[C['CLASSE']].value,))
+                classe = c.fetchone()
+            classe = classe[0]
+
             c.execute(
-                "INSERT INTO candidat OR ROLLBACK VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO candidat VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (line[C['CODE_CANDIDAT']].value, line[C['CIVILITE']].value, line[C['NOM']].value, line[C['PRENOM']].value, date_n,
-                line[C['CLASSE']].value, line[C['PUISSANCE']].value, int(line[C['CODE_CONCOURS']].value), line[C['CODE_ETABLISSEMENT']].value, line[C['ADRESSE1']].value,
+                classe, line[C['PUISSANCE']].value, int(line[C['CODE_CONCOURS']].value), line[C['CODE_ETABLISSEMENT']].value, line[C['ADRESSE1']].value,
                 line[C['ADRESSE2']].value, line[C['CP']].value, line[C['VILLE']].value, line[C['CODE_PAYS']].value, line[C['EMAIL']].value,
                 line[C['TELEPHONE']].value, line[C['TEL_PORTABLE']].value, line[C['CODE_PAYS_NAISSANCE']].value, line[C['CODE_PAYS_NATIONALITE']].value, line[C['LIBELLE_VILLE_ECRIT']].value,
                 line[C['NUMERO_INE']].value, int(line[C['COD_CSP_PERE']].value), int(line[C['COD_CSP_MERE']].value), int(line[C['CODE_SERIE']].value), int(line[C['ANNEE_BAC']].value),
@@ -79,11 +87,16 @@ def import_ats():
         rows = tab.rows
         C = {case.value: case.column - 1 for case in next(rows)}
 
+        c.execute("INSERT INTO classe(lib) VALUES('ATS')")
+        classe = c.execute("SELECT code FROM classe WHERE lib = 'ATS'").fetchone()
+        classe = classe[0]
+
         for line in rows:
             if line[C['Civ _lib']].value == 'M.':
                 civ = 1
             else:
                 civ = 2
+
             pays = c.execute('SELECT code FROM pays WHERE lib = ?', (line[C['Can _pay _adr']].value,)).fetchone()
             if pays is None:
                 c.execute('INSERT INTO pays(lib) VALUES(?)', (line[C['Can _pay _adr']].value,))
@@ -91,14 +104,14 @@ def import_ats():
             pays = pays[0]
 
             c.execute(
-                "INSERT INTO candidat(code, civilite, nom, prenom, adresse1, adresse2, code_postal, commune, code_adr_pays, mail, tel, por, classe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                (line[C['Can _cod']].value, civ, line[C['Nom']].value, line[C['Prenom']].value, line[C['Can _ad 1']].value, line[C['Can _ad 2']].value, line[C['Can _cod _pos']].value, line[C['Can _com']].value, pays, line[C['Can _mel']].value, line[C['Can _tel']].value, line[C['Can _por']].value, 'ATS'))
+                "INSERT INTO candidat(code, civ, nom, prenom, adresse1, adresse2, code_postal, commune, code_adr_pays, mail, tel, por, classe) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                (line[C['Can _cod']].value, civ, line[C['Nom']].value, line[C['Prenom']].value, line[C['Can _ad 1']].value, line[C['Can _ad 2']].value, line[C['Can _cod _pos']].value, line[C['Can _com']].value, pays, line[C['Can _mel']].value, line[C['Can _tel']].value, line[C['Can _por']].value, classe))
     file.close()
 
 
 if __name__ == '__main__':
     db = sql.connect("concours.db")
-    # import_voeux()
-    # import_candidat()
+    import_voeux()
+    import_candidat()
     import_ats()
     db.close()
