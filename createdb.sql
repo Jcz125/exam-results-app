@@ -104,12 +104,12 @@ CREATE TABLE IF NOT EXISTS ep_option(
     UNIQUE(epreuve, option)
 );
 
-CREATE TABLE civilite(
+CREATE TABLE IF NOT EXISTS civilite(
     code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE NOT NULL
 );
 
-CREATE TABLE classe(
+CREATE TABLE IF NOT EXISTS classe(
     code INTEGER PRIMARY KEY,
     lib TEXT UNIQUE NOT NULL
 );
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS candidat(
     nom TEXT NOT NULL,
     prenom TEXT NOT NULL,
     date_de_naissance DATE,
-    classe TEXT,
+    classe INTEGER,
     puissance TEXT CHECK(puissance IN ('3/2', '5/2', '7/2')),
     voie_concours INTEGER,
     etablissement TEXT,
@@ -171,7 +171,9 @@ CREATE TABLE IF NOT EXISTS candidat(
     FOREIGN KEY(option1) REFERENCES ep_option(id),
     FOREIGN KEY(option2) REFERENCES ep_option(id),
     FOREIGN KEY(option3) REFERENCES ep_option(id),
-    FOREIGN KEY(option4) REFERENCES ep_option(id)
+    FOREIGN KEY(option4) REFERENCES ep_option(id),
+    FOREIGN KEY(civ) REFERENCES civilite(code),
+    FOREIGN KEY(classe) REFERENCES classe(code)
 );
 
 INSERT INTO civilite VALUES (1,'M.'),(2,'Mme');
