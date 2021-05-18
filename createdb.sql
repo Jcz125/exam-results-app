@@ -20,13 +20,15 @@ CREATE TABLE IF NOT EXISTS etablissement(
 CREATE TABLE IF NOT EXISTS concours(
     code INTEGER PRIMARY KEY,
     lib TEXT,
-    voie TEXT
+    voie TEXT,
+    
+    UNIQUE(lib, voie)
 );
 
 CREATE TABLE IF NOT EXISTS voeux(
-    candidat INTEGER,
-    ordre INTEGER CHECK (ordre > 0),
-    ecole INTEGER,
+    candidat INTEGER NOT NULL,
+    ordre INTEGER CHECK (ordre > 0) NOT NULL,
+    ecole INTEGER NOT NULL,
 
     PRIMARY KEY(candidat, ecole),
     UNIQUE(candidat, ordre),
@@ -36,23 +38,30 @@ CREATE TABLE IF NOT EXISTS voeux(
 
 CREATE TABLE IF NOT EXISTS classement(
     id INTEGER PRIMARY KEY,
-    etudiant INTEGER,
-    rang INTEGER CHECK (rang > 0),
-    type TEXT,
+    etudiant INTEGER NOT NULL,
+    rang INTEGER CHECK (rang > 0) NOT NULL,
+    type INTEGER NOT NULL,
 
-    FOREIGN KEY(etudiant) REFERENCES candidat(code)
+    FOREIGN KEY(etudiant) REFERENCES candidat(code),
+    FOREIGN KEY(type) REFERENCES type_classement(id),
+    UNIQUE(etudiant, type)
+);
+
+CREATE TABLE IF NOT EXISTS type_classement(
+    id INTEGER PRIMARY KEY,
+    lib TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS epreuve(
     id INTEGER PRIMARY KEY,
-    lib TEXT,
+    lib TEXT NOT NULL,
     type TEXT CHECK (type IN ('ECRIT', 'ORAL', 'SPECIFIQUE', 'CLASSEMENT'))
 );
 
 CREATE TABLE IF NOT EXISTS notes(
-    candidat INTEGER,
-    epreuve INTEGER,
-    score REAL,
+    candidat INTEGER NOT NULL,
+    epreuve INTEGER NOT NULL,
+    score REAL NOT NULL,
 
     PRIMARY KEY(candidat, epreuve),
     FOREIGN KEY(candidat) REFERENCES candidat(code),
@@ -60,8 +69,8 @@ CREATE TABLE IF NOT EXISTS notes(
 );
 
 CREATE TABLE IF NOT EXISTS autre_prenoms(
-    etudiant INTEGER,
-    prenom TEXT,
+    etudiant INTEGER NOT NULL,
+    prenom TEXT NOT NULL,
     
     PRIMARY KEY(etudiant, prenom)
     FOREIGN KEY(etudiant) REFERENCES candidat(code)
@@ -69,37 +78,47 @@ CREATE TABLE IF NOT EXISTS autre_prenoms(
 
 CREATE TABLE IF NOT EXISTS pays(
     code INTEGER PRIMARY KEY,
-    lib TEXT
+    lib TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS csp_parent(
     code INTEGER PRIMARY KEY,
-    lib TEXT UNIQUE
+    lib TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS serie_bac(
     code INTEGER PRIMARY KEY,
-    lib TEXT UNIQUE
+    lib TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS etat_dossier(
     code INTEGER PRIMARY KEY,
-    lib TEXT UNIQUE
+    lib TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS ep_option(
     id INTEGER PRIMARY KEY,
-    epreuve TEXT,
-    option TEXT,
+    epreuve TEXT NOT NULL,
+    option TEXT NOT NULL,
 
     UNIQUE(epreuve, option)
 );
 
+CREATE TABLE civilite(
+    code INTEGER PRIMARY KEY,
+    lib TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE classe(
+    code INTEGER PRIMARY KEY,
+    lib TEXT UNIQUE NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS candidat(
     code INTEGER PRIMARY KEY,
-    civilite TEXT CHECK(civilite IN ('M.', 'Mme')),
-    nom TEXT,
-    prenom TEXT,
+    civ INTEGER,
+    nom TEXT NOT NULL,
+    prenom TEXT NOT NULL,
     date_de_naissance DATE,
     classe TEXT,
     puissance TEXT CHECK(puissance IN ('3/2', '5/2', '7/2')),
