@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS etablissement(
 
 CREATE TABLE IF NOT EXISTS concours(
     code INTEGER PRIMARY KEY,
-    lib TEXT,
-    voie TEXT,
+    lib TEXT NOT NULL,
+    voie TEXT NOT NULL,
     
     UNIQUE(lib, voie)
 );
@@ -177,3 +177,4 @@ CREATE TABLE IF NOT EXISTS candidat(
 );
 
 INSERT INTO civilite VALUES (1,'M.'),(2,'Mme');
+INSERT INTO type_classement VALUES (1, 'ECRIT'), (2, 'ORAL'), (3, 'RANG_ADMISSIBLE'), (4, 'RANG_CLASSE')
