@@ -182,11 +182,14 @@ def import_inscription(database: sql.Connection, path: Path):
     ##########pays
         code = int(data['CODE_PAYS_NAISSANCE'][i])
         pays = data['PAYS_NAISSANCE'][i]
-        c.execute("INSERT OR IGNORE INTO pays VALUES (?,?)", (code, pays))
+        c.execute("INSERT OR IGNORE INTO pays(code, lib) VALUES (?,?)", (code, pays))
 
         code = int(data['CODE_PAYS_NATIONALITE'][i])
-        pays = data['AUTRE_NATIONALITE'][i]
-        c.execute("INSERT OR IGNORE INTO pays VALUES (?,?)", (code, pays))
+        nationalite = data['AUTRE_NATIONALITE'][i]
+        lib = c.execute("SELECT lib FROM pays WHERE code = ?", (code,)).fetchone()
+        if lib is not None:
+            lib = lib[0]
+        c.execute("INSERT OR REPLACE INTO pays VALUES (?,?,?)", (code, lib, nationalite))
 
 #########candidat
     dico_etat_cl, dico_type_ad = extrait_etat_classes_type_admissible(path)
@@ -234,21 +237,20 @@ def import_inscription(database: sql.Connection, path: Path):
         classe = classe[0]
 
         c.execute(
-            "INSERT INTO candidat VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,"
-            "?,?,?,?,?,?)",
-            (code, data['CIVILITE'][i], data['NOM'][i], data['PRENOM'][i],
+            "INSERT INTO candidat VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            (code, int(data['CIVILITE'][i]), data['NOM'][i], data['PRENOM'][i],
             date_n,
             classe, data['PUISSANCE'][i], int(data['CODE_CONCOURS'][i]), data['CODE_ETABLISSEMENT'][i],
             data['ADRESSE1'][i],
-            data['ADRESSE2'][i], data['CP'][i], data['VILLE'][i], data['CODE_PAYS'][i],
+            data['ADRESSE2'][i], int(data['CP'][i]), data['VILLE'][i], int(data['CODE_PAYS'][i]),
             data['EMAIL'][i],
-            data['TELEPHONE'][i], data['TEL_PORTABLE'][i], data['CODE_PAYS_NAISSANCE'][i],
-            data['CODE_PAYS_NATIONALITE'][i], data['LIBELLE_VILLE_ECRIT'][i],
+            data['TELEPHONE'][i], data['TEL_PORTABLE'][i], int(data['CODE_PAYS_NAISSANCE'][i]),data['VILLE_NAISSANCE'][i],
+            int(data['CODE_PAYS_NATIONALITE'][i]), data['LIBELLE_VILLE_ECRIT'][i],
             data['NUMERO_INE'][i], int(data['COD_CSP_PERE'][i]), int(data['COD_CSP_MERE'][i]),
             int(data['CODE_SERIE'][i]), int(data['ANNEE_BAC'][i]),
             int(data['MOIS_BAC'][i]), data['MENTION'][i], data['CAN_DEP_BAC'][i],
             int(data['CODE_ETAT_DOSSIER'][i]), data['QUALITE'][i],
-            handi, data['ARRONDISSEMENT_NAISSANCE'][i], o1, o2, o3, o4, data['SUJET_TIPE'][i], dico_etat_cl.get(code, None),
+            handi, int(data['ARRONDISSEMENT_NAISSANCE'][i]), o1, o2, o3, o4, data['SUJET_TIPE'][i], dico_etat_cl.get(code, None),
             dico_type_ad.get(code,None)))
 
 #########voeux

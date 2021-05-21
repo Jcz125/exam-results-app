@@ -78,7 +78,8 @@ CREATE TABLE IF NOT EXISTS autre_prenoms(
 
 CREATE TABLE IF NOT EXISTS pays(
     code INTEGER PRIMARY KEY,
-    lib TEXT UNIQUE NOT NULL
+    lib TEXT UNIQUE,
+    nationalite TEXT UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS csp_parent(
