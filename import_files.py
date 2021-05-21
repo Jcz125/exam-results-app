@@ -1,8 +1,8 @@
 import pandas as pd
 import sqlite3 as sql
 import openpyxl as xl
-from numpy import float64
 from pathlib import Path
+import click
 
 # dictionnaire classement
 dico_class = {
@@ -506,6 +506,46 @@ def extrait_etat_classes_type_admissible(path: Path):
                 dico_type_admissible[int(data['login'][i])] = data['type_admissible'][i]
 
     return dico_etat_classes, dico_type_admissible
+
+
+
+@click.command()
+@click.argument("database", type=click.Path(dir_okay=False))
+@click.argument("src_dir", type=click.Path(exists=True, file_okay=False))
+@click.option("--init", "-i", default=None, type=click.Path(exists=True, dir_okay=False))
+def cli(database, src_dir, init):
+    path_db = Path(database)
+    path_files = Path(src_dir)
+    db = sql.connect(path_db)
+    if init is not None:
+        init = Path(init)
+        click.echo(f"Initialisation de {path_db.name} avec {init.name}")
+        with open(init, "r") as f_init:
+            with db:
+                db.executescript(f_init.read())
+
+    click.echo("Importation des fichiers")
+    with db:
+        click.echo('epreuve')
+        import_epreuves(db)
+        click.echo('voeux')
+        import_voeux(db, path_files)
+        click.echo('ecole')
+        import_ecole(db, path_files)
+        click.echo('etat reponse')
+        import_etat_reponse(db, path_files)
+        click.echo('etablissement')
+        import_etablissement(db, path_files)
+        click.echo('notes')
+        import_notes(db, path_files)
+        click.echo('rang')
+        import_rang(db, path_files)
+        click.echo('inscription')
+        import_inscription(db, path_files)
+        click.echo('ats')
+        import_ats(db, path_files)
+    db.close()
+
 
 
 
