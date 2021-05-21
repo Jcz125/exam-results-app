@@ -10,11 +10,11 @@ CREATE TABLE IF NOT EXISTS ecole(
 
 CREATE TABLE IF NOT EXISTS etablissement(
     rne TEXT PRIMARY KEY,
-    type TEXT,
+    type TEXT NOT NULL,
     name TEXT NOT NULL,
-    cp TEXT,
-    ville TEXT,
-    pays TEXT
+    cp TEXT NOT NULL,
+    ville TEXT NOT NULL,
+    pays TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS concours(
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS classe(
 
 CREATE TABLE IF NOT EXISTS candidat(
     code INTEGER PRIMARY KEY,
-    civ INTEGER,
+    civ INTEGER NOT NULL,
     nom TEXT NOT NULL,
     prenom TEXT NOT NULL,
     date_de_naissance DATE,
@@ -124,15 +124,16 @@ CREATE TABLE IF NOT EXISTS candidat(
     puissance TEXT CHECK(puissance IN ('3/2', '5/2', '7/2')),
     voie_concours INTEGER,
     etablissement TEXT,
-    adresse1 TEXT,
+    adresse1 TEXT NOT NULL,
     adresse2 TEXT,
-    code_postal TEXT,
-    commune TEXT,
-    code_adr_pays INTEGER,
-    mail TEXT,
+    code_postal TEXT NOT NULL,
+    commune TEXT NOT NULL,
+    code_adr_pays INTEGER NOT NULL,
+    mail TEXT NOT NULL,
     tel TEXT,
     por TEXT,
     code_pays_naissance INTEGER,
+    ville_naissance TEXT,
     code_pays_nationalite INTEGER,
     ville_ecrit TEXT,
     ine TEXT UNIQUE,
