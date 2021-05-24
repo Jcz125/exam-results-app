@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS etablissement(
 
 CREATE TABLE IF NOT EXISTS concours(
     code INTEGER PRIMARY KEY,
-    lib TEXT,
-    voie TEXT,
+    lib TEXT NOT NULL,
+    voie TEXT NOT NULL,
     
     UNIQUE(lib, voie)
 );
@@ -78,7 +78,8 @@ CREATE TABLE IF NOT EXISTS autre_prenoms(
 
 CREATE TABLE IF NOT EXISTS pays(
     code INTEGER PRIMARY KEY,
-    lib TEXT UNIQUE NOT NULL
+    lib TEXT UNIQUE,
+    nationalite TEXT UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS csp_parent(
@@ -124,12 +125,12 @@ CREATE TABLE IF NOT EXISTS candidat(
     puissance TEXT CHECK(puissance IN ('3/2', '5/2', '7/2')),
     voie_concours INTEGER,
     etablissement TEXT,
-    adresse1 TEXT,
+    adresse1 TEXT NOT NULL,
     adresse2 TEXT,
-    code_postal TEXT,
-    commune TEXT,
-    code_adr_pays INTEGER,
-    mail TEXT,
+    code_postal TEXT NOT NULL,
+    commune TEXT NOT NULL,
+    code_adr_pays INTEGER NOT NULL,
+    mail TEXT NOT NULL,
     tel TEXT,
     por TEXT,
     code_pays_naissance INTEGER,
@@ -178,3 +179,4 @@ CREATE TABLE IF NOT EXISTS candidat(
 );
 
 INSERT INTO civilite VALUES (1,'M.'),(2,'Mme');
+INSERT INTO type_classement VALUES (1, 'ECRIT'), (2, 'ORAL'), (3, 'RANG_ADMISSIBLE'), (4, 'RANG_CLASSE')
