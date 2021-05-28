@@ -1,0 +1,86 @@
+#03/04
+- Faire un tableau de bord Trello (mettre dessus le découpage des tâches à faire)
+- Découpage des tâches
+- Prendre connaissance de tous les données fournies
+- Réfléchir de notre côté sur le schéma relationnel de la base de données (brouillon)
+- Réfléchir à la contraintes d'intégrité (aux données problématiques, cohérence des données)
+- Rédiger le compte rendu (Céline) [Ahmed : Check les tests - Mael : Check git - Céline : Check tâches/réunion]
+Prochaine réunion lundi à 17h00 sur Discord.
+Fin de cette réunion 18:45
+
+#11/04
+- faire une table pour les séries du BAC
+- mettre les années du BAC dans candidat
+- Contrainte label mention dans Candidat
+- INE à mettre dans candidat
+- Faire une table dans lequel y a code CSP (profession père mère)
+- Faire table état dossier
+- Mettre sujet TIPE, boursier ou non, CAN_DEP_BAC dans candidat
+- Déclaration_handicap dans candidat ?
+- arrondissement de naissance ? dans candidat
+- faire une table de combinaise des options de concours du candidat
+SQLite :
+- regarder  trello
+- faire au moins 3-4 tableaux
+- mettre dans un git le code du bd
+- Fin de réunion : 16:10
+- Réunion prochaine : week-end (à confirmer date vendredi soir)
+
+#25/04
+- corriger les codes postaux en text
+- mettre un check dans candidat : classe, puissance, mention_bac, qualite, etc. (voir .txt de la db)
+- remplir le createdb.sql
+- faire un fichier script .py
+- vérifier les normes et contraintes de la bd
+- documenter sur un script de remplissage de la bd
+début : 16h30
+fin : 18h10
+prochaine réunion : ce mercredi, jeudi
+
+#29/04
+- en utilisant le script de Maël et le script de Céline (pandas), faire des fonctions qui permettent de remplir les tables (choisir en priorité les tables qui ont moins de dépendances)
+- Ahmed fera une checklist sur le Trello pour le remplissage de ces tables (pour éviter la redondance sur les tables déjà fait), se référer à notre schéma pour remplir la checklist
+- réfléchir au problème de ATS
+- mettre à jour le Trello régulièrement, et informer dans le groupe de votre avancement pour éviter des contre-sens ou des redondances
+- faire les fonctions qui remplient les éléments manquant des champs (comme option1, on doit vérifier le code dans la table ep_option)
+Attention : écrivez des fonctions générales qui peuvent être facilement réutiliser
+Début réunion : 18h00
+Fin réunion : 19h10
+Prochaine réunion : 02/05/2021
+
+#03/05
+- finir d'écrire les fonctions de remplissage des tables (attention aux nouveaux champs ajouté 'etat_classes' et 'type_admissible', modifiez votre .db recréer les tables)
+- ajouter les NOT NULL aux champs nécessaires
+- ajouter les candidats de ATS (que celles de feuilles admissibles)
+- une fois les tables finies, regrouper les codes
+- optimiser : ajouter les click, les init, etc...
+Début réunion : 20h30
+Fin réunion : 21h30
+Prochaine réunion : ce week-end
+
+#14/05
+- Vérifier les contraintes des tableaux (ajouter des NOT NULL ou autres contraintes nécessaires, sans surplus)
+- Finir d'importer les données dans les tables classement, voeux, candidat
+(Avant la fin de cette semaine)
+- Intégrer les ATS
+- Faire un script de test des données (cohérence de nos données)
+- Ecrire un fichier script .py pour remplir la BD
+Début de réunion : 18h00
+Fin de réunion : 18h40
+Prochaine réunion dimanche à 18h00
+
+#24/05
+- Supprimer les données des numéros candidats qui ne sont pas dans la table candidat (notes, classement, etc.)
+- Refaire le "PRAGMA foreign_key_check;" pour vérifier les FK
+- Ajouter les établissements qui sont dans Inscription.xlsx
+- Fonctionnalités app web en python flask : retrouver les candidats en tapant nom et/ou prénom ; pouvoir sélectionner les données correspondant au candidat (par exemple, son établissement, son rang, ses notes, adresse, liste des voeux, etc.) trouver des candidats par date de naissance, par bac, filière, concours, etc. ; obtenir toutes sortes de classements ; pouvoir appliquer des filtres ; trouver tous les candidats qui viennent d'un établissement (et faire d'autres manip) ; pouvoir faire des stats sur les notes des candidats (par filière certainement) + trouver des tranches de candidats (par exemple les candidats qui ont entre 10 et 15 en français, les candidats qui ont entre 0 et 10 de moyenne) ; obtenir les graphes (en .png, en .jpeg ou en .pdf) ; affichage des graphes superpositions etc. ; pouvoir ajouter d'autres données à partir un autre fichier excel (import) ou bien ajouter une par une sur l'interface (par exemple ajouter un candidat) ; le tout avec couleur (design etc.) et bouton 
+- Compléter le README.md
+- Penser au rapport
+Début réunion : 15h00
+Fin réunion : 16h30
+Prochaine réunion dimanche à 15h00
+
+
+
+
+
