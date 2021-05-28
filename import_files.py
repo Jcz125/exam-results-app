@@ -271,8 +271,8 @@ def import_ecole(database: sql.Connection, path: Path):
     c = database.cursor()
 
     for i in range(len(data)):
-        nom = data['Nom _ecole'][i]
-        code = int(data['Ecole'][i])
+        nom = data['name'][i]
+        code = int(data['code'][i])
 
         c.execute("INSERT INTO ecole VALUES (?,?)", (code, nom))
 
