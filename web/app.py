@@ -32,8 +32,41 @@ def list_etablissement():
     for i in c.fetchall():
         l.append(i)
     return render_template("liste_etablissement.html",liste=l)
+
+@app.route("/epreuve")
+def list_epreuve():
+    db = getdb()
+    c = db.cursor()
+    c.execute('SELECT lib,type from epreuve WHERE id<10000')
+    l = []
+    for i in c.fetchall():
+        l.append(i)
+    return render_template("liste_epreuve.html",liste=l)
    
+@app.route("/option")
+def list_option():
+    db = getdb()
+    c = db.cursor()
+    c.execute('SELECT epreuve,option from ep_option')
+    l = []
+    for i in c.fetchall():
+        l.append(i)
+    return render_template("liste_option.html",liste=l)
 
+@app.route("/csp")
+def list_csp():
+    db = getdb()
+    c = db.cursor()
+    c.execute('SELECT lib from csp_parent')
+    l = []
+    for i in c.fetchall():
+        l.append(i)
+    return render_template("liste_csp.html",liste=l)
+ 
 
-
+@app.route("/candidatByName/<nm>")
+def rech_can_name(nm):
+    db = getdb()
+    c = db.cursor()
+   ''' not done yet '''
 
