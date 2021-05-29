@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des CSP</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            margin: auto;
+
+}
+
+td{
+  border: 1px solid black;
+  padding: 10px;
+  text-align :center;
+
+}
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+          <td><B><U>Catégorie socioprofessionnelle (CSP)</U></B></td>
+        </tr>
+        {% for csp in liste %}
+        <tr>
+          <td>{{csp[0]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+</body>
+</html>
+
