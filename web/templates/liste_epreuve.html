@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des épreuves</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            margin: auto;
+
+}
+
+td{
+  border: 1px solid black;
+  padding: 10px;
+  text-align :center;
+
+}
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+          <td><B><U>Epreuve</U></B></td>
+          <td><B><U>Type</U></B></td>
+        </tr>
+        {% for epreuve in liste %}
+        <tr>
+          <td>{{epreuve[0]}}</td>
+          <td>{{epreuve[1]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+</body>
+</html>
+
