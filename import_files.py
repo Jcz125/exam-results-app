@@ -511,6 +511,14 @@ def extrait_etat_classes_type_admissible(path: Path):
     return dico_etat_classes, dico_type_admissible
 
 
+def delete_fk_issues(database: sql.Connection):
+    c = database.cursor()
+    c.execute('PRAGMA foreign_key_check')
+    data = c.fetchall()
+    for value in data:
+        c.execute('DELETE FROM ? WHERE rowid = ?', value[0:2])
+
+
 
 if __name__ == '__main__':
     path_files = Path("../PPII_ressources/data/public")
@@ -534,6 +542,9 @@ if __name__ == '__main__':
         import_inscription(db,path_files)
         print('ats')
         import_ats(db,path_files)
+    with db:
+        print('delete fk issues')
+        delete_fk_issues(db)
     db.close()
 else:
     import click
@@ -572,4 +583,7 @@ else:
             import_inscription(db, path_files)
             click.echo('\tats')
             import_ats(db, path_files)
+        with db:
+            click.echo('Supprimer les lignes avec des foriegn keys inconnues')
+            delete_fk_issues(db)
         db.close()
