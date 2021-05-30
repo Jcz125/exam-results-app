@@ -516,7 +516,7 @@ def delete_fk_issues(database: sql.Connection):
     c.execute('PRAGMA foreign_key_check')
     data = c.fetchall()
     for value in data:
-        c.execute('DELETE FROM ? WHERE rowid = ?', value[0:2])
+        c.execute(f'DELETE FROM {value[0]} WHERE rowid = ?', (value[1],))
 
 
 
