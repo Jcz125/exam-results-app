@@ -197,6 +197,10 @@ def import_inscription(database: sql.Connection, path: Path):
 
         date_n = '-'.join(reversed(data['DATE_NAISSANCE'][i].split('/')))
 
+        c.execute('SELECT rne FROM etablissement WHERE rne=?', (data['CODE_ETABLISSEMENT'][i],))
+        if c.fetchone() is None:
+            c.execute('INSERT INTO etablissement(rne,name,ville) VALUES (?,?,?)', (data['CODE_ETABLISSEMENT'][i],data['ETABLISSEMENT'][i],data['VILLE_ETABLISSEMENT'][i]))
+
         c.execute('SELECT id FROM ep_option WHERE (epreuve,option)=(?,?)',
             (data['EPREUVE1'][i], data['OPTION1'][i]))
         o1 = c.fetchone()

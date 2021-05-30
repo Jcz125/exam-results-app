@@ -10,11 +10,11 @@ CREATE TABLE IF NOT EXISTS ecole(
 
 CREATE TABLE IF NOT EXISTS etablissement(
     rne TEXT PRIMARY KEY,
-    type TEXT NOT NULL,
+    type TEXT,
     name TEXT NOT NULL,
-    cp TEXT NOT NULL,
+    cp TEXT,
     ville TEXT NOT NULL,
-    pays TEXT NOT NULL
+    pays TEXT
 );
 
 CREATE TABLE IF NOT EXISTS concours(
