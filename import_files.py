@@ -275,8 +275,8 @@ def import_ecole(database: sql.Connection, path: Path):
     c = database.cursor()
 
     for i in range(len(data)):
-        nom = data['Ecole'][i]
-        code = int(data['Nom _ecole'][i])
+        nom = data['Nom _ecole'][i]
+        code = int(data['Ecole'][i])
 
         c.execute("INSERT INTO ecole VALUES (?,?)", (code, nom))
 
@@ -554,22 +554,22 @@ else:
 
         click.echo("Importation des fichiers")
         with db:
-            click.echo('epreuve')
+            click.echo('\tepreuve')
             import_epreuves(db)
-            click.echo('voeux')
+            click.echo('\tvoeux')
             import_voeux(db, path_files)
-            click.echo('ecole')
+            click.echo('\tecole')
             import_ecole(db, path_files)
-            click.echo('etat reponse')
+            click.echo('\tetat reponse')
             import_etat_reponse(db, path_files)
-            click.echo('etablissement')
+            click.echo('\tetablissement')
             import_etablissement(db, path_files)
-            click.echo('notes')
+            click.echo('\tnotes')
             import_notes(db, path_files)
-            click.echo('rang')
+            click.echo('\trang')
             import_rang(db, path_files)
-            click.echo('inscription')
+            click.echo('\tinscription')
             import_inscription(db, path_files)
-            click.echo('ats')
+            click.echo('\tats')
             import_ats(db, path_files)
         db.close()
