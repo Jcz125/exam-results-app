@@ -201,3 +201,29 @@ def rech_can_name(code):
 
     return render_template("liste_candidat.html",liste=l,civ=cv[0],classe=cl[0],voie=voie[0],etablissement=etablissement[0],pays=pays[0],pays_naissance=pays_naissance[0],pays_nationalite=pays_nationalite[0],csp_pere=csp_pere[0],csp_mere=csp_mere[0],bac=bac[0],dossier=dossier[0],option1=option1[0],option2=option2[0],option3=option3[0],option4=option4[0],autre_prenoms=autre_prenoms[0])
  
+
+@app.route("/voeux/<code>") ### une page qui contient un tableau des voeux du candidat
+def candidat_voeux(code):
+    db = getdb()
+    c = db.cursor()
+    c.execute('SELECT ordre,ecole from voeux WHERE candidat=(?)', (code,))
+    l = []
+    for i in c.fetchall():
+        l.append(i)
+    ###ecole
+    longueur=len(l)
+    nbecole=[]
+    nomecole=[]
+    for i in range(longueur):
+        nbecole.append(l[i][1])
+    for i in range(longueur):
+        db = getdb()
+        c = db.cursor()
+        c.execute('SELECT name from ecole WHERE code=(?)', (nbecole[i],))
+        for k in c.fetchall():
+            nomecole.append(k)
+    final=[]
+    for i in range(longueur):
+        tuple= (l[i][0], nomecole[i][0])
+        final.append(tuple)
+    return render_template("liste_voeux.html", liste = l , nomecole = nomecole, final = final)
