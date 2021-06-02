@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS ecole(
 );
 
 CREATE TABLE IF NOT EXISTS etablissement(
-    rne TEXT PRIMARY KEY,
+    rne TEXT PRIMARY KEY NOT NULL,
     type TEXT,
     name TEXT NOT NULL,
     cp TEXT,

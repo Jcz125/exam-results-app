@@ -1,13 +1,3 @@
-//Enums, ne sera pas dans SQLite mais à remplacer par CHECK(... in {...})
-Enum mentions {
-  TB
-  B
-  AB
-  S
-}
-
-//Tables
-
 Table etat_reponse{
   code integer [pk]
   etat text [not null]
@@ -15,31 +5,33 @@ Table etat_reponse{
 
 Table ecole{
   code integer [pk]
-  name text
+  name text [not null]
 }
-Ref: candidat.etablissement > etablissement.rne
 
 Table etablissement{
-  rne text [pk, note: 'code etablissement']
+  rne text [pk]
   type text
-  name text
-  cp text [note: 'pas forcement que des chiffres']
-  ville text
+  name text [not null]
+  cp text
+  ville text [not null]
   pays text
 }
 
 Table concours {
   code integer [pk]
-  lib text
-  voie text
+  lib text [not null]
+  voie text [not null]
+
+  Indexes {
+    (lib,voie) [unique]
+  }
 }
 
-Ref: concours.code < candidat.voie_concours
-
 Table voeux {
-  candidat integer
-  ordre integer
-  ecole integer
+  candidat integer [not null]
+  ordre integer  [not null, note: 'ordre > 0']
+  ecole integer [not null]
+
   Indexes {
     (candidat, ecole) [pk]
     (candidat, ordre) [unique]
@@ -48,68 +40,35 @@ Table voeux {
 Ref: ecole.code < voeux.ecole
 Ref: candidat.code < voeux.candidat
 
-Table candidat{
-  code integer [pk]
-  civilite text [note: 'ecrire un check pour M. et Mme']
-  nom text
-  prenom text
-  date_de_naissance date [note: 'format 2000-12-31']
-  classe text [note: 'ajouter un check']
-  puissance text [note: 'ajouter check 3/2 5/2 7/2']
-  voie_concours integer [note: 'la voie du concours']
-  etablissement text
-  adresse1 text
-  adresse2 text [note: 'valeur par défaut vide']
-  code_postal text [note: 'des chiffres et des lettres']
-  commune text [note: 'commune du domicile']
-  code_adr_pays integer
-  mail text
-  tel text [note: 'contient des +33 ou des ()']
-  por text [note: 'contient des +33 ou des ()']
-  code_pays_naissance integer [note: 'code du pays']
-  code_pays_nationalite integer [note: 'code du pays']
-  ville_ecrit text
-  ine text [unique]
-  csp_pere integer
-  csp_mere integer
-  
-  //bac
-  bac integer [ref: > serie_bac.code]
-  annee_bac integer
-  mois_bac integer
-  mention_bac mentions [note: 'du text avec check( in {TB,B,AB,S})']
-  dep_bac integer [note: 'departement du bac, peut être NULL (pas l info à chaque fois']
-  
-  dossier integer [ref: > etat_dossier.code]
-  qualite text [note: 'check Boursier ou NULL']
-  decla_handicap binary [note: 'oui ou non, non par defaut ?']
-  arr_naissance integer [note: '0 par defaut, c est quoi ?']
-
-  // option peut etre null
-  option1 integer [ref: > ep_option.id]
-  option2 integer [ref: > ep_option.id]
-  option3 integer [ref: > ep_option.id]
-  option4 integer [ref: > ep_option.id]
-  tipe text
-}
-
 Table classement {
   id integer [pk]
-  etudiant integer
-  rang integer [note: 'rang > 0']
-  type text [note: 'rang sur les feuilles admis, admissible, etc.']
+  etudiant integer [not null]
+  rang integer [not null, note: 'rang > 0']
+  type integer [not null]
+
+  Indexes {
+    (etudiant,type) [unique]
+  }
 }
 Ref: classement.etudiant > candidat.code
+Ref: classement.type > type_classement.id
+
+Table type_classement {
+  id integer [pk]
+  lib text [unique, not null]
+}
 
 Table epreuve {
-  id integer
-  lib text
+  id integer [pk]
+  lib text [not null]
+  type text [note: 'type IN (\'ECRIT\', \'ORAL\', \'SPECIFIQUE\', \'CLASSEMENT\'']
 }
 
 Table notes {
-  candidat integer
-  epreuve integer
-  score integer
+  candidat integer [not null]
+  epreuve integer [not null]
+  score real [not null]
+
   Indexes{
     (candidat,epreuve) [pk]
   }
@@ -118,47 +77,116 @@ Ref: notes.candidat > candidat.code
 Ref: notes.epreuve > epreuve.id
 
 Table autres_prenoms {
-  etudiant integer
-  prenom text
+  etudiant integer [not null]
+  prenom text [not null]
+
   Indexes{
     (etudiant,prenom) [pk]
   }
 }
-
 Ref: autres_prenoms.etudiant > candidat.code
 
 Table pays {
-  code integer [pk, note: 'verifier les codes pays']
-  lib text
+  code integer [pk]
+  lib text [unique]
+  nationalite text [unique]
 }
-
-Ref: pays.code < candidat.code_adr_pays
-Ref: pays.code < candidat.code_pays_naissance
-Ref: pays.code < candidat.code_pays_nationalite
 
 Table csp_parent {
-  code integer [pk, note: 'code associe a ces professions']
-  lib text [unique, note: 'libelle des domaines de professions']
+  code integer [pk]
+  lib text [unique, not null]
 }
 
-Ref: csp_parent.code < candidat.csp_pere
-Ref: csp_parent.code < candidat.csp_mere
-
 Table serie_bac {
-  code integer [pk, note: 'code_serie du bac']
-  lib text [unique]
+  code integer [pk]
+  lib text [unique, not null]
 }
 
 Table etat_dossier {
   code integer [pk]
-  lib text [unique]
+  lib text [unique, not null]
 }
 
 Table ep_option {
-  id integer [pk, note: 'couple unique epreuve et option']
-  epreuve text
-  option text
+  id integer [pk]
+  epreuve text [not null]
+  option text [not null]
+
   Indexes {
     (epreuve,option) [unique]
   }
 }
+
+Table civilite {
+  code integer [pk]
+  lib text [unique, not null]
+}
+
+Table classe {
+  code integer [pk]
+  lib text [unique, not null]
+}
+
+Table candidat{
+  code integer [pk]
+  civ integer [not null]
+  nom text [not null]
+  prenom text [not null]
+  date_de_naissance date [note: 'format AAAA-MM-JJ']
+  classe integer
+  puissance text [note: 'puissance IN (3/2, 5/2, 7/2)']
+  voie_concours integer
+  etablissement text
+  adresse1 text [not null]
+  adresse2 text
+  code_postal text [not null]
+  commune text [not null]
+  code_adr_pays integer [not null]
+  mail text [not null]
+  tel text
+  por text
+  code_pays_naissance integer
+  ville_naissance text
+  code_pays_nationalite integer
+  ville_ecrit text
+  ine text [unique]
+  csp_pere integer
+  csp_mere integer
+  
+  //bac
+  bac integer
+  annee_bac integer
+  mois_bac integer
+  mention_bac text [note: 'mention_bac IN (TB,B,AB,S)']
+  dep_bac integer
+  
+  dossier integer
+  qualite text
+  decla_handicap binary [default: 0 ,note: 'decla_handicap IN (0, 1)']
+  arr_naissance integer [default: 0]
+
+  // option peut etre null
+  option1 integer
+  option2 integer
+  option3 integer
+  option4 integer
+  tipe text
+
+  etat_classes integer
+  type_admissible text
+}
+Ref: candidat.voie_concours > concours.code
+Ref: candidat.etablissement > etablissement.rne
+Ref: candidat.code_adr_pays > pays.code
+Ref: candidat.code_pays_naissance > pays.code
+Ref: candidat.code_pays_nationalite > pays.code
+Ref: candidat.csp_pere > csp_parent.code
+Ref: candidat.csp_mere > csp_parent.code
+Ref: candidat.bac > serie_bac.code
+Ref: candidat.dossier > etat_dossier.code
+Ref: candidat.option1 > ep_option.id
+Ref: candidat.option2 > ep_option.id
+Ref: candidat.option3 > ep_option.id
+Ref: candidat.option4 > ep_option.id
+Ref: candidat.civ > civilite.code
+Ref: candidat.classe > classe.code
