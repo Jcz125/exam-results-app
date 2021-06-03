@@ -414,73 +414,19 @@ def import_rang(database: sql.Connection, path: Path):
                 consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
                 c.execute(consigne_sql, (int(code_ed), int(rank), dico_class[type]))
 
+    for cl in ('MP', 'PC', 'PSI', 'PT', 'TSI'):
+        ##### files ECRIT #####
+        ecrit = pd.read_excel(path/f'Ecrit_{cl}.xlsx', header=0)
+        func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
 
-    ##### MP ECRIT #####
-    ecrit = pd.read_excel(path/'Ecrit_MP.xlsx', header=0)
-    func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
+        ##### files ORAL #####
+        oral = pd.read_excel(path/f'Oral_{cl}.xlsx', header=0)
+        func_aux(oral, 'ORAL', 'rang', 'Can _cod')
 
-    ##### PC ECRIT #####
-    ecrit = pd.read_excel(path/'Ecrit_PC.xlsx', header=0)
-    func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
-
-    ##### PSI ECRIT #####
-    ecrit = pd.read_excel(path/'Ecrit_PSI.xlsx', header=0)
-    func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
-
-    ##### PT ECRIT #####
-    ecrit = pd.read_excel(path/'Ecrit_PT.xlsx', header=0)
-    func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
-
-    ##### TSI ECRIT #####
-    ecrit = pd.read_excel(path/'Ecrit_TSI.xlsx', header=0)
-    func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
-
-
-    ##### MP ORAL #####
-    oral = pd.read_excel(path/'Oral_MP.xlsx', header=0)
-    func_aux(oral, 'ORAL', 'rang', 'Can _cod')
-
-    ##### PC ORAL #####
-    oral = pd.read_excel(path/'Oral_PC.xlsx', header=0)
-    func_aux(oral, 'ORAL', 'rang', 'Can _cod')
-
-    ##### PSI ORAL #####
-    oral = pd.read_excel(path/'Oral_PSI.xlsx', header=0)
-    func_aux(oral, 'ORAL', 'rang', 'Can _cod')
-
-    ##### PT ORAL #####
-    oral = pd.read_excel(path/'Oral_PT.xlsx', header=0)
-    func_aux(oral, 'ORAL', 'rang', 'Can _cod')
-
-    ##### TSI ORAL #####
-    oral = pd.read_excel(path/'Oral_TSI.xlsx', header=0)
-    func_aux(oral, 'ORAL', 'rang', 'Can _cod')
-
-
-    ##### MP classes CMT #####
-    donnees = pd.read_excel(path/'Classes_MP_CMT_spe_XXXX.xlsx', header=1)
-    func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
-    func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
-
-    ##### PC classes CMT #####
-    donnees = pd.read_excel(path/'Classes_PC_CMT_spe_XXXX.xlsx', header=1)
-    func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
-    func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
-
-    ##### PSI classes CMT #####
-    donnees = pd.read_excel(path/'Classes_PSI_CMT_spe_XXXX.xlsx', header=1)
-    func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
-    func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
-
-    ##### PT classes CMT #####
-    donnees = pd.read_excel(path/'Classes_PT_CMT_spe_XXXX.xlsx', header=1)
-    func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
-    func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
-
-    ##### TSI classes CMT #####
-    donnees = pd.read_excel(path/'Classes_TSI_CMT_spe_XXXX.xlsx', header=1)
-    func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
-    func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
+        ##### files classes CMT #####
+        donnees = pd.read_excel(path/f'Classes_{cl}_CMT_spe_XXXX.xlsx', header=1)
+        func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
+        func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
 
     ##### ATS
     data = pd.read_excel(path/'ResultatEcrit_DD_MM_YYYY_ATS.xlsx', header=0, skiprows= (1,))
