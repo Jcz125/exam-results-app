@@ -227,3 +227,72 @@ def candidat_voeux(code):
         tuple= (l[i][0], nomecole[i][0])
         final.append(tuple)
     return render_template("liste_voeux.html", liste = l , nomecole = nomecole, final = final)
+
+
+@app.route("/notes/<code>") ### notes du candidat numéro 'code'
+def candidat_notes(code):
+    db = getdb()
+    c = db.cursor()
+    c.execute('SELECT epreuve,score from notes WHERE candidat=(?)', (code,))
+    l = []
+    for i in c.fetchall():
+        l.append(i)
+    ###nom epreuve
+    longueur=len(l)
+    nbepreuve=[]
+    nomeepreuve=[]
+    for i in range(longueur):
+        nbepreuve.append(l[i][0])
+    for i in range(longueur):
+        db = getdb()
+        c = db.cursor()
+        c.execute('SELECT lib , type from epreuve WHERE id=(?)', (nbepreuve[i],))
+        for k in c.fetchall():
+            nomeepreuve.append(k)
+    final=[]
+    for i in range(longueur):
+        tuple= (nomeepreuve[i][0], nomeepreuve[i][1] , l[i][1])
+        final.append(tuple)
+    return render_template("liste_notes.html", liste = l , final = final)
+
+
+@app.route("/classement/<code>") ### classement du candidat numéro 'code'
+def candidat_classement(code):
+    db = getdb()
+    c = db.cursor()
+    c.execute('SELECT rang , type from classement WHERE etudiant=(?)', (code,))
+    l = []
+    for i in c.fetchall():
+        l.append(i)
+    ###nom epreuve
+    longueur=len(l)
+    nbtype=[]
+    nomtype=[]
+    for i in range(longueur):
+        nbtype.append(l[i][1])
+    for i in range(longueur):
+        db = getdb()
+        c = db.cursor()
+        c.execute('SELECT lib  from type_classement WHERE id=(?)', (nbtype[i],))
+        for k in c.fetchall():
+            nomtype.append(k)
+    final=[]
+    for i in range(longueur):
+        tuple= (nomtype[i][0], l[i][0])
+        final.append(tuple)
+    return render_template("liste_classement.html", liste = l , final = final)
+
+
+@app.route("/rech", methods=["get", "post"])
+def rech():
+    if not request.method == "POST" and not request.form.get("candidat_name"):
+        return render_template("rech_candidat.html")
+    else:
+        db = getdb()
+        c = db.cursor()
+        c.execute('SELECT code , civ , nom , prenom FROM candidat where nom LIKE (?)', ("%" + request.form.get("candidat_name") + "%",))
+        l = []
+        for i in c.fetchall():
+            l.append(i)
+        return render_template("result_rech.html", liste=l)
+
