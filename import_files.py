@@ -504,13 +504,19 @@ else:
     import click
     from verif_data import *
 
-    @click.command()
+    @click.command(context_settings={'help_option_names':['-h', '--help']})
     @click.argument("database", type=click.Path(dir_okay=False))
     @click.argument("src_dir", type=click.Path(exists=True, file_okay=False))
-    @click.option("--init", "-i", default=None, type=click.Path(exists=True, dir_okay=False))
-    @click.option("--import/--not-import", "-I/-NI", "_import", default=False)
-    @click.option("--verif/--not-verif", "-v/-nv", default=False)
+    @click.option("--init", "-i", default=None, type=click.Path(exists=True, dir_okay=False), help="Initialise la DATABASE avec le fichier FILE")
+    @click.option("--import", "-I", "_import", is_flag=True , default=False, help="Importe les fichiers de SRC_DIR dans DATABASE")
+    @click.option("--verif", "-v", is_flag=True , default=False, help="Vérifie la cohérence des données de DATABASE avec les fichiers non utilisé pour remplir DATABASE")
     def cli(database, src_dir, init, _import, verif):
+        """TRAVAIL sur DATABASE avec les fichiers dans SRC_DIR
+
+        DATABASE : Chemin vers le fichier de la base de donnée
+
+        SRC_DIR : Chemin vers le dossier contenant tous les fichiers à importer
+        """
         path_db = Path(database)
         path_files = Path(src_dir)
         db = sql.connect(path_db)
