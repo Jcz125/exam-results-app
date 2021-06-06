@@ -132,7 +132,7 @@ liste_ep_ATS_oral = [10000, 9997, 9998, 961, 962, 963, 964, 981, 1030]
 
 #######import file inscription
 def import_inscription(database: sql.Connection, path: Path):
-    data = pd.read_excel(path/'Inscription.xlsx', header=1)
+    data = pd.read_excel(path/'Inscription.xlsx', dtype={'CP': str}, header=1)
 
     c = database.cursor()
 
@@ -181,11 +181,16 @@ def import_inscription(database: sql.Connection, path: Path):
     ##########pays
         code = int(data['CODE_PAYS_NAISSANCE'][i])
         pays = data['PAYS_NAISSANCE'][i]
-        c.execute("INSERT OR IGNORE INTO pays(code, lib) VALUES (?,?)", (code, pays))
+        c.execute("REPLACE INTO pays(code, lib) VALUES (?,?)", (code, pays))
+
+        code = int(data['CODE_PAYS'][i])
+        pays = data['LIBELLE_PAYS'][i]
+        c.execute("REPLACE INTO pays(code, lib) VALUES (?,?)", (code, pays))
 
         code = int(data['CODE_PAYS_NATIONALITE'][i])
         nationalite = data['AUTRE_NATIONALITE'][i]
-        lib = c.execute("SELECT lib FROM pays WHERE code = ?", (code,)).fetchone()
+        c.execute("SELECT lib FROM pays WHERE code = ?", (code,))
+        lib = c.fetchone()
         if lib is not None:
             lib = lib[0]
         c.execute("INSERT OR REPLACE INTO pays VALUES (?,?,?)", (code, lib, nationalite))
@@ -245,7 +250,7 @@ def import_inscription(database: sql.Connection, path: Path):
             date_n,
             classe, data['PUISSANCE'][i], int(data['CODE_CONCOURS'][i]), data['CODE_ETABLISSEMENT'][i],
             data['ADRESSE1'][i],
-            data['ADRESSE2'][i], int(data['CP'][i]), data['VILLE'][i], int(data['CODE_PAYS'][i]),
+            data['ADRESSE2'][i], data['CP'][i], data['VILLE'][i], int(data['CODE_PAYS'][i]),
             data['EMAIL'][i],
             data['TELEPHONE'][i], data['TEL_PORTABLE'][i], int(data['CODE_PAYS_NAISSANCE'][i]),data['VILLE_NAISSANCE'][i],
             int(data['CODE_PAYS_NATIONALITE'][i]), data['LIBELLE_VILLE_ECRIT'][i],
@@ -293,14 +298,14 @@ def import_etat_reponse(database: sql.Connection, path: Path):
 
 #######etablissement
 def import_etablissement(database: sql.Connection, path: Path):
-    data = pd.read_excel(path/'listeEtablissements.xlsx', header=0)
+    data = pd.read_excel(path/'listeEtablissements.xlsx', dtype={'Code _postal _etab':str}, header=0)
     c = database.cursor()
 
     for i in range(len(data)):
         rne = data['Rne'][i]
         type = data['Type _etab'][i]
         name = data['Etab'][i]
-        cp = str(data['Code _postal _etab'][i])
+        cp = data['Code _postal _etab'][i]
         ville = data['Ville _etab'][i]
         pays = data['Pays _atab'][i]
 
@@ -414,73 +419,19 @@ def import_rang(database: sql.Connection, path: Path):
                 consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
                 c.execute(consigne_sql, (int(code_ed), int(rank), dico_class[type]))
 
+    for cl in ('MP', 'PC', 'PSI', 'PT', 'TSI'):
+        ##### files ECRIT #####
+        ecrit = pd.read_excel(path/f'Ecrit_{cl}.xlsx', header=0)
+        func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
 
-    ##### MP ECRIT #####
-    ecrit = pd.read_excel(path/'Ecrit_MP.xlsx', header=0)
-    func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
+        ##### files ORAL #####
+        oral = pd.read_excel(path/f'Oral_{cl}.xlsx', header=0)
+        func_aux(oral, 'ORAL', 'rang', 'Can _cod')
 
-    ##### PC ECRIT #####
-    ecrit = pd.read_excel(path/'Ecrit_PC.xlsx', header=0)
-    func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
-
-    ##### PSI ECRIT #####
-    ecrit = pd.read_excel(path/'Ecrit_PSI.xlsx', header=0)
-    func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
-
-    ##### PT ECRIT #####
-    ecrit = pd.read_excel(path/'Ecrit_PT.xlsx', header=0)
-    func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
-
-    ##### TSI ECRIT #####
-    ecrit = pd.read_excel(path/'Ecrit_TSI.xlsx', header=0)
-    func_aux(ecrit, 'ECRIT', 'rang', 'Can _cod')
-
-
-    ##### MP ORAL #####
-    oral = pd.read_excel(path/'Oral_MP.xlsx', header=0)
-    func_aux(oral, 'ORAL', 'rang', 'Can _cod')
-
-    ##### PC ORAL #####
-    oral = pd.read_excel(path/'Oral_PC.xlsx', header=0)
-    func_aux(oral, 'ORAL', 'rang', 'Can _cod')
-
-    ##### PSI ORAL #####
-    oral = pd.read_excel(path/'Oral_PSI.xlsx', header=0)
-    func_aux(oral, 'ORAL', 'rang', 'Can _cod')
-
-    ##### PT ORAL #####
-    oral = pd.read_excel(path/'Oral_PT.xlsx', header=0)
-    func_aux(oral, 'ORAL', 'rang', 'Can _cod')
-
-    ##### TSI ORAL #####
-    oral = pd.read_excel(path/'Oral_TSI.xlsx', header=0)
-    func_aux(oral, 'ORAL', 'rang', 'Can _cod')
-
-
-    ##### MP classes CMT #####
-    donnees = pd.read_excel(path/'Classes_MP_CMT_spe_XXXX.xlsx', header=1)
-    func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
-    func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
-
-    ##### PC classes CMT #####
-    donnees = pd.read_excel(path/'Classes_PC_CMT_spe_XXXX.xlsx', header=1)
-    func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
-    func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
-
-    ##### PSI classes CMT #####
-    donnees = pd.read_excel(path/'Classes_PSI_CMT_spe_XXXX.xlsx', header=1)
-    func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
-    func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
-
-    ##### PT classes CMT #####
-    donnees = pd.read_excel(path/'Classes_PT_CMT_spe_XXXX.xlsx', header=1)
-    func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
-    func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
-
-    ##### TSI classes CMT #####
-    donnees = pd.read_excel(path/'Classes_TSI_CMT_spe_XXXX.xlsx', header=1)
-    func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
-    func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
+        ##### files classes CMT #####
+        donnees = pd.read_excel(path/f'Classes_{cl}_CMT_spe_XXXX.xlsx', header=1)
+        func_aux(donnees, 'RANG_ADMISSIBLE', 'rang_admissible', 'login')
+        func_aux(donnees, 'RANG_CLASSE', 'rang_classe', 'login')
 
     ##### ATS
     data = pd.read_excel(path/'ResultatEcrit_DD_MM_YYYY_ATS.xlsx', header=0, skiprows= (1,))
@@ -516,7 +467,10 @@ def delete_fk_issues(database: sql.Connection):
     c.execute('PRAGMA foreign_key_check')
     data = c.fetchall()
     for value in data:
-        c.execute(f'DELETE FROM {value[0]} WHERE rowid = ?', (value[1],))
+        if value[2]=='candidat':
+            c.execute(f'DELETE FROM {value[0]} WHERE rowid = ?', (value[1],))
+        else:
+            print(value)
 
 
 
@@ -548,11 +502,21 @@ if __name__ == '__main__':
     db.close()
 else:
     import click
-    @click.command()
+    from verif_data import *
+
+    @click.command(context_settings={'help_option_names':['-h', '--help']})
     @click.argument("database", type=click.Path(dir_okay=False))
     @click.argument("src_dir", type=click.Path(exists=True, file_okay=False))
-    @click.option("--init", "-i", default=None, type=click.Path(exists=True, dir_okay=False))
-    def cli(database, src_dir, init):
+    @click.option("--init", "-i", default=None, type=click.Path(exists=True, dir_okay=False), help="Initialise la DATABASE avec le fichier FILE")
+    @click.option("--import", "-I", "_import", is_flag=True , default=False, help="Importe les fichiers de SRC_DIR dans DATABASE")
+    @click.option("--verif", "-v", is_flag=True , default=False, help="Vérifie la cohérence des données de DATABASE avec les fichiers non utilisé pour remplir DATABASE")
+    def cli(database, src_dir, init, _import, verif):
+        """TRAVAIL sur DATABASE avec les fichiers dans SRC_DIR
+
+        DATABASE : Chemin vers le fichier de la base de donnée
+
+        SRC_DIR : Chemin vers le dossier contenant tous les fichiers à importer
+        """
         path_db = Path(database)
         path_files = Path(src_dir)
         db = sql.connect(path_db)
@@ -562,28 +526,31 @@ else:
             with open(init, "r") as f_init:
                 with db:
                     db.executescript(f_init.read())
-
-        click.echo("Importation des fichiers")
-        with db:
-            click.echo('\tepreuve')
-            import_epreuves(db)
-            click.echo('\tvoeux')
-            import_voeux(db, path_files)
-            click.echo('\tecole')
-            import_ecole(db, path_files)
-            click.echo('\tetat reponse')
-            import_etat_reponse(db, path_files)
-            click.echo('\tetablissement')
-            import_etablissement(db, path_files)
-            click.echo('\tnotes')
-            import_notes(db, path_files)
-            click.echo('\trang')
-            import_rang(db, path_files)
-            click.echo('\tinscription')
-            import_inscription(db, path_files)
-            click.echo('\tats')
-            import_ats(db, path_files)
-        with db:
-            click.echo('Supprimer les lignes avec des foriegn keys inconnues')
-            delete_fk_issues(db)
+        if _import:
+            click.echo("Importation des fichiers")
+            with db:
+                click.echo('  epreuve')
+                import_epreuves(db)
+                click.echo('  voeux')
+                import_voeux(db, path_files)
+                click.echo('  ecole')
+                import_ecole(db, path_files)
+                click.echo('  etat reponse')
+                import_etat_reponse(db, path_files)
+                click.echo('  etablissement')
+                import_etablissement(db, path_files)
+                click.echo('  notes')
+                import_notes(db, path_files)
+                click.echo('  rang')
+                import_rang(db, path_files)
+                click.echo('  inscription')
+                import_inscription(db, path_files)
+                click.echo('  ats')
+                import_ats(db, path_files)
+            with db:
+                click.echo('Supprimer les lignes avec des foriegn keys inconnues')
+                delete_fk_issues(db)
+        if verif:
+            click.echo('Verifier la cohérence avec les fichiers non utilisés')
+            run_verif(db, path_files)
         db.close()

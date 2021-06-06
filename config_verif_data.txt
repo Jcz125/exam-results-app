@@ -1,0 +1,70 @@
+ADMIS_ATS.xlsx;ADMIS_MP-SPE.xlsx;ADMIS_MP.xlsx;ADMIS_PC-SPE.xlsx;ADMIS_PC.xlsx;ADMIS_PSI-SPE.xlsx;ADMIS_PSI.xlsx;ADMIS_PT-SPE.xlsx;ADMIS_PT.xlsx;ADMIS_TSI-SPE.xlsx;ADMIS_TSI.xlsx
+	Can _cod;pk
+	Civ _lib;civilite;ci;ci.lib;J;candidat;ca;ca.civ=ci.code;W;ca.code
+	Nom;candidat;ca;ca.nom;W;ca.code
+	Prenom;candidat;ca;ca.prenom;W;ca.code
+	Can _ad 1;candidat;ca;ca.adresse1;W;ca.code
+	Can _ad 2;candidat;ca;ca.adresse2;W;ca.code
+	Can _cod _pos;candidat;ca;ca.code_postal;W;ca.code
+	Can _com;candidat;ca;ca.commune;W;ca.code
+	Can _pay _adr;pays;p;p.lib;J;candidat;ca;ca.code_adr_pays=p.code;W;ca.code
+	Can _mel;candidat;ca;ca.mail;W;ca.code
+	Can _tel;candidat;ca;ca.tel;W;ca.code
+	Can _por;candidat;ca;ca.por;W;ca.code
+ADMISSIBLE_MP-SPE.xlsx;ADMISSIBLE_MP.xlsx;ADMISSIBLE_PC-SPE.xlsx;ADMISSIBLE_PC.xlsx;ADMISSIBLE_PSI-SPE.xlsx;ADMISSIBLE_PSI.xlsx;ADMISSIBLE_PT-SPE.xlsx;ADMISSIBLE_PT.xlsx;ADMISSIBLE_TSI-SPE.xlsx;ADMISSIBLE_TSI.xlsx
+	Can _cod;pk
+	Civ _lib;civilite;ci;ci.lib;J;candidat;ca;ca.civ=ci.code;W;ca.code
+	Nom;candidat;ca;ca.nom;W;ca.code
+	Prenom;candidat;ca;ca.prenom;W;ca.code
+	Can _ad 1;candidat;ca;ca.adresse1;W;ca.code
+	Can _ad 2;candidat;ca;ca.adresse2;W;ca.code
+	Can _cod _pos;candidat;ca;ca.code_postal;W;ca.code
+	Can _com;candidat;ca;ca.commune;W;ca.code
+	Can _pay _adr;pays;p;p.lib;J;candidat;ca;ca.code_adr_pays=p.code;W;ca.code
+	Can _mel;candidat;ca;ca.mail;W;ca.code
+	Can _tel;candidat;ca;ca.tel;W;ca.code
+	Can _por;candidat;ca;ca.por;W;ca.code
+Classes_MP_CMT_spe_XXXX_SCEI.csv;Classes_PC_CMT_spe_XXXX_SCEI.csv;Classes_PSI_CMT_spe_XXXX_SCEI.csv;Classes_PT_CMT_spe_XXXX_SCEI.csv;Classes_TSI_CMT_spe_XXXX_SCEI.csv
+	scei;pk
+	nom;candidat;ca;ca.nom;W;ca.code
+	total_oral;notes;n;n.score;W;n.epreuve=9999 AND n.candidat
+	total_points;notes;n;n.score;W;n.epreuve=10000 AND n.candidat
+	rang_classe;classement;cl;cl.rang;W;cl.type = 4 AND cl.etudiant
+Classes_MP_CMT_spe_XXXX.xlsx;Classes_PC_CMT_spe_XXXX.xlsx;Classes_PSI_CMT_spe_XXXX.xlsx;Classes_PT_CMT_spe_XXXX.xlsx;Classes_TSI_CMT_spe_XXXX.xlsx
+	login;pk
+	nom;candidat;ca;ca.nom;W;ca.code
+	prenom;candidat;ca;ca.prenom;W;ca.code
+	filiere;concours;co;co.voie;J;candidat;ca;ca.voie_concours=co.code;W;ca.code
+	mail;candidat;ca;ca.mail;W;ca.code
+	adresse;candidat;ca;ca.adresse1;W;ca.code
+	code_postal;candidat;ca;ca.code_postal;W;ca.code
+	ville;candidat;ca;ca.commune;W;ca.code
+	pays;pays;p;p.lib;J;candidat;ca;ca.code_adr_pays=p.code;W;ca.code
+	mobile;candidat;ca;ca.por;W;ca.code
+	date_naissance;candidat;ca;strftime('%d/%m/%Y', ca.date_de_naissance);W;ca.code
+	n_demi;candidat;ca;ca.puissance;W;ca.code
+CMT_Oraux_YYYY_MP.xlsx;CMT_Oraux_YYYY_PC.xlsx
+	Numéro d'inscription;pk
+	Phys.;notes;n;n.score;W;(n.epreuve=5 OR epreuve=9) AND n.candidat
+	Maths;notes;n;n.score;W;(n.epreuve=8 OR epreuve=12) AND n.candidat
+	Entretien;notes;n;n.score;W;(n.epreuve=6 OR epreuve=10) AND n.candidat
+	Anglais;notes;n;n.score;W;(n.epreuve=7 OR epreuve=11) AND n.candidat
+CMT_Oraux_YYYY_PT.xlsx;CMT_Oraux_YYYY_PSI.xlsx
+	Numéro d'inscription;pk
+	S.I.;notes;n;n.score;W;(n.epreuve=5 OR epreuve=9) AND n.candidat
+	Maths;notes;n;n.score;W;(n.epreuve=8 OR epreuve=12) AND n.candidat
+	Entretien;notes;n;n.score;W;(n.epreuve=6 OR epreuve=10) AND n.candidat
+	Anglais;notes;n;n.score;W;(n.epreuve=7 OR epreuve=11) AND n.candidat
+Ecrit_MP.xlsx;Ecrit_PC.xlsx;Ecrit_PSI.xlsx;Ecrit_PT.xlsx;Ecrit_TSI.xlsx;Oral_MP.xlsx;Oral_PC.xlsx;Oral_PSI.xlsx;Oral_PT.xlsx;Oral_TSI.xlsx
+	Can _cod;pk
+	Civ _lib;civilite;ci;ci.lib;J;candidat;ca;ca.civ=ci.code;W;ca.code
+	Nom;candidat;ca;ca.nom;W;ca.code
+	Prenom;candidat;ca;ca.prenom;W;ca.code
+	Can _ad 1;candidat;ca;ca.adresse1;W;ca.code
+	Can _ad 2;candidat;ca;ca.adresse2;W;ca.code
+	Can _cod _pos;candidat;ca;ca.code_postal;W;ca.code
+	Can _com;candidat;ca;ca.commune;W;ca.code
+	Can _pay _adr;pays;p;p.lib;J;candidat;ca;ca.code_adr_pays=p.code;W;ca.code
+	Can _mel;candidat;ca;ca.mail;W;ca.code
+	Can _tel;candidat;ca;ca.tel;W;ca.code
+	Can _por;candidat;ca;ca.por;W;ca.code
