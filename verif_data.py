@@ -5,7 +5,7 @@ import sqlite3 as sql
 
 def run_verif(database: sql.Connection, path: Path):
     c = database.cursor()
-    with open(Path('headers.txt'), 'r') as file:
+    with open(Path('./config_verif_data.txt'), 'r') as file:
         for line in file:
             if line[0] == '\t':
                 ldata = line[1:-1].split(sep=';')
