@@ -508,8 +508,9 @@ else:
     @click.argument("database", type=click.Path(dir_okay=False))
     @click.argument("src_dir", type=click.Path(exists=True, file_okay=False))
     @click.option("--init", "-i", default=None, type=click.Path(exists=True, dir_okay=False))
+    @click.option("--import/--not-import", "-I/-NI", "_import", default=False)
     @click.option("--verif/--not-verif", "-v/-nv", default=False)
-    def cli(database, src_dir, init,verif):
+    def cli(database, src_dir, init, _import, verif):
         path_db = Path(database)
         path_files = Path(src_dir)
         db = sql.connect(path_db)
@@ -519,30 +520,30 @@ else:
             with open(init, "r") as f_init:
                 with db:
                     db.executescript(f_init.read())
-
-        click.echo("Importation des fichiers")
-        with db:
-            click.echo('\tepreuve')
-            import_epreuves(db)
-            click.echo('\tvoeux')
-            import_voeux(db, path_files)
-            click.echo('\tecole')
-            import_ecole(db, path_files)
-            click.echo('\tetat reponse')
-            import_etat_reponse(db, path_files)
-            click.echo('\tetablissement')
-            import_etablissement(db, path_files)
-            click.echo('\tnotes')
-            import_notes(db, path_files)
-            click.echo('\trang')
-            import_rang(db, path_files)
-            click.echo('\tinscription')
-            import_inscription(db, path_files)
-            click.echo('\tats')
-            import_ats(db, path_files)
-        with db:
-            click.echo('Supprimer les lignes avec des foriegn keys inconnues')
-            delete_fk_issues(db)
+        if _import:
+            click.echo("Importation des fichiers")
+            with db:
+                click.echo('  epreuve')
+                import_epreuves(db)
+                click.echo('  voeux')
+                import_voeux(db, path_files)
+                click.echo('  ecole')
+                import_ecole(db, path_files)
+                click.echo('  etat reponse')
+                import_etat_reponse(db, path_files)
+                click.echo('  etablissement')
+                import_etablissement(db, path_files)
+                click.echo('  notes')
+                import_notes(db, path_files)
+                click.echo('  rang')
+                import_rang(db, path_files)
+                click.echo('  inscription')
+                import_inscription(db, path_files)
+                click.echo('  ats')
+                import_ats(db, path_files)
+            with db:
+                click.echo('Supprimer les lignes avec des foriegn keys inconnues')
+                delete_fk_issues(db)
         if verif:
             click.echo('Verifier la cohérence avec les fichiers non utilisés')
             run_verif(db, path_files)

@@ -3,6 +3,9 @@ import pandas as pd
 import sqlite3 as sql
 
 
+def affiche(*args):
+    print(*args)
+
 def run_verif(database: sql.Connection, path: Path):
     c = database.cursor()
     with open(Path('./config_verif_data.txt'), 'r') as file:
@@ -26,15 +29,12 @@ def run_verif(database: sql.Connection, path: Path):
                             if repr(tabl[pkey][i]) != 'nan':
                                 c.execute(f"SELECT ca.code FROM candidat AS ca JOIN classe AS cl ON ca.classe=cl.code WHERE (ca.type_admissible NOT NULL OR cl.lib='ATS') AND ca.code = ?", (int(tabl[pkey][i]),))
                                 if c.fetchone() is not None:
-                                    try:
-                                        c.execute(select_req, (int(tabl[pkey][i]),))
-                                    except:
-                                        print(select_req, int(tabl[pkey][i]))
+                                    c.execute(select_req, (int(tabl[pkey][i]),))
                                     res = c.fetchone()
                                     if res is None and repr(tabl[column][i]) != 'nan':
-                                        print("\tDonnée non présente :", tabl[pkey][i], column, tabl[column][i], res)
+                                        affiche("  Donnée non présente :", tabl[pkey][i], column, tabl[column][i], res)
                                     elif not (repr(tabl[column][i])=='nan' and (res is None or res[0] is None) or tabl[column][i] == res[0]):
-                                        print("\tDonnées non égales :", int(tabl[pkey][i]), column, tabl[column][i], res[0])
+                                        affiche("  Données non égales :", int(tabl[pkey][i]), column, tabl[column][i], res[0])
             else:
                 if 'XXXX.xlsx' in line:
                     nheader = 1
@@ -44,7 +44,7 @@ def run_verif(database: sql.Connection, path: Path):
                     complement_select = ' etat_classes = 7 AND'
                 else:
                     complement_select = ''
-                print(line[:-1])
+                affiche(line[:-1])
                 tableurs = [pd.read_excel(path/f, header=nheader, converters={'n_demi': lambda x: str(x)+'/2'}, dtype={'code_postal': str, 'Can _cod _pos': str}) if 'xlsx' in f else pd.read_csv(path/f, sep=";", header=nheader, decimal=',') for f in line[:-1].split(sep=';')]
 
 if __name__ == '__main__':
@@ -52,3 +52,8 @@ if __name__ == '__main__':
     db = sql.Connection(pathdb)
     pathfiles = Path('../PPII_ressources/data/public')
     run_verif(db, pathfiles)
+else:
+    from click import echo
+    def affiche(*args):
+        message = " ".join((str(x) for x in args))
+        echo("  "+message)
