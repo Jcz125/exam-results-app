@@ -132,7 +132,7 @@ liste_ep_ATS_oral = [10000, 9997, 9998, 961, 962, 963, 964, 981, 1030]
 
 #######import file inscription
 def import_inscription(database: sql.Connection, path: Path):
-    data = pd.read_excel(path/'Inscription.xlsx', header=1)
+    data = pd.read_excel(path/'Inscription.xlsx', dtype={'CP': str}, header=1)
 
     c = database.cursor()
 
@@ -181,11 +181,16 @@ def import_inscription(database: sql.Connection, path: Path):
     ##########pays
         code = int(data['CODE_PAYS_NAISSANCE'][i])
         pays = data['PAYS_NAISSANCE'][i]
-        c.execute("INSERT OR IGNORE INTO pays(code, lib) VALUES (?,?)", (code, pays))
+        c.execute("REPLACE INTO pays(code, lib) VALUES (?,?)", (code, pays))
+
+        code = int(data['CODE_PAYS'][i])
+        pays = data['LIBELLE_PAYS'][i]
+        c.execute("REPLACE INTO pays(code, lib) VALUES (?,?)", (code, pays))
 
         code = int(data['CODE_PAYS_NATIONALITE'][i])
         nationalite = data['AUTRE_NATIONALITE'][i]
-        lib = c.execute("SELECT lib FROM pays WHERE code = ?", (code,)).fetchone()
+        c.execute("SELECT lib FROM pays WHERE code = ?", (code,))
+        lib = c.fetchone()
         if lib is not None:
             lib = lib[0]
         c.execute("INSERT OR REPLACE INTO pays VALUES (?,?,?)", (code, lib, nationalite))
@@ -245,7 +250,7 @@ def import_inscription(database: sql.Connection, path: Path):
             date_n,
             classe, data['PUISSANCE'][i], int(data['CODE_CONCOURS'][i]), data['CODE_ETABLISSEMENT'][i],
             data['ADRESSE1'][i],
-            data['ADRESSE2'][i], int(data['CP'][i]), data['VILLE'][i], int(data['CODE_PAYS'][i]),
+            data['ADRESSE2'][i], data['CP'][i], data['VILLE'][i], int(data['CODE_PAYS'][i]),
             data['EMAIL'][i],
             data['TELEPHONE'][i], data['TEL_PORTABLE'][i], int(data['CODE_PAYS_NAISSANCE'][i]),data['VILLE_NAISSANCE'][i],
             int(data['CODE_PAYS_NATIONALITE'][i]), data['LIBELLE_VILLE_ECRIT'][i],
@@ -293,14 +298,14 @@ def import_etat_reponse(database: sql.Connection, path: Path):
 
 #######etablissement
 def import_etablissement(database: sql.Connection, path: Path):
-    data = pd.read_excel(path/'listeEtablissements.xlsx', header=0)
+    data = pd.read_excel(path/'listeEtablissements.xlsx', dtype={'Code _postal _etab':str}, header=0)
     c = database.cursor()
 
     for i in range(len(data)):
         rne = data['Rne'][i]
         type = data['Type _etab'][i]
         name = data['Etab'][i]
-        cp = str(data['Code _postal _etab'][i])
+        cp = data['Code _postal _etab'][i]
         ville = data['Ville _etab'][i]
         pays = data['Pays _atab'][i]
 
@@ -462,7 +467,10 @@ def delete_fk_issues(database: sql.Connection):
     c.execute('PRAGMA foreign_key_check')
     data = c.fetchall()
     for value in data:
-        c.execute(f'DELETE FROM {value[0]} WHERE rowid = ?', (value[1],))
+        if value[2]=='candidat':
+            c.execute(f'DELETE FROM {value[0]} WHERE rowid = ?', (value[1],))
+        else:
+            print(value)
 
 
 
@@ -494,11 +502,14 @@ if __name__ == '__main__':
     db.close()
 else:
     import click
+    from verif_data import *
+
     @click.command()
     @click.argument("database", type=click.Path(dir_okay=False))
     @click.argument("src_dir", type=click.Path(exists=True, file_okay=False))
     @click.option("--init", "-i", default=None, type=click.Path(exists=True, dir_okay=False))
-    def cli(database, src_dir, init):
+    @click.option("--verif/--not-verif", "-v/-nv", default=False)
+    def cli(database, src_dir, init,verif):
         path_db = Path(database)
         path_files = Path(src_dir)
         db = sql.connect(path_db)
@@ -532,4 +543,7 @@ else:
         with db:
             click.echo('Supprimer les lignes avec des foriegn keys inconnues')
             delete_fk_issues(db)
+        if verif:
+            click.echo('Verifier la cohérence avec les fichiers non utilisés')
+            run_verif(db, path_files)
         db.close()
