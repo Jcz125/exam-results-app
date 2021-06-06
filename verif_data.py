@@ -1,15 +1,14 @@
 from pathlib import Path
 import pandas as pd
-import openpyxl as xl
 import sqlite3 as sql
 
 
-def script(database: sql.Connection, path: Path):
+def run_verif(database: sql.Connection, path: Path):
     c = database.cursor()
     with open(Path('headers.txt'), 'r') as file:
         for line in file:
             if line[0] == '\t':
-                ldata = line[1:-1].split(sep=',')
+                ldata = line[1:-1].split(sep=';')
                 column = ldata.pop(0)
                 if "inscription" in column:
                     column = tableurs[0].columns[0]
@@ -24,21 +23,32 @@ def script(database: sql.Connection, path: Path):
                     select_req += f'WHERE {ldata[-1]} = ?'
                     for tabl in tableurs:
                         for i in range(len(tabl)):
-                            c.execute('SELECT code FROM candidat WHERE code = ?', (tabl[pkey][i],))
-                            if c.fetchone() is not None:
-                                c.execute(select_req, (tabl[pkey][i],))
-                                res = c.fetchone()
-                                if res is not None and tabl[column][i] != res[0]:
-                                    print(tabl[pkey][i], column, tabl[column][i], res[0])
+                            if repr(tabl[pkey][i]) != 'nan':
+                                c.execute(f"SELECT ca.code FROM candidat AS ca JOIN classe AS cl ON ca.classe=cl.code WHERE (ca.type_admissible NOT NULL OR cl.lib='ATS') AND ca.code = ?", (int(tabl[pkey][i]),))
+                                if c.fetchone() is not None:
+                                    try:
+                                        c.execute(select_req, (int(tabl[pkey][i]),))
+                                    except:
+                                        print(select_req, int(tabl[pkey][i]))
+                                    res = c.fetchone()
+                                    if res is None and repr(tabl[column][i]) != 'nan':
+                                        print("\tDonnée non présente :", tabl[pkey][i], column, tabl[column][i], res)
+                                    elif not (repr(tabl[column][i])=='nan' and (res is None or res[0] is None) or tabl[column][i] == res[0]):
+                                        print("\tDonnées non égales :", int(tabl[pkey][i]), column, tabl[column][i], res[0])
             else:
                 if 'XXXX.xlsx' in line:
                     nheader = 1
                 else:
                     nheader = 0
-                tableurs = [pd.read_excel(path/f, header=nheader) if 'xlsx' in f else pd.read_csv(path/f, sep = ";", header=nheader) for f in line[:-1].split(sep=',')]
+                if 'CMT_Oraux' in line:
+                    complement_select = ' etat_classes = 7 AND'
+                else:
+                    complement_select = ''
+                print(line[:-1])
+                tableurs = [pd.read_excel(path/f, header=nheader, converters={'n_demi': lambda x: str(x)+'/2'}, dtype={'code_postal': str, 'Can _cod _pos': str}) if 'xlsx' in f else pd.read_csv(path/f, sep=";", header=nheader, decimal=',') for f in line[:-1].split(sep=';')]
 
 if __name__ == '__main__':
     pathdb = Path("concours.db")
     db = sql.Connection(pathdb)
     pathfiles = Path('../PPII_ressources/data/public')
-    script(db, pathfiles)
+    run_verif(db, pathfiles)
