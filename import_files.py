@@ -179,6 +179,7 @@ def import_inscription(database: sql.Connection, path: Path):
         c.execute("INSERT OR IGNORE INTO csp_parent VALUES (?,?)", (code, lib))
 
     ##########pays
+        #Noms de pays
         code = int(data['CODE_PAYS_NAISSANCE'][i])
         pays = data['PAYS_NAISSANCE'][i]
         c.execute("REPLACE INTO pays(code, lib) VALUES (?,?)", (code, pays))
@@ -187,11 +188,12 @@ def import_inscription(database: sql.Connection, path: Path):
         pays = data['LIBELLE_PAYS'][i]
         c.execute("REPLACE INTO pays(code, lib) VALUES (?,?)", (code, pays))
 
+        #Nationalités de pays
         code = int(data['CODE_PAYS_NATIONALITE'][i])
         nationalite = data['AUTRE_NATIONALITE'][i]
         c.execute("SELECT lib FROM pays WHERE code = ?", (code,))
         lib = c.fetchone()
-        if lib is not None:
+        if lib is not None: #complète les enregistrements déjà présents
             lib = lib[0]
         c.execute("INSERT OR REPLACE INTO pays VALUES (?,?,?)", (code, lib, nationalite))
 
@@ -200,8 +202,9 @@ def import_inscription(database: sql.Connection, path: Path):
     for i in range(len(data)):
         code = int(data['CODE_CANDIDAT'][i])
 
-        date_n = '-'.join(reversed(data['DATE_NAISSANCE'][i].split('/')))
+        date_n = '-'.join(reversed(data['DATE_NAISSANCE'][i].split('/'))) #mettre les dates dans le format de SQLite
 
+        #Remplir les etablissements non présents dans la table etablissement
         c.execute('SELECT rne FROM etablissement WHERE rne=?', (data['CODE_ETABLISSEMENT'][i],))
         if c.fetchone() is None:
             c.execute('INSERT INTO etablissement(rne,name,ville) VALUES (?,?,?)', (data['CODE_ETABLISSEMENT'][i],data['ETABLISSEMENT'][i],data['VILLE_ETABLISSEMENT'][i]))
@@ -269,7 +272,7 @@ def import_voeux(database: sql.Connection, path: Path):
 
         c = database.cursor()
         rows = tab.rows
-        next(rows)
+        next(rows) #passer la ligne de headers
         for line in rows:
             c.execute("INSERT OR IGNORE INTO voeux VALUES (?,?,?)", (line[0].value, line[2].value, line[3].value))
     file.close()
@@ -318,13 +321,13 @@ def import_ats(database: sql.Connection, path: Path):
 
     c = database.cursor()
     rows = tab.rows
-    C = {case.value: case.column - 1 for case in next(rows)}
+    C = {case.value: case.column - 1 for case in next(rows)} #headers des colonnes
 
     c.execute("INSERT INTO classe(lib) VALUES('ATS')")
     classe = c.execute("SELECT code FROM classe WHERE lib = 'ATS'").fetchone()
     classe = classe[0]
 
-    for line in rows:
+    for line in rows: #récupérer la clé primaire de la civilité
         if line[C['Civ _lib']].value == 'M.':
             civ = 1
         else:
@@ -370,7 +373,7 @@ def import_notes(database: sql.Connection, path: Path):
         tab = file[file.sheetnames[0]]
 
         rows = tab.rows
-        next(rows)
+        next(rows) #passer les 2 lignes de headers
         next(rows)
         for line in rows:
             for k in range(len(liste_epreuve)):
@@ -415,7 +418,7 @@ def import_rang(database: sql.Connection, path: Path):
         for i in range(len(data)):
             code_ed = data[id][i]
             rank = data[rang][i]
-            if repr(rank) != 'nan':
+            if repr(rank) != 'nan': #si le rang n'est pas null
                 consigne_sql = "INSERT INTO classement(etudiant, rang, type) VALUES (?, ?, ?);"
                 c.execute(consigne_sql, (int(code_ed), int(rank), dico_class[type]))
 
@@ -444,6 +447,8 @@ def import_rang(database: sql.Connection, path: Path):
     func_aux(data, 'RANG_ADMISSIBLE', 'rang', "Can _cod")
 
 
+# recupère les champs etat_classes et type_admissible
+# utilisé dans import_inscription
 def extrait_etat_classes_type_admissible(path: Path):
     dico_etat_classes = {}
     dico_type_admissible = {}
@@ -462,22 +467,25 @@ def extrait_etat_classes_type_admissible(path: Path):
     return dico_etat_classes, dico_type_admissible
 
 
+#supprime les fk des candidats inconnus, affiche les autres probleme de fk
 def delete_fk_issues(database: sql.Connection):
     c = database.cursor()
     c.execute('PRAGMA foreign_key_check')
     data = c.fetchall()
     for value in data:
         if value[2]=='candidat':
-            c.execute(f'DELETE FROM {value[0]} WHERE rowid = ?', (value[1],))
+            c.execute(f'DELETE FROM {value[0]} WHERE rowid = ?', (value[1],)) #rowid est le numéro de l'enregistrement problématique
         else:
             print(value)
 
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': #code qui s'execute en mode script
     path_files = Path("../PPII_ressources/data/public")
     db = sql.connect("concours.db")
-    with db:
+    
+    #commit automatiquement à la fin du block with
+    with db: 
         print('epreuve')
         import_epreuves(db)
         print('voeux')
@@ -500,7 +508,7 @@ if __name__ == '__main__':
         print('delete fk issues')
         delete_fk_issues(db)
     db.close()
-else:
+else: #code du mode CLI
     import click
     from verif_data import *
 
@@ -547,10 +555,10 @@ else:
                 import_inscription(db, path_files)
                 click.echo('  ats')
                 import_ats(db, path_files)
+        if verif:
             with db:
                 click.echo('Supprimer les lignes avec des foriegn keys inconnues')
                 delete_fk_issues(db)
-        if verif:
             click.echo('Verifier la cohérence avec les fichiers non utilisés')
             run_verif(db, path_files)
         db.close()

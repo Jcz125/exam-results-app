@@ -3,18 +3,20 @@ import pandas as pd
 import sqlite3 as sql
 
 
-def affiche(*args):
+def affiche(*args): #affiche en mode script
     print(*args)
 
 def run_verif(database: sql.Connection, path: Path):
     c = database.cursor()
-    with open(Path('./config_verif_data.txt'), 'r') as file:
+    with open(Path('./config_verif_data.txt'), 'r') as file: #ferme automatiquement le fichier à la fin du bloque with
         for line in file:
-            if line[0] == '\t':
+            if line[0] == '\t': #si la ligne du fichier est le nom d'une colone
                 ldata = line[1:-1].split(sep=';')
                 column = ldata.pop(0)
-                if "inscription" in column:
+
+                if "inscription" in column: #résoud un problème d'encodage
                     column = tableurs[0].columns[0]
+                
                 if ldata[0] == 'pk':
                     pkey = column
                 else:
@@ -35,7 +37,7 @@ def run_verif(database: sql.Connection, path: Path):
                                         affiche("  Donnée non présente :", tabl[pkey][i], column, tabl[column][i], res)
                                     elif not (repr(tabl[column][i])=='nan' and (res is None or res[0] is None) or tabl[column][i] == res[0]):
                                         affiche("  Données non égales :", int(tabl[pkey][i]), column, tabl[column][i], res[0])
-            else:
+            else: #si la ligne du fichier est une liste de tableur
                 if 'XXXX.xlsx' in line:
                     nheader = 1
                 else:
@@ -47,13 +49,13 @@ def run_verif(database: sql.Connection, path: Path):
                 affiche(line[:-1])
                 tableurs = [pd.read_excel(path/f, header=nheader, converters={'n_demi': lambda x: str(x)+'/2'}, dtype={'code_postal': str, 'Can _cod _pos': str}) if 'xlsx' in f else pd.read_csv(path/f, sep=";", header=nheader, decimal=',') for f in line[:-1].split(sep=';')]
 
-if __name__ == '__main__':
+if __name__ == '__main__': #code en mode script
     pathdb = Path("concours.db")
     db = sql.Connection(pathdb)
     pathfiles = Path('../PPII_ressources/data/public')
     run_verif(db, pathfiles)
-else:
+else: #code en mode CLI
     from click import echo
-    def affiche(*args):
+    def affiche(*args): #affiche en mode CLI
         message = " ".join((str(x) for x in args))
         echo("  "+message)
