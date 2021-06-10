@@ -482,7 +482,13 @@ def delete_fk_issues(database: sql.Connection):
 
 if __name__ == '__main__': #code qui s'execute en mode script
     path_files = Path("../PPII_ressources/data/public")
+
     db = sql.connect("concours.db")
+
+    # décommenter pour initialiser la db en mode script
+    # with open(Path("createdb.sql"), "r") as f_init:
+    #     with db:
+    #         db.executescript(f_init.read())
     
     #commit automatiquement à la fin du block with
     with db: 

@@ -40,7 +40,7 @@ Il faut installer les modules nécessaires
 pip install openpyxl
 pip install pandas
 ```
-Créer la base de donnée avec sqlite3
+Créer la base de donnée avec sqlite3 (ou décommenter les lignes 489 à 491)
 ```bash
 sqlite3 concours.db -init createdb.sql
 ```
