@@ -555,10 +555,10 @@ else: #code du mode CLI
                 import_inscription(db, path_files)
                 click.echo('  ats')
                 import_ats(db, path_files)
-        if verif:
             with db:
-                click.echo('Supprimer les lignes avec des foriegn keys inconnues')
+                click.echo('Supprimer les lignes avec des foreign keys inconnues')
                 delete_fk_issues(db)
+        if verif:
             click.echo('Verifier la cohérence avec les fichiers non utilisés')
             run_verif(db, path_files)
         db.close()
