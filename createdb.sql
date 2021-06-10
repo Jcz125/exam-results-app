@@ -37,14 +37,13 @@ CREATE TABLE IF NOT EXISTS voeux(
 );
 
 CREATE TABLE IF NOT EXISTS classement(
-    id INTEGER PRIMARY KEY,
     etudiant INTEGER NOT NULL,
     rang INTEGER CHECK (rang > 0) NOT NULL,
     type INTEGER NOT NULL,
 
     FOREIGN KEY(etudiant) REFERENCES candidat(code),
     FOREIGN KEY(type) REFERENCES type_classement(id),
-    UNIQUE(etudiant, type)
+    PRIMARY KEY(etudiant, type)
 );
 
 CREATE TABLE IF NOT EXISTS type_classement(
