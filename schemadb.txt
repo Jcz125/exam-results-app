@@ -41,13 +41,12 @@ Ref: ecole.code < voeux.ecole
 Ref: candidat.code < voeux.candidat
 
 Table classement {
-  id integer [pk]
   etudiant integer [not null]
   rang integer [not null, note: 'rang > 0']
   type integer [not null]
 
   Indexes {
-    (etudiant,type) [unique]
+    (etudiant,type) [pk]
   }
 }
 Ref: classement.etudiant > candidat.code
