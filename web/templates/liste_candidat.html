@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Candidat</title>
+    <span style="white-space: pre-line"></span>
+  
+</head>
+<body>
+
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="/ecole">Ecoles</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/etablissement">Etablissements</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/epreuve">Epreuves</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/option">Options</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/csp">Csp</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/voeux/{{liste[0][0]}}">Voeux</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/notes/{{liste[0][0]}}">Notes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/classement/{{liste[0][0]}}">Classement</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/rech">Rechercher</a>
+      </li>
+  </ul>
+
+  <ul>
+    {% for candidat in liste %}
+            <br>
+
+            <li><B><U>Code</U></B> : {{candidat[0]}}</li>
+            <br>
+             <li><B><U>Civilité</U></B> : {{civ}} </li>
+             <br>
+             <li><B><U>Nom</U></B> : {{candidat[2]}} </li>
+             <br>
+             <li><B><U>Prénom</U></B> : {{candidat[3]}}</li>
+             <br>
+             <li><B><U>Deuxième prénom</U></B> : {{autre_prenoms}}</li>
+             <br>
+             <li><B><U>Classe</U></B> : {{classe}}</li>
+             <br>
+             <li><B><U>Puissance</U></B> : {{candidat[6]}}</li>
+             <br>
+             <li><B><U>Voie</U></B> : {{voie}}</li>
+             <br>
+             <li><B><U>Etablissement</U></B> : {{etablissement}}</li>
+             <br>
+             <li><B><U>Adresse 1</U></B> : {{candidat[9]}}</li>
+             <br>
+             <li><B><U>Adresse 2</U></B> : {{candidat[10]}}</li>
+             <br>
+             <li><B><U>Code Postal</U></B> : {{candidat[11]}}</li>
+             <br>
+             <li><B><U>Commune</U></B> : {{candidat[12]}}</li>
+             <br>
+             <li><B><U>Pays</U></B> : {{pays}}</li>
+             <br>
+             <li><B><U>Adresse e-mail</U></B> : {{candidat[14]}}</li>
+             <br>
+             <li><B><U>Numéro de téléphone fixe</U></B> : {{candidat[15]}}</li>
+             <br>
+             <li><B><U>Numéro de téléphone portable </U></B> : {{candidat[16]}}</li>
+             <br>
+             <li><B><U>Pays de naissance </U></B> : {{pays_naissance}}</li>
+             <br>
+             <li><B><U>Ville de naissance </U></B> : {{candidat[18]}}</li>
+             <br>
+             <li><B><U>Nationalitée </U></B> : {{pays_nationalite}}</li>
+             <br>
+             <li><B><U>Ville écrit </U></B> : {{candidat[20]}}</li>
+             <br>
+             <li><B><U>INE </U></B> : {{candidat[21]}}</li>
+             <br>
+             <li><B><U>Catégorie socioprofessionnelle (CSP) du père </U></B> : {{csp_pere}}</li>
+             <br>
+             <li><B><U>Catégorie socioprofessionnelle (CSP) de la mère </U></B> : {{csp_mere}}</li>
+             <br>
+             <li><B><U>Type du Baccalauréat </U></B> : {{bac}}</li>
+             <br>
+             <li><B><U>Année du Baccalauréat </U></B> : {{candidat[25]}}</li>
+             <br>
+             <li><B><U>Mois du Baccalauréat </U></B> : {{candidat[26]}}</li>
+             <br>
+             <li><B><U>Mention du Baccalauréat </U></B> : {{candidat[27]}}</li>
+             <br>
+             <li><B><U>Département du Baccalauréat </U></B> : {{candidat[28]}}</li>
+             <br>
+             <li><B><U>Etat du dossier </U></B> : {{dossier}}</li>
+             <br>
+             <li><B><U>Qualité </U></B> : {{candidat[30]}}</li>
+             <br>
+             <li><B><U>Déclaration handicap </U></B> : {{candidat[31]}}</li>
+             <br>
+             <li><B><U>Arr naissance? </U></B> : {{candidat[32]}}</li> 
+             <br>
+             <li><B><U>Option 1 </U></B> : {{option1}}</li>
+             <br>
+             <li><B><U>Option 2 </U></B> : {{option2}}</li>
+             <br>
+             <li><B><U>Option 3 </U></B> : {{option3}}</li>
+             <br>
+             <li><B><U>Option 4 </U></B> : {{option4}}</li>
+             <br>
+             <li><B><U>TIPE </U></B> : {{candidat[37]}}</li>
+             <br>
+             <li><B><U>Etat classes </U></B> : {{candidat[38]}}</li>
+             <br>
+             <li><B><U>Type admissible </U></B> : {{candidat[39]}}</li>
+             <br>
+
+        {% endfor %}
+      </ul>
+</body>
+</html>
+

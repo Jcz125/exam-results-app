@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Liste des établissements</title>
+    <style>
+        table{
+            border-collapse: collapse;
+            margin: auto;
+
+}
+
+td{
+  border: 1px solid black;
+  padding: 10px;
+  text-align :center;
+
+}
+    </style>
+</head>
+<body>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="/ecole">Ecoles</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/etablissement">Etablissements</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/epreuve">Epreuves</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/option">Options</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/csp">Csp</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/rech">Rechercher</a>
+      </li>
+  </ul>
+  <br>
+  <br>
+
+    <table>
+        <tr>
+          <td><B><U>RNE</U></B></td>
+          <td><B><U>Type</U></B></td>
+          <td><B><U>Nom</U></B></td>
+          <td><B><U>Code postal</U></B></td>
+          <td><B><U>Ville</U></B></td>
+          <td><B><U>Pays</U></B></td>
+        </tr>
+        {% for etab in liste %}
+        <tr>
+          <td>{{etab[0]}}</td>
+          <td>{{etab[1]}}</td>
+          <td>{{etab[2]}}</td>
+          <td>{{etab[3]}}</td>
+          <td>{{etab[4]}}</td>
+          <td>{{etab[5]}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+</body>
+</html>
+

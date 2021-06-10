@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Moyenne de l'épreuve </title>
+    <style>
+        table{
+            border-collapse: collapse;
+            margin: auto;
+
+}
+
+td{
+  border: 1px solid black;
+  padding: 10px;
+  text-align :center;
+
+}
+    </style>
+</head>
+<body>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" href="/ecole">Ecoles</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/etablissement">Etablissements</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Csp</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Csp</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Csp</a>
+      </li>
+  </ul>
+  
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <table>
+        <tr>
+          <td><B><U>Numéro d'épreuve</U></B></td>
+          <td><B><U>Epreuve</U></B></td>
+          <td><B><U>Type de l'épreuve</U></B></td>
+          <td><B><U>Nom d'établissement</U></B></td>
+          <td><B><U>Ville d'établissement</U></B></td>
+          <td><B><U>Moyenne</U></B></td>
+
+        <tr>
+          <td>{{epreuve[0][0]}}</td>
+          <td>{{epreuve[0][1]}}</td>
+          <td>{{epreuve[0][2]}}</td>
+          <td>{{etablissement[0][0]}}</td>
+          <td>{{etablissement[0][1]}}</td>
+          <td>{{moyenne}}</td>
+
+        </tr>
+      </table>
+</body>
+</html>
+
