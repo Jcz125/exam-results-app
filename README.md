@@ -1,5 +1,10 @@
 # Projet PII - Groupe 9
 
+## Folder
+- /ressources : contient des fichiers complémentaire, par exemple le schéma du modèle de données
+- /web : contient le code du web
+- /Projet PII GRP-09 : contient les documents sources du rapport
+
 ## Files
 
 - schemadb.txt : Code du schema de la base de donnée pour dbdiagram.io
