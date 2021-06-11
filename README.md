@@ -72,6 +72,9 @@ Puis lancer les scripts en changeant au préalable les chemins d'accès aux diff
 ### Utilisation de l'application web
 - http://127.0.0.1:5000/rech : pour faire une recherche d'un candidat par son nom
 - http://127.0.0.1:5000/candidatByCode/<candidat.code> : pour accéder directement aux informations d'un candidat par son numéro scei
+- http://127.0.0.1:5000/voeux/<candidat.code> : pour afficher les voeux du candidat
+- http://127.0.0.1:5000/notes/<candidat.code> : pour afficher les notes du candidat
+- http://127.0.0.1:5000/classement/<candidat.code> : pour afficher le classement des candidats
 - http://127.0.0.1:5000/ecole : pour afficher toutes les écoles
 - http://127.0.0.1:5000/etablissement : pour afficher tous les établissements
 - http://127.0.0.1:5000/epreuve : pour afficher toutes les épreuves
