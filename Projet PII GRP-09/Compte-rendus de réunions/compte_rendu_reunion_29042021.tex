@@ -1,0 +1,65 @@
+% \documentclass[12pt]{article}
+% \usepackage[french]{babel}
+% \usepackage{natbib}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{tikz}
+% \usepackage{amsmath}
+% \usepackage{graphics}
+% \usepackage{graphicx}
+% \usepackage{url}
+% \usepackage{psfrag}
+% \usepackage{fancyhdr}
+% \usepackage{vmargin}
+% \usepackage[backend=biber]{biblatex}
+% \usepackage{csquotes}
+% \usepackage[hidelinks]{hyperref}
+% \usepackage{enumitem}
+
+% \pagestyle{fancy}
+
+
+% \begin{document}
+\subsubsection*{\large{Réunion d'équipe du 29 avril 2021}}
+    \addcontentsline{toc}{subsubsection}{Réunion d'équipe du 29 avril 2021}
+\begin{center}
+\begin{tabular}{| l | l || c | c |}
+    \hline
+    Membres présents & Membres absents & Durée & Lieu \\
+    \hline
+    Maël SAILLOT & & & \\ Céline ZHANG & & 1h10 & Discord \\ Ahmed ZIANI & & & \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Ordre du jour}
+\begin{enumerate}
+    \item Avancement des tâches
+    \item Discussion générale et amélioration du travail actuel
+    \item Prochaines tâches
+\end{enumerate}
+
+\subsubsection*{Avancement des tâches}
+Glogalement chaque membre a fait ses recherches pour trouver un moyen de remplir la base de données à partir des fichiers \textsf{.xlsx} donnés.
+\paragraph{Maël SAILLOT} a fait un exemple de script pour le remplissage de la table des \texttt{etat\_reponse} en utilisant la bibliothèque \texttt{openpyxl} et a fait deux versions, l'une utilisant \textsf{click}, l'autre sans.
+\paragraph{Céline ZHANG} a fait un exemple de script pour le remplissage à partir du fichier \textsf{Inscription.xlsx} en utilisant la bibliothèque \texttt{pandas}.
+\paragraph{Ahmed ZIANI} a fait un exemple de script pour le remplissage de la table des \texttt{etat\_reponse} en utilisant la bibliothèque \texttt{openpyxl} et a essayé avec \texttt{pandas} aussi.
+
+\subsubsection*{Discussion générale et amélioration du travail actuel}
+Nous avons relu le fichier \textsf{createdb.sql}, nous constatons qu'il fallait ajouter des \textsf{CHECK}. Nous avons choisi d'utiliser principalement la bibliothèque \texttt{pandas} bien qu'elle est plus coûteuse en mémoire par rapport à \texttt{openpyxl} (elle permet la lecture des titre de colonne), nous utiliserons également \texttt{openpyxl} pour d'autres cas.
+
+\subsubsection*{Prochaines tâches}
+L'équipe devra écrire les algorithmes de remplissage des tables de la base de données en faisant en priorité les tables qui ont le moins de dépendances par rapport aux autres tables. Il faudra vérifier les contraintes des champs et réfléchir sur les ATS.
+
+
+\paragraph{\emph{TO-DO LIST}}
+\begin{itemize}
+    \item Écrire les algorithmes de remplissage selon les priorités et la \textsl{checklist} sur Trello
+    \item Vérifier les contraintes et les tables
+    \item Réfléchir au cas des ATS
+    
+\end{itemize}
+
+\emph{Prochaine réunion : 03/05/2021}\\
+
+% \end{document}

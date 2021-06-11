@@ -1,0 +1,65 @@
+% \documentclass[12pt]{article}
+% \usepackage[french]{babel}
+% \usepackage{natbib}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{tikz}
+% \usepackage{amsmath}
+% \usepackage{graphics}
+% \usepackage{graphicx}
+% \usepackage{url}
+% \usepackage{psfrag}
+% \usepackage{fancyhdr}
+% \usepackage{vmargin}
+% \usepackage[backend=biber]{biblatex}
+% \usepackage{csquotes}
+% \usepackage[hidelinks]{hyperref}
+% \usepackage{enumitem}
+
+% \pagestyle{fancy}
+
+
+% \begin{document}
+\subsubsection*{\large{Réunion d'équipe du 14 mai 2021}}
+    \addcontentsline{toc}{subsubsection}{Réunion d'équipe du 14 mai 2021}
+\begin{center}
+\begin{tabular}{| l | l || c | c |}
+    \hline
+    Membres présents & Membres absents & Durée & Lieu \\
+    \hline
+    Maël SAILLOT & & & \\ Céline ZHANG & & 40min & Discord \\ Ahmed ZIANI & & & \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Ordre du jour}
+\begin{enumerate}
+    \item Avancement des tâches
+    \item Discussion générale et amélioration du travail actuel
+    \item Prochaines tâches
+\end{enumerate}
+
+\subsubsection*{Avancement des tâches}
+\paragraph{Maël SAILLOT} a vérifié les contraintes et le dépôt \textsf{git}.
+\paragraph{Céline ZHANG} a rempli les tables \texttt{epreuvre}, \texttt{notes}, \texttt{classement}, a écrit les dictionnaires des épreuves et des classements nécessaire à l'algorithme de remplissage.
+\paragraph{Ahmed ZIANI} a rempli la table \texttt{voeux}.
+
+\subsubsection*{Discussion générale et amélioration du travail actuel}
+La plupart des tables ont été remplies, cependant les ATS n'ont pas été ajoutés, il manque également la remplissage de la table \texttt{candidat}. Pour l'instant chacun a son \textsl{script}, les tests ont été fait manuellement lors de l'import des données dans les tables de la base de données. Il faut maintenant les regrouper dans un \textsl{script} et optimiser le code de chacun. De plus, pour vérifier la cohérence des données, il est nécessaire de faire un \textsl{script} de test.
+
+\subsubsection*{Prochaines tâches}
+L'équipe devra remplir la table \texttt{candidat} avec vérification manuelle, puis faire un \textsl{script} pour vérifier la cohérence des données importer avec la bd et les fichiers. Il faudra écrire les algorithmes de remplissage pour les ATS, et regrouper tous les codes dans un \textsl{script} qui rempli en une fois toute la base de données.
+
+
+\paragraph{\emph{TO-DO LIST}}
+\begin{itemize}
+    \item Remplir la table \texttt{candidat}
+    \item Ajouter les données des candidats ATS
+    \item Faire un \textsl{script} qui regroupe tous les codes
+    \item Commencer un \textsl{script} de test
+    
+\end{itemize}
+
+\emph{Prochaine réunion : 24/05/2021}\\
+
+% \end{document}

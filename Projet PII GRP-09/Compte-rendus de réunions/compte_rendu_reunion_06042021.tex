@@ -1,0 +1,68 @@
+% \documentclass[12pt]{article}
+% \usepackage[french]{babel}
+% \usepackage{natbib}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{tikz}
+% \usepackage{amsmath}
+% \usepackage{graphics}
+% \usepackage{graphicx}
+% \usepackage{url}
+% \usepackage{psfrag}
+% \usepackage{fancyhdr}
+% \usepackage{vmargin}
+% \usepackage[backend=biber]{biblatex}
+% \usepackage{csquotes}
+% \usepackage[hidelinks]{hyperref}
+% \usepackage{enumitem}
+
+% \pagestyle{fancy}
+
+
+% \begin{document}
+\subsubsection*{\large{Réunion d'équipe du 6 avril 2021}}
+    \addcontentsline{toc}{subsubsection}{Réunion d'équipe du 6 avril 2021}
+\begin{center}
+\begin{tabular}{| l | l || c | c |}
+    \hline
+    Membres présents & Membres absents & Durée & Lieu \\
+    \hline
+    Maël SAILLOT & & & \\ Céline ZHANG & & 1h30 & Telecom Nancy \\ Ahmed ZIANI & & & \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Ordre du jour}
+\begin{enumerate}
+    \item Avancement des tâches
+    \item Mise en commun des propositions
+    \item Optimisation des solutions proposées
+    \item Choix des prochaines tables
+\end{enumerate}
+
+\subsubsection*{Avancement des tâches}
+Les membres sont venus avec leur schéma d'une structures des données. Nous avons pris connaissance de chacun de ces schémas qui étaient globlalement similaires.
+
+\subsubsection*{Mise en commun des propositions}
+Nous avons produit un schéma pour l'implémentation du diagram sur une interface graphique \textsf{dbdiagram.io}.
+
+\subsubsection*{Optimisation des solutions proposées}
+En prenant en compte les contraintes d'intégrités et en respectant les règles de la 3e forme normale, nous avons choisi de mettre les principales informations de l'inscrit dans une table \texttt{candidat} (comme civilité, nom, prénom, date et lieu de naissance, coordonnées, rang, classe, filière concours, etc.) et certainement dans une deuxième table, les options du candidat. De plus des tables moins grandes ont été faites, comme les tables \texttt{etablissement}, \texttt{voeux}, \texttt{classement}, \texttt{notes}, \texttt{epreuve}, etc. Le numéro du candidat sera une clé primaire, et servira de foreign key pour certaines des tables suivantes.
+
+\subsubsection*{Choix des prochaines tables}
+Nous allons sûrement faire une table \texttt{autres\_info}, \texttt{pays}, \texttt{concours}, etc. le nécessaire pour compléter la base de données.
+
+\subsubsection*{Planification des prochaines tâches}
+L'équipe devra écrire ces tables sur \textsf{dbdiagram.io}, compléter les champs manquants, et ajouter éventuellement les tables manquantes ; mettre sur Trello les tâches.
+
+
+\paragraph{\emph{TO-DO LIST}}
+\begin{itemize}
+    \item Écrire les tables sur \textsf{dbdiagram.io}
+    \item Compléter la structure de bases de données (les tables et les champs manquants, etc.)
+    \item Mettre les tâches sur le Trello
+\end{itemize}
+
+\emph{Prochaine réunion : 11/04/2021}\\
+
+% \end{document}

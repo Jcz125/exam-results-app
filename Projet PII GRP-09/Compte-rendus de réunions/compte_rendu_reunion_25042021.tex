@@ -1,0 +1,66 @@
+% \documentclass[12pt]{article}
+% \usepackage[french]{babel}
+% \usepackage{natbib}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{tikz}
+% \usepackage{amsmath}
+% \usepackage{graphics}
+% \usepackage{graphicx}
+% \usepackage{url}
+% \usepackage{psfrag}
+% \usepackage{fancyhdr}
+% \usepackage{vmargin}
+% \usepackage[backend=biber]{biblatex}
+% \usepackage{csquotes}
+% \usepackage[hidelinks]{hyperref}
+% \usepackage{enumitem}
+
+% \pagestyle{fancy}
+
+
+% \begin{document}
+\subsubsection*{\large{Réunion d'équipe du 25 avril 2021}}
+    \addcontentsline{toc}{subsubsection}{Réunion d'équipe du 25 avril 2021}
+\begin{center}
+\begin{tabular}{| l | l || c | c |}
+    \hline
+    Membres présents & Membres absents & Durée & Lieu \\
+    \hline
+    Maël SAILLOT & & & \\ Céline ZHANG & & 1h40 & Discord \\ Ahmed ZIANI & & & \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Ordre du jour}
+\begin{enumerate}
+    \item Avancement des tâches
+    \item Discussion générale et amélioration de la structure actuelle
+    \item Prochaines tâches
+\end{enumerate}
+
+\subsubsection*{Avancement des tâches}
+\paragraph{Maël SAILLOT} a ajouté les tables, les champs manquants, a créé les fichiers \textsf{createdb.sql} et \textsf{schemadb.txt} pour le partage.
+\paragraph{Céline ZHANG} a revu les codes du schéma de \textsf{dbdiagram.io}, a commencé à remplir le fichier \textsf{createdb.sql}.
+\paragraph{Ahmed ZIANI} a relu les travaux de l'équipe.
+
+\subsubsection*{Discussion générale et amélioration de la structure actuelle}
+Nous avons relu chaque ligne de schéma, nous avons fixé les contraintes nécessaires sur certains champs, et corrigé les erreurs. Les codes postaux doivent être en \textsf{TEXT} car les adresses étrangères ont des lettres dans leur code postal, idem pour les numéros particulier comme \textsf{+33(0)}.
+
+\subsubsection*{Prochaines tâches}
+L'équipe devra compléter le fichier \textsf{createdb.sql}, ajouter les contraintes, vérifier le respect des formes normalisés et les contraintes (\textsl{review}), et se renseigner sur l'écriture d'un script en \textsf{Python} qui permettra de remplir la base de données de manière automatique.
+
+
+\paragraph{\emph{TO-DO LIST}}
+\begin{itemize}
+    \item Remplir le fichier \textsf{createdb.sql} et tester l'exécution de celui-ci
+    \item Ajouter les \textsf{CHECK} nécessaires (voir le canal \textsl{\#todo} sur Discord)
+    \item Partager fichier \textsf{.py} sur le dépôt \texttt{git}
+    \item Se documenter sur l'écriture du script en \textsf{.py}
+    \item Écrire un exemple de fonction dans le script pour l'import des données
+    
+\end{itemize}
+
+\emph{Prochaine réunion : 29/04/2021}\\
+
+% \end{document}

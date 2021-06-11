@@ -1,0 +1,66 @@
+% \documentclass[12pt]{article}
+% \usepackage[french]{babel}
+% \usepackage{natbib}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{tikz}
+% \usepackage{amsmath}
+% \usepackage{graphics}
+% \usepackage{graphicx}
+% \usepackage{url}
+% \usepackage{psfrag}
+% \usepackage{fancyhdr}
+% \usepackage{vmargin}
+% \usepackage[backend=biber]{biblatex}
+% \usepackage{csquotes}
+% \usepackage[hidelinks]{hyperref}
+% \usepackage{enumitem}
+
+% \pagestyle{fancy}
+
+
+% \begin{document}
+\subsubsection*{\large{Réunion d'équipe du 24 mai 2021}}
+    \addcontentsline{toc}{subsubsection}{Réunion d'équipe du 24 mai 2021}
+\begin{center}
+\begin{tabular}{| l | l || c | c |}
+    \hline
+    Membres présents & Membres absents & Durée & Lieu \\
+    \hline
+    Maël SAILLOT & & & \\ Céline ZHANG & & 1h30 & Discord \\ Ahmed ZIANI & & & \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Ordre du jour}
+\begin{enumerate}
+    \item Avancement des tâches
+    \item Discussion générale et amélioration du travail actuel
+    \item Prochaines tâches
+\end{enumerate}
+
+\subsubsection*{Avancement des tâches}
+\paragraph{Maël SAILLOT} a rempli la table \texttt{candidat}, a ajouté les ATS.
+\paragraph{Céline ZHANG} a corrigé les contraintes qui se trouvaient dans \texttt{createdb.sql}.
+\paragraph{Ahmed ZIANI} a vérifié et a ajouté les contraintes nécessaires.
+
+\subsubsection*{Discussion générale et amélioration du travail actuel}
+En remplissant les ATS et la table \texttt{candidat}, nous remarquons que certains établissements ne se trouvent pas dans le fichier \texttt{listeEtablissements.xlsx} alors qu'ils se trouvent dans les informations des candidats. De plus, certains candidats avaient des notes ou un classement, mais ne se trouvaient pas dans la table \texttt{candidat}, ils ne sont pas dans le fichier \texttt{Inscription.xlsx}. Les TSI dans le fichier \texttt{Ecrit\_TSI.xlsx} n'ont pas de rang. L'équipe a choisi de partir sur une application web écrit en \textsf{Python} en utilisant le module \textsf{Flask}.
+
+\subsubsection*{Prochaines tâches}
+L'équipe devra supprimer toutes les données engendrants des incohérences (notamment ceux des candidats anonymes). Elle devra également ajouter les établissements manquants. Une vérification de l'ensemble des données sera nécessaire pour être sûr que rien n'a été négligé.
+
+
+\paragraph{\emph{TO-DO LIST}}
+\begin{itemize}
+    \item Supprimer les candidats anonymes
+    \item Ajouter les établissements manquants
+    \item Regrouper les scripts en un seul script optimisé
+    \item Faire le script de test pour vérifier la cohérence des données
+    \item Commencer l'écriture de l'application web
+    
+\end{itemize}
+
+\emph{Prochaine réunion : 04/06/2021}\\
+
+% \end{document}

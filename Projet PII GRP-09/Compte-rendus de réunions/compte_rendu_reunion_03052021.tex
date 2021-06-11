@@ -1,0 +1,64 @@
+% \documentclass[12pt]{article}
+% \usepackage[french]{babel}
+% \usepackage{natbib}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{tikz}
+% \usepackage{amsmath}
+% \usepackage{graphics}
+% \usepackage{graphicx}
+% \usepackage{url}
+% \usepackage{psfrag}
+% \usepackage{fancyhdr}
+% \usepackage{vmargin}
+% \usepackage[backend=biber]{biblatex}
+% \usepackage{csquotes}
+% \usepackage[hidelinks]{hyperref}
+% \usepackage{enumitem}
+
+% \pagestyle{fancy}
+
+
+% \begin{document}
+\subsubsection*{\large{Réunion d'équipe du 3 mai 2021}}
+    \addcontentsline{toc}{subsubsection}{Réunion d'équipe du 3 mai 2021}
+\begin{center}
+\begin{tabular}{| l | l || c | c |}
+    \hline
+    Membres présents & Membres absents & Durée & Lieu \\
+    \hline
+    Maël SAILLOT & & & \\ Céline ZHANG & & 1h & Discord \\ Ahmed ZIANI & & & \\
+    \hline
+\end{tabular}
+\end{center}
+
+\subsubsection*{Ordre du jour}
+\begin{enumerate}
+    \item Avancement des tâches
+    \item Discussion générale et amélioration du travail actuel
+    \item Prochaines tâches
+\end{enumerate}
+
+\subsubsection*{Avancement des tâches}
+\paragraph{Maël SAILLOT} a rempli la table \texttt{etat\_reponse}.
+\paragraph{Céline ZHANG} a rempli les tables \texttt{etat\_dossier}, \texttt{concours}, \texttt{autres\_prenoms}, \texttt{serie\_bac}, \texttt{ep\_option}.
+\paragraph{Ahmed ZIANI} a rempli les tables \texttt{ecole}, \texttt{etablissement}, \texttt{pays}, \texttt{csp\_parent}.
+
+\subsubsection*{Discussion générale et amélioration du travail actuel}
+Pour le remplissage de \texttt{epreuve}, il a fallu un dictionnaire. Nous avons choisi de réutiliser les codes proposées par les fichiers comme clé primaire et nous avons ajouté certains code pour les champs qui n'en possédaient pas. Les codes ajoutés commence à partir de 9000, par exemple 9898 pour la \texttt{bonification\_ecrit}. Nous avons remarqué que les champs \texttt{etat\_classes} et \texttt{type\_admissible} n'étaient pas dans nos tables de la base de données, il a fallu les ajouter. Certains champs manquaient des \texttt{NOT NULL}, il faut les ajouter. Concernant les ATS, certains candidats n'avaient pas de données pour certains champs, nous avons choisi d'ignorer les candidats anonymes (qui n'ont ni nom, ni prénom).
+
+\subsubsection*{Prochaines tâches}
+L'équipe devra finir d'écrire les algorithmes de remplissage des tables de la base de données (en faisant attention aux nouveaux champs ajoutés), elle devra ajouter les \texttt{NOT NULL} nécessaire, et commencer le remplissage des candidats d'ATS.
+
+
+\paragraph{\emph{TO-DO LIST}}
+\begin{itemize}
+    \item Finir le remplissage des tables de la \textsl{checklits} sur Trello
+    \item Ajouter les \texttt{NOT NULL} et vérifier les contraintes
+    \item Commencer le remplissage pour les ATS
+    
+\end{itemize}
+
+\emph{Prochaine réunion : 14/05/2021}\\
+
+% \end{document}
