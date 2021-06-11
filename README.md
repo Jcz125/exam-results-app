@@ -54,3 +54,26 @@ Puis lancer les scripts en changeant au préalable les chemins d'accès aux diff
 ./import_files.py
 ./verif_data.py
 ```
+
+## Application
+
+### Lancement du serveur Flask (sous Linux)
+1. Ouvrir un terminal dans le répertoire /web
+2. $ export FLASK_APP=app.py
+3. $ export FLASK_DEBUG=1
+4. $ flask run
+
+### Lancement du serveur Flask (sous Window)
+1. Ouvrir un terminal dans le répertoire /web
+2. $env:FLASK_APP = "app.py"
+3. $env:FLASK_DEBUG = 1
+4. flask run
+
+### Utilisation de l'application web
+- http://127.0.0.1:5000/rech : pour faire une recherche d'un candidat par son nom
+- http://127.0.0.1:5000/candidatByCode/<candidat.code> : pour accéder directement aux informations d'un candidat par son numéro scei
+- http://127.0.0.1:5000/ecole : pour afficher toutes les écoles
+- http://127.0.0.1:5000/etablissement : pour afficher tous les établissements
+- http://127.0.0.1:5000/epreuve : pour afficher toutes les épreuves
+- http://127.0.0.1:5000/option : pour afficher tous les options
+- http://127.0.0.1:5000/csp : pour afficher toutes les catégories socio-professionnelles
