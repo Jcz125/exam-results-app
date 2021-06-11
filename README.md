@@ -11,6 +11,9 @@
 - createdb.sql : Fichier pour créer les tables sous SQLite3
 - import_files.py : Script pour remplir la base de données à partir des fichiers .xlsx
 - verif_data.py + config_verif_data.txt : Script pour vérifier la cohérence de la base de donnée avec les fichiers non utilisés (Ne fait que vérifier, ne fait pas de modification)
+- config_verif_data.txt : Sert à configurer les fichiers
+- setup.py : Initialise ou crée la base de données
+- rapport_Projet_PII_GRP_09.pdf : le rapport de projet PII du groupe 9
 
 ## Importer les tableurs dans la base de donnée
 
