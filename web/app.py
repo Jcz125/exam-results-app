@@ -17,7 +17,7 @@ def getdb():
 def list_ecole():
     db = getdb()
     c = db.cursor()
-    c.execute('SELECT name from ecole')
+    c.execute('SELECT code , name from ecole')
     l = []
     for i in c.fetchall():
         l.append(i)
@@ -57,7 +57,7 @@ def list_option():
 def list_csp():
     db = getdb()
     c = db.cursor()
-    c.execute('SELECT lib from csp_parent')
+    c.execute('SELECT * from csp_parent')
     l = []
     for i in c.fetchall():
         l.append(i)
@@ -341,13 +341,22 @@ def moyenne_epreuve_etablissement(codepreuve,rne):
 
 @app.route("/moyenne_forms", methods=["get", "post"])
 def moyenne_forms():
-    if not request.method == "POST" and not request.form.get("epreuve_number"):
-        return render_template("moyenne_forms.html")
+    if not request.method == "POST" and not request.form.get("epreuve") and not request.form.get("etablissement") and not request.form.get("type"):
+        db = getdb()
+        c = db.cursor()
+        c.execute('SELECT lib from epreuve')
+        epreuve = []
+        for i in c.fetchall():
+            epreuve.append(i)
+        epreuve = list(set(epreuve)) #to avoid duplicate 
+        epreuve.sort()
+        return render_template("moyenne_forms.html", epreuve=epreuve)
     else:
         db = getdb()
         c = db.cursor()
-        c.execute('SELECT code , civ , nom , prenom FROM candidat where nom LIKE (?)', ("%" + request.form.get("candidat_name") + "%",))
-        l = []
+        c.execute('SELECT id from epreuve WHERE lib = (?) and epreuve.type = (?)', (request.form.get("epreuve"), request.form.get("type")))
+        id = []
         for i in c.fetchall():
-            l.append(i)
-        return render_template("result_rech.html", liste=l)
+            id.append(i)
+        return moyenne_epreuve_etablissement(id[0][0],request.form.get("etablissement"))
+
