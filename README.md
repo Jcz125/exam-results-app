@@ -24,6 +24,11 @@ Le mieux est de travailler dans un environnement virtuel
 python -m pip virtualenv venv
 ./venv/Scripts/activate
 ```
+Ou bien en python3
+```bash
+python3 -m venv env
+source env/bin/activate
+```
 
 >Pour  désactiver l'environnement virtuel :  
 > ```bash
