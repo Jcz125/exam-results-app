@@ -65,6 +65,10 @@ Puis lancer les scripts en changeant au préalable les chemins d'accès aux diff
 
 ## Application
 
+### Installation de Flask
+1. Ouvrir un terminal
+2. $ pip install flask
+
 ### Lancement du serveur Flask (sous Linux)
 1. Ouvrir un terminal dans le répertoire /web
 2. $ export FLASK_APP=app.py
@@ -88,3 +92,4 @@ Puis lancer les scripts en changeant au préalable les chemins d'accès aux diff
 - http://127.0.0.1:5000/epreuve : pour afficher toutes les épreuves
 - http://127.0.0.1:5000/option : pour afficher tous les options
 - http://127.0.0.1:5000/csp : pour afficher toutes les catégories socio-professionnelles
+- http://127.0.0.1:5000/moyenne_forms : pour calculer la moyenne sur une épreuve pour un établissement, en fournissant le RNE de l'établissement
