@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Moyenne</title>
+</head>
+<body>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link " href="/ecole">Ecoles</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/etablissement">Etablissements</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/epreuve">Epreuves</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/option">Options</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/csp">Csp</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/rech">Rechercher</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/moyenne_forms">Moyennes</a>
+          </li>
+      </ul>
+<br>
+
+<form method="POST">
+
+    <div class="form-group">
+      <label for="selectepreuve">Sélectionnez une épreuve :</label>
+      <select class="form-control" name="epreuve">
+        {% for ep in epreuve %}
+        <option>{{ep[0]}}</option>
+        {% endfor %}
+
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="selecttype">Sélectionnez le type de l'épreuve :</label>
+      <select class="form-control" name="type">
+        <option>ECRIT</option>
+        <option>ORAL</option>
+        <option>SPECIFIQUE</option>
+
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="etablissement">Entrez le RNE de l'établissement :</label>
+      <input type="text" class="form-control" name="etablissement">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+
+
+ 
+  </form>
+
+
+    </body>
+    </html>
+
