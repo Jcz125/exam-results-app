@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +10,9 @@
     <title>Rechercher</title>
 </head>
 <body>
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-pills">
         <li class="nav-item">
-          <a class="nav-link active" href="/ecole">Ecoles</a>
+          <a class="nav-link " href="/ecole">Ecoles</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/etablissement">Etablissements</a>
@@ -26,18 +27,21 @@
             <a class="nav-link" href="/csp">Csp</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/rech">Rechercher</a>
+            <a class="nav-link active" href="/rech">Rechercher</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link " href="/moyenne_forms">Moyennes</a>
           </li>
       </ul>
 <br>
 <br>
       <form method="POST">
+
         <div class="form-group">
           <label for="exampleInputEmail1">Nom du candidat :</label>
           <input type="text" class="form-control" name="candidat_name" >
         </div>
-        
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
       </form>
 
 
