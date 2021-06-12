@@ -73,9 +73,9 @@ Puis lancer les scripts en changeant au préalable les chemins d'accès aux diff
 
 ### Lancement du serveur Flask (sous Window)
 1. Ouvrir un terminal dans le répertoire /web
-2. $env:FLASK_APP = "app.py"
-3. $env:FLASK_DEBUG = 1
-4. flask run
+2. $ env:FLASK_APP = "app.py"
+3. $ env:FLASK_DEBUG = 1
+4. $ flask run
 
 ### Utilisation de l'application web
 - http://127.0.0.1:5000/rech : pour faire une recherche d'un candidat par son nom
