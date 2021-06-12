@@ -7,31 +7,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Liste des épreuves</title>
-    <style>
-        table{
-            border-collapse: collapse;
-            margin: auto;
-
-}
-
-td{
-  border: 1px solid black;
-  padding: 10px;
-  text-align :center;
-
-}
-    </style>
+ 
 </head>
 <body>
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-pills">
     <li class="nav-item">
-      <a class="nav-link active" href="/ecole">Ecoles</a>
+      <a class="nav-link " href="/ecole">Ecoles</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="/etablissement">Etablissements</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/epreuve">Epreuves</a>
+      <a class="nav-link active" href="/epreuve">Epreuves</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="/option">Options</a>
@@ -42,22 +29,40 @@ td{
       <li class="nav-item">
         <a class="nav-link" href="/rech">Rechercher</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/moyenne_forms">Moyennes</a>
+      </li>
   </ul>
+<br>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Numéro</th>
+        <th scope="col">Epreuve</th>
+        <th scope="col">Type</th>
 
-    <table>
-        <tr>
-          <td><B><U>Numéro</U></B></td>
-          <td><B><U>Epreuve</U></B></td>
-          <td><B><U>Type</U></B></td>
-        </tr>
-        {% for epreuve in liste %}
-        <tr>
-          <td>{{epreuve[0]}}</td>
-          <td>{{epreuve[1]}}</td>
-          <td>{{epreuve[2]}}</td>
-        </tr>
-        {% endfor %}
-      </table>
+
+
+      </tr>
+    </thead>
+    <tbody>
+      {% for etab in liste %}
+
+      <tr>
+        <th scope="row"></th>
+        <td>{{etab[0]}}</td>
+        <td>{{etab[1]}}</td>
+        <td>{{etab[2]}}</td>
+
+
+      </tr>
+
+
+      {% endfor %}
+
+    </tbody>
+  </table>
 </body>
 </html>
 
