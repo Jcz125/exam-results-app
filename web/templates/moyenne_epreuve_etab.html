@@ -7,46 +7,36 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Moyenne de l'épreuve </title>
-    <style>
-        table{
-            border-collapse: collapse;
-            margin: auto;
-
-}
-
-td{
-  border: 1px solid black;
-  padding: 10px;
-  text-align :center;
-
-}
-    </style>
+ 
 </head>
 <body>
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-pills">
     <li class="nav-item">
-      <a class="nav-link active" href="/ecole">Ecoles</a>
+      <a class="nav-link " href="/ecole">Ecoles</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="/etablissement">Etablissements</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Csp</a>
+      <a class="nav-link" href="/epreuve">Epreuves</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">Csp</a>
+        <a class="nav-link " href="/option">Options</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Csp</a>
+        <a class="nav-link" href="/csp">Csp</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/rech">Rechercher</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/moyenne_forms">Moyennes</a>
       </li>
   </ul>
   
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <table>
+
+  <!--   <table>
         <tr>
           <td><B><U>Numéro d'épreuve</U></B></td>
           <td><B><U>Epreuve</U></B></td>
@@ -64,6 +54,39 @@ td{
           <td>{{moyenne}}</td>
 
         </tr>
+      </table> -->
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+    
+            <th scope="col">Numéro de l'épreuve</th>
+            <th scope="col">Epreuve</th>
+            <th scope="col">Type de l'épreuve</th>
+            <th scope="col">Nom d'établissement</th>
+            <th scope="col">Ville d'établissement</th>
+            <th scope="col">Moyenne</th>
+
+    
+    
+      
+          </tr>
+        </thead>
+        <tbody>
+      
+          <tr>
+            <th scope="row"></th>
+            <td>{{epreuve[0][0]}}</td>
+            <td>{{epreuve[0][1]}}</td>
+            <td>{{epreuve[0][2]}}</td>
+            <td>{{etablissement[0][0]}}</td>
+            <td>{{etablissement[0][1]}}</td>
+            <td>{{moyenne}}</td>
+
+  
+          </tr>
+      
+        </tbody>
       </table>
 </body>
 </html>
