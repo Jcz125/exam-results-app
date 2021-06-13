@@ -19,14 +19,16 @@
 
 ### Environnement de travail
 
-Le mieux est de travailler dans un environnement virtuel  
+Le mieux est de travailler dans un environnement virtuel
+
+Sur Windows
 ```bash
-python -m pip virtualenv venv
+python -m venv venv
 ./venv/Scripts/activate
 ```
-Ou bien en python3
+Ou sur linux
 ```bash
-python3 -m venv env
+python -m venv env
 source env/bin/activate
 ```
 
