@@ -1,4 +1,0 @@
-
-        [console_scripts]
-        importxl=import_files:cli
-    
