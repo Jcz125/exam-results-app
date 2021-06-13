@@ -338,25 +338,53 @@ def moyenne_epreuve_etablissement(codepreuve,rne):
     return render_template("moyenne_epreuve_etab.html", moyenne = moyenne, epreuve=ep , etablissement = etab)
 
 
-
 @app.route("/moyenne_forms", methods=["get", "post"])
 def moyenne_forms():
     if not request.method == "POST" and not request.form.get("epreuve") and not request.form.get("etablissement") and not request.form.get("type"):
         db = getdb()
         c = db.cursor()
-        c.execute('SELECT lib from epreuve')
-        epreuve = []
+        c.execute('SELECT epreuve.type from epreuve')
+        types = []
         for i in c.fetchall():
-            epreuve.append(i)
-        epreuve = list(set(epreuve)) #to avoid duplicate 
-        epreuve.sort()
-        return render_template("moyenne_forms.html", epreuve=epreuve)
+            types.append(i)
+        types = list(set(types)) #to avoid duplicate
+        # types.sort()
+        return render_template("moyenne_forms.html", var=request.form.get("type"))
+    if not request.method == "POST" or not request.form.get("epreuve") or not request.form.get("etablissement"):
+        db = getdb()
+        c = db.cursor()
+        c.execute('SELECT lib from epreuve WHERE epreuve.type = (?)', (""+request.form.get("type"),))
+        epreuves = []
+        for i in c.fetchall():
+            epreuves.append(i)
+        return render_template("moyenne_forms.html", epreuves=epreuves)
     else:
         db = getdb()
         c = db.cursor()
-        c.execute('SELECT id from epreuve WHERE lib = (?) and epreuve.type = (?)', (request.form.get("epreuve"), request.form.get("type")))
+        c.execute('SELECT id from epreuve WHERE epreuve.type = (?) and lib = (?)', (request.form.get("type"), request.form.get("epreuve")))
         id = []
         for i in c.fetchall():
             id.append(i)
         return moyenne_epreuve_etablissement(id[0][0],request.form.get("etablissement"))
+
+
+@app.route("/ecole_populaire", methods=["get", "post"]) ### les top n écoles les plus choisies, ecole = code de l'école
+def ecole_populaire():
+    db = getdb()
+    c = db.cursor()
+    ecoles = {}
+    c.execute('SELECT * FROM ecole;')
+    for k in c.fetchall():
+        ecoles[k[0]] = k[1]
+
+    iteration = []
+    for i in ecoles:
+        c.execute('SELECT COUNT(ecole) FROM voeux WHERE ecole = (?);', (i,))
+        cpt = c.fetchall()
+        iteration.append((i, int(cpt[0][0])))
+
+    iteration.sort(key = lambda x: x[1], reverse=True)
+
+    return render_template("liste_popularite.html", iteration=iteration, ecoles=ecoles)
+
 

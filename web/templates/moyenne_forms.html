@@ -8,6 +8,14 @@
 
     <title>Moyenne</title>
 </head>
+<script type="text/javascript">
+    function changeRegion(codeRegion){
+        document.moyenne.submit();
+    }
+    // window.onload = function(){
+    //     document.getElementById("moyenne").focus();
+    // }
+</script>
 <body>
     <ul class="nav nav-pills">
         <li class="nav-item">
@@ -34,23 +42,25 @@
       </ul>
 <br>
 
-<form method="POST">
+<form id="moyenne" name="moyenne" method="POST">
 
     <div class="form-group">
-      <label for="selectepreuve">Sélectionnez une épreuve :</label>
-      <select class="form-control" name="epreuve">
-        {% for ep in epreuve %}
-        <option>{{ep[0]}}</option>
-        {% endfor %}
+      <label for="selecttype">Sélectionnez le type de l'épreuve :</label>
+      <select class="form-control" name="type" onchange="changeRegion(this[this.selectedIndex].value);">
+        <option></option>
+        <option>ECRIT</option>
+        <option>ORAL</option>
+        <option>SPECIFIQUE</option>
+        <option>CLASSEMENT</option>
 
       </select>
     </div>
     <div class="form-group">
-      <label for="selecttype">Sélectionnez le type de l'épreuve :</label>
-      <select class="form-control" name="type">
-        <option>ECRIT</option>
-        <option>ORAL</option>
-        <option>SPECIFIQUE</option>
+      <label for="selectepreuve">Sélectionnez une épreuve :</label>
+      <select class="form-control" name="epreuve">
+        {% for ep in epreuves %}
+        <option>{{ep[0]}}</option>
+        {% endfor %}
 
       </select>
     </div>
