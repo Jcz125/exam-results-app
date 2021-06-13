@@ -367,6 +367,7 @@ def moyenne_forms():
             id.append(i)
         return moyenne_epreuve_etablissement(id[0][0],request.form.get("etablissement"))
 
+
 # Autre version de classement par popularité voeux des écoles
 # @app.route("/ecole_populaire", methods=["get", "post"]) ### les top n écoles les plus choisies, ecole = code de l'école
 # def ecole_populaire():
@@ -386,5 +387,22 @@ def moyenne_forms():
 #     iteration.sort(key = lambda x: x[1], reverse=True)
 #
 #     return render_template("liste_popularite.html", iteration=iteration, ecoles=ecoles)
+
+
+@app.route("/voeuxparecole")
+def voeux_ecole():
+    tri = request.args.get("order",default=None)
+    tri_state = {"ordre": "AVG(v.ordre)", "name": "e.name", "number": "COUNT(v.candidat)"}.get(tri)
+    if tri_state is None:
+        tri = "ordre"
+        tri_state = "AVG(v.ordre)"
+    sens = request.args.get("sens", default=None)
+    if sens not in ("ASC", "DESC"):
+        sens = "ASC"
+    db = getdb()
+    c = db.cursor()
+    c.execute(f'SELECT e.name,COUNT(v.candidat),AVG(v.ordre) FROM ecole as e JOIN voeux as v ON e.code=v.ecole GROUP BY e.name ORDER BY {tri_state} {sens}')
+    return render_template("voeux_ecole.html", liste=list(c.fetchall()), choice=(tri, sens))
+
 
 
