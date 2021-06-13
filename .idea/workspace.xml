@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c513e41f-057c-42f7-9621-d41f3b2cc857" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/web/templates/lib/js/chart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/concours.db" beforeDir="false" afterPath="$PROJECT_DIR$/web/concours.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/createdb.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/templates/moyenne_epreuve_etab.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/moyenne_epreuve_etab.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/templates/moyenne_forms.html" beforeDir="false" afterPath="$PROJECT_DIR$/web/templates/moyenne_forms.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitignore" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +40,7 @@
       <option name="presentableId" value="Default" />
       <updated>1623504371409</updated>
       <workItem from="1623504374552" duration="15193000" />
-      <workItem from="1623581279977" duration="7239000" />
+      <workItem from="1623581279977" duration="7695000" />
     </task>
     <servers />
   </component>
