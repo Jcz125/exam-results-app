@@ -340,24 +340,16 @@ def moyenne_epreuve_etablissement(codepreuve,rne):
 
 @app.route("/moyenne_forms", methods=["get", "post"])
 def moyenne_forms():
-    if not request.method == "POST" and not request.form.get("epreuve") and not request.form.get("etablissement") and not request.form.get("type"):
+    if request.method != "POST" and not request.form.get("epreuve") and not request.form.get("etablissement") and not request.form.get("type"):
+        return render_template("moyenne_forms.html")
+    if request.method != "POST" or not request.form.get("epreuve") or not request.form.get("etablissement"):
         db = getdb()
         c = db.cursor()
-        c.execute('SELECT epreuve.type from epreuve')
-        types = []
-        for i in c.fetchall():
-            types.append(i)
-        types = list(set(types)) #to avoid duplicate
-        # types.sort()
-        return render_template("moyenne_forms.html", var=request.form.get("type"))
-    if not request.method == "POST" or not request.form.get("epreuve") or not request.form.get("etablissement"):
-        db = getdb()
-        c = db.cursor()
-        c.execute('SELECT lib from epreuve WHERE epreuve.type = (?)', (""+request.form.get("type"),))
+        c.execute('SELECT lib from epreuve WHERE epreuve.type = (?)', (request.form.get("type"),))
         epreuves = []
         for i in c.fetchall():
             epreuves.append(i)
-        return render_template("moyenne_forms.html", epreuves=epreuves)
+        return render_template("moyenne_forms.html", epreuves=epreuves, type_select=request.form.get("type"))
     else:
         db = getdb()
         c = db.cursor()

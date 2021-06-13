@@ -51,10 +51,10 @@
       <label for="selecttype">Sélectionnez le type de l'épreuve :</label>
       <select class="form-control" name="type" onchange="changeRegion(this[this.selectedIndex].value);">
         <option></option>
-        <option>ECRIT</option>
-        <option>ORAL</option>
-        <option>SPECIFIQUE</option>
-        <option>CLASSEMENT</option>
+        <option {{"selected" if type_select=="ECRIT"}}>ECRIT</option>
+        <option {{"selected" if type_select=="ORAL"}}>ORAL</option>
+        <option {{"selected" if type_select=="SPECIFIQUE"}}>SPECIFIQUE</option>
+        <option {{"selected" if type_select=="CLASSEMENT"}}>CLASSEMENT</option>
 
       </select>
     </div>
