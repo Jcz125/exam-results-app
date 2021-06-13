@@ -396,5 +396,9 @@ def voeux_ecole():
     c.execute(f'SELECT e.name,COUNT(v.candidat),AVG(v.ordre) FROM ecole as e JOIN voeux as v ON e.code=v.ecole GROUP BY e.name ORDER BY {tri_state} {sens}')
     return render_template("voeux_ecole.html", liste=list(c.fetchall()), choice=(tri, sens))
 
+@app.route("/")
+def home():
+    return render_template("index.html")
+
 
 
