@@ -1,3 +1,5 @@
+.gitignore
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/tasks.json
