@@ -18,7 +18,6 @@ __pycache__/*
 ### Folders ####
 yourscript.egg-info/*
 web/__pycache__/*
-.idea/*
 
 ### Files ###
 Inscription.xlsx
