@@ -84,6 +84,7 @@ Puis lancer les scripts en changeant au préalable les chemins d'accès aux diff
 4. $ flask run
 
 ### Utilisation de l'application web
+- http://127.0.0.1:5000/ : page d'accueil
 - http://127.0.0.1:5000/rech : pour faire une recherche d'un candidat par son nom
 - http://127.0.0.1:5000/candidatByCode/<candidat.code> : pour accéder directement aux informations d'un candidat par son numéro scei
 - http://127.0.0.1:5000/voeux/<candidat.code> : pour afficher les voeux du candidat
