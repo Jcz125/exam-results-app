@@ -367,24 +367,24 @@ def moyenne_forms():
             id.append(i)
         return moyenne_epreuve_etablissement(id[0][0],request.form.get("etablissement"))
 
-
-@app.route("/ecole_populaire", methods=["get", "post"]) ### les top n écoles les plus choisies, ecole = code de l'école
-def ecole_populaire():
-    db = getdb()
-    c = db.cursor()
-    ecoles = {}
-    c.execute('SELECT * FROM ecole;')
-    for k in c.fetchall():
-        ecoles[k[0]] = k[1]
-
-    iteration = []
-    for i in ecoles:
-        c.execute('SELECT COUNT(ecole) FROM voeux WHERE ecole = (?);', (i,))
-        cpt = c.fetchall()
-        iteration.append((i, int(cpt[0][0])))
-
-    iteration.sort(key = lambda x: x[1], reverse=True)
-
-    return render_template("liste_popularite.html", iteration=iteration, ecoles=ecoles)
+# Autre version de classement par popularité voeux des écoles
+# @app.route("/ecole_populaire", methods=["get", "post"]) ### les top n écoles les plus choisies, ecole = code de l'école
+# def ecole_populaire():
+#     db = getdb()
+#     c = db.cursor()
+#     ecoles = {}
+#     c.execute('SELECT * FROM ecole;')
+#     for k in c.fetchall():
+#         ecoles[k[0]] = k[1]
+#
+#     iteration = []
+#     for i in ecoles:
+#         c.execute('SELECT COUNT(ecole) FROM voeux WHERE ecole = (?);', (i,))
+#         cpt = c.fetchall()
+#         iteration.append((i, int(cpt[0][0])))
+#
+#     iteration.sort(key = lambda x: x[1], reverse=True)
+#
+#     return render_template("liste_popularite.html", iteration=iteration, ecoles=ecoles)
 
 
