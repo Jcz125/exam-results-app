@@ -95,4 +95,4 @@ Puis lancer les scripts en changeant au préalable les chemins d'accès aux diff
 - http://127.0.0.1:5000/epreuve : pour afficher toutes les épreuves
 - http://127.0.0.1:5000/option : pour afficher tous les options
 - http://127.0.0.1:5000/csp : pour afficher toutes les catégories socio-professionnelles
-- http://127.0.0.1:5000/moyenne_forms : pour calculer la moyenne sur une épreuve pour un établissement, en fournissant le RNE de l'établissement
+- http://127.0.0.1:5000/stats_forms : statistiques (moyenne, médiane , 1Q ,3Q et écart-type)
