@@ -362,11 +362,11 @@ def stats_epreuve_par_filiere(id_epreuve, filiere):
     epreuve = c.fetchall()[0]
     if filiere == "all":
         c.execute('SELECT score FROM notes WHERE epreuve=(?);', (id_epreuve,))
-        stats = calcul_stats(res)
+        stats = calcul_stats(c.fetchall())
         return render_template("stats_epreuve_filiere.html", moyenne=stats[0], Q1=stats[1], Q2=stats[2], Q3=stats[3], sigma=stats[4], nb_can=stats[5], epreuve=epreuve, filiere="")
     else:
         c.execute('SELECT score FROM notes JOIN epreuve ON id=epreuve JOIN candidat ON candidat.code=candidat JOIN concours ON concours.code=voie_concours WHERE concours.voie=(?) AND epreuve.id=(?);', (filiere, id_epreuve))
-        stats = calcul_stats(res)
+        stats = calcul_stats(c.fetchall())
         return render_template("stats_epreuve_filiere.html", moyenne=stats[0], Q1=stats[1], Q2=stats[2], Q3=stats[3], sigma=stats[4], nb_can=stats[5], epreuve=epreuve, filiere=filiere)
 
 
@@ -421,8 +421,9 @@ liste_ep_TSI_oraux = [14, 15, 16, 17, 18, 19, 400, 401, 9998, 9999]
 liste_ep_TSI_spe = [1, 2, 3, 4]
 liste_ep_TSI_class = [10198, 10199, 10201]
 
-liste_ep_ATS_ecrit = [9899, 9897, 9898, 956, 957, 958, 959, 960]
-liste_ep_ATS_oral = [9997, 9998, 961, 962, 963, 964, 981, 1030]
+liste_ep_ATS_ecrits = [9899, 9897, 9898, 956, 957, 958, 959, 960]
+liste_ep_ATS_oraux = [9997, 9998, 961, 962, 963, 964, 981, 1030]
+
 
 
 def find_eps(type, filiere):
@@ -491,64 +492,6 @@ def stats_forms():
     if request.method != "POST" or not request.form.get("epreuve") or not request.form.get("etablissement"):
         db = getdb()
         c = db.cursor()
-
-        # if request.form.get("type") == "":
-        #     epreuves = [10000]
-        # elif request.form.get("filiere") == "MP":
-        #     if request.form.get("type") == "ECRIT":
-        #         epreuves = liste_ep_MP_ecrits
-        #     elif request.form.get("type") == "ORAL":
-        #         epreuves = liste_ep_MP_oraux
-        #     elif request.form.get("type") == "SPECIFIQUE":
-        #         epreuves = liste_ep_MP_spe
-        #     elif request.form.get("type") == "CLASSEMENT":
-        #         epreuves = liste_ep_MP_class
-        # elif request.form.get("filiere") == "PC":
-        #     if request.form.get("type") == "ECRIT":
-        #         epreuves = liste_ep_PC_ecrits
-        #     elif request.form.get("type") == "ORAL":
-        #         epreuves = liste_ep_PC_oraux
-        #     elif request.form.get("type") == "SPECIFIQUE":
-        #         epreuves = liste_ep_PC_spe
-        #     elif request.form.get("type") == "CLASSEMENT":
-        #         epreuves = liste_ep_PC_class
-        # elif request.form.get("filiere") == "PSI":
-        #     if request.form.get("type") == "ECRIT":
-        #         epreuves = liste_ep_PSI_ecrits
-        #     elif request.form.get("type") == "ORAL":
-        #         epreuves = liste_ep_PSI_oraux
-        #     elif request.form.get("type") == "SPECIFIQUE":
-        #         epreuves = liste_ep_PSI_spe
-        #     elif request.form.get("type") == "CLASSEMENT":
-        #         epreuves = liste_ep_PSI_class
-        # elif request.form.get("filiere") == "PT":
-        #     if request.form.get("type") == "ECRIT":
-        #         epreuves = liste_ep_PT_ecrits
-        #     elif request.form.get("type") == "ORAL":
-        #         epreuves = liste_ep_PT_oraux
-        #     elif request.form.get("type") == "SPECIFIQUE":
-        #         epreuves = liste_ep_PT_spe
-        #     elif request.form.get("type") == "CLASSEMENT":
-        #         epreuves = liste_ep_PT_class
-        # elif request.form.get("filiere") == "TSI":
-        #     if request.form.get("type") == "ECRIT":
-        #         epreuves = liste_ep_TSI_ecrits
-        #     elif request.form.get("type") == "ORAL":
-        #         epreuves = liste_ep_TSI_oraux
-        #     elif request.form.get("type") == "SPECIFIQUE":
-        #         epreuves = liste_ep_TSI_spe
-        #     elif request.form.get("type") == "CLASSEMENT":
-        #         epreuves = liste_ep_TSI_class
-        # elif request.form.get("filiere") == "ATS":
-        #     if request.form.get("type") == "ECRIT":
-        #         epreuves = liste_ep_ATS_ecrits
-        #     elif request.form.get("type") == "ORAL":
-        #         epreuves = liste_ep_ATS_oraux
-        #     elif request.form.get("type") == "SPECIFIQUE":
-        #         epreuves = liste_ep_ATS_spe
-        #     elif request.form.get("type") == "CLASSEMENT":
-        #         epreuves = liste_ep_ATS_class
-
         epreuves = find_eps(request.form.get("type"), request.form.get("filiere"))
         lib_epreuves = []
         for k in epreuves:
