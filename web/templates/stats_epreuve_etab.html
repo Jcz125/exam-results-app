@@ -85,16 +85,16 @@
       
         </tbody>
       </table>
-      <div class="chart-editor" data-v-365c20ab="">
-        <div class="chart-view" data-v-365c20ab></div>
-      </div>
 
 <!--      <script type="text/javascript" src="lib/js/chart.js"></script>-->
 
 <!--      <canvas id="Chart" style="display: block; box-sizing: border-box; height: 384px; width: 768px;" id="myChart" width="900" height="380"></canvas>-->
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<!--<a href="#" id="downloadPdf">Download Report Page as PDF</a>-->
+<!--      <div id="reportPage">-->
       <canvas id="myChart" style="width:100%;max-width:800px; display: block; margin: auto"></canvas>
+<!--      </div>-->
 
       <script>
       var xValues = ["Moyenne", "Q1", "Médiane", "Q3", "Écart-type"];
@@ -118,6 +118,48 @@
           }
         }
       });
+      //   $('#downloadPdf').click(function(event) {
+      //   // get size of report page
+      //   var reportPageHeight = $('#reportPage').innerHeight();
+      //   var reportPageWidth = $('#reportPage').innerWidth();
+      //
+      //   // create a new canvas object that we will populate with all other canvas objects
+      //   var pdfCanvas = $('<canvas />').attr({
+      //     id: "canvaspdf",
+      //     width: reportPageWidth,
+      //     height: reportPageHeight
+      //   });
+      //
+      //   // keep track canvas position
+      //   var pdfctx = $(pdfCanvas)[0].getContext('2d');
+      //   var pdfctxX = 0;
+      //   var pdfctxY = 0;
+      //   var buffer = 100;
+      //
+      //   // for each chart.js chart
+      //   $("canvas").each(function(index) {
+      //     // get the chart height/width
+      //     var canvasHeight = $(this).innerHeight();
+      //     var canvasWidth = $(this).innerWidth();
+      //
+      //     // draw the chart into the new canvas
+      //     pdfctx.drawImage($(this)[0], pdfctxX, pdfctxY, canvasWidth, canvasHeight);
+      //     pdfctxX += canvasWidth + buffer;
+      //
+      //     // our report page is in a grid pattern so replicate that in the new canvas
+      //     if (index % 2 === 1) {
+      //       pdfctxX = 0;
+      //       pdfctxY += canvasHeight + buffer;
+      //     }
+      //   });
+      //
+      //   // create new pdf and add our new canvas as an image
+      //   var pdf = new jsPDF('l', 'pt', [reportPageWidth, reportPageHeight]);
+      //   pdf.addImage($(pdfCanvas)[0], 'PNG', 0, 0);
+      //
+      //   // download the pdf
+      //   pdf.save('filename.pdf');
+      // });
       </script>
 
 <!--      <canvas id="monGraph" style="width:100%;max-width:600px"></canvas>-->
