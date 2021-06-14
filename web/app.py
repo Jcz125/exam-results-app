@@ -502,10 +502,9 @@ def stats_forms():
         db = getdb()
         c = db.cursor()
         c.execute('SELECT id from epreuve WHERE epreuve.type = (?) and lib = (?);', (request.form.get("type"), request.form.get("epreuve")))
-        id = []
         for i in c.fetchall():
             if i[0] in find_eps(request.form.get("type"), request.form.get("filiere")):
-                return stats_epreuve_par_filiere_par_etablissement(i[0], request.form.get("filiere"), request.form.get("etablissement"))
+                return redirect(f"/stats/{i[0]}/{request.form.get('filiere')}/{request.form.get('etablissement')}")
         return "Pas d'épreuve trouvée"
 
 
