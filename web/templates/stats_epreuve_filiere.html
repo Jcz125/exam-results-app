@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Statistiques de l'épreuve</title>
+
+</head>
+<body>
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link " href="/ecole">Écoles</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/etablissement">Établissements</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/epreuve">Épreuves</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " href="/option">Options</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/csp">Csp</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/rech">Rechercher</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/stats_forms">Statistiques</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/voeuxparecole">Voeux par école</a>
+      </li>
+  </ul>
+
+    <br>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Filière</th>
+            <th scope="col">N° de l'épr.</th>
+            <th scope="col">Épreuve</th>
+            <th scope="col">Type de l'épreuve</th>
+            <th scope="col">Moyenne</th>
+            <th scope="col">1er Quartile</th>
+            <th scope="col">Médiane</th>
+            <th scope="col">3e Quartile</th>
+            <th scope="col">Écart-type</th>
+            <th scope="col">Nb de candidats</th>
+
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <th scope="row"></th>
+            <td>{{filiere}}</td>
+            <td>{{epreuve[0]}}</td>
+            <td>{{epreuve[1]}}</td>
+            <td>{{epreuve[2]}}</td>
+            <td>{{moyenne}}</td>
+            <td>{{Q1}}</td>
+            <td>{{Q2}}</td>
+            <td>{{Q3}}</td>
+            <td>{{sigma}}</td>
+            <td>{{nb_can}}</td>
+
+          </tr>
+
+        </tbody>
+      </table>
+      <div class="chart-editor" data-v-365c20ab="">
+        <div class="chart-view" data-v-365c20ab></div>
+      </div>
+
+<!--      <script type="text/javascript" src="lib/js/chart.js"></script>-->
+
+<!--      <canvas id="Chart" style="display: block; box-sizing: border-box; height: 384px; width: 768px;" id="myChart" width="900" height="380"></canvas>-->
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+      <canvas id="myChart" style="width:100%;max-width:800px; display: block; margin: auto"></canvas>
+
+      <script>
+      var xValues = ["Moyenne", "Q1", "Médiane", "Q3", "Écart-type"];
+      var yValues = [{{moyenne}}, {{Q1}}, {{Q2}}, {{Q3}}, {{sigma}}];
+      var barColors = ["red", "green","blue","orange","brown"];
+      new Chart("myChart", {
+        type: "bar",
+        data: {
+          labels: xValues,
+          datasets: [{
+            backgroundColor: barColors,
+            data: yValues
+          }]
+        },
+        options: {
+          legend: {display: false},
+          title: {
+            display: true,
+            text: "Analyse statistique des résultats pour l'épreuve"
+          }
+        }
+      }
+      );
+      </script>
+
+<!--      <canvas id="monGraph" style="width:100%;max-width:600px"></canvas>-->
+
+<!--      <script>-->
+<!--      var ctx = document.getElementById("monGraph").getContext("2d");-->
+
+<!--      var data = {-->
+<!--        labels: ["Etablissement", "", "Strawberry"],-->
+<!--        datasets: [{-->
+<!--          label: "Blue",-->
+<!--          backgroundColor: "blue",-->
+<!--          data: [3, 7, 4]-->
+<!--        }, {-->
+<!--          label: "Red",-->
+<!--          backgroundColor: "red",-->
+<!--          data: [4, 3, 5]-->
+<!--        }, {-->
+<!--          label: "Yellow",-->
+<!--          backgroundColor: "yellow",-->
+<!--          data: [8, 5, 3]-->
+<!--        }, {-->
+<!--          label: "Green",-->
+<!--          backgroundColor: "green",-->
+<!--          data: [7, 2, 6]-->
+<!--        }]-->
+<!--      };-->
+
+<!--      var myBarChart = new Chart(ctx, {-->
+<!--        type: 'bar',-->
+<!--        data: data,-->
+<!--        options: {-->
+<!--          barValueSpacing: 20,-->
+<!--          scales: {-->
+<!--            yAxes: [{-->
+<!--              ticks: {-->
+<!--                min: 0,-->
+<!--              }-->
+<!--            }]-->
+<!--          }-->
+<!--        }-->
+<!--      });-->
+<!--      </script>-->
+
+</body>
+</html>
