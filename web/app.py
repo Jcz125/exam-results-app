@@ -485,27 +485,29 @@ def find_eps(type, filiere):
 # en sélectionnant d'abord la filière puis le type de l'épreuve, une liste s'actualise,
 # puis on peut choisir l'épreuve concernée et le rne de l'établissement
 def stats_forms():
-    if request.method != "POST" and not request.form.get("epreuve") and not request.form.get("etablissement") and not request.form.get("type") and not request.form.get("filiere"):
+    print(request.form)
+    if request.method == "GET":
         return render_template("stats_forms.html")
-    if request.method != "POST" and not request.form.get("epreuve") and not request.form.get("etablissement") and not request.form.get("type"):
-        return render_template("stats_forms.html")
-    if request.method != "POST" or not request.form.get("epreuve") or not request.form.get("etablissement"):
+    elif request.method == "POST" and request.form.get("button") == "1":
         db = getdb()
         c = db.cursor()
-        epreuves = find_eps(request.form.get("type"), request.form.get("filiere"))
-        lib_epreuves = []
-        for k in epreuves:
-            c.execute('SELECT lib from epreuve WHERE epreuve.id = (?);', (k,))
-            lib_epreuves.append(c.fetchall()[0][0])
-        return render_template("stats_forms.html", epreuves=lib_epreuves, filiere_select=request.form.get("filiere"), type_select=request.form.get("type"))
-    else:
-        db = getdb()
-        c = db.cursor()
-        c.execute('SELECT id from epreuve WHERE epreuve.type = (?) and lib = (?);', (request.form.get("type"), request.form.get("epreuve")))
+        c.execute('SELECT id from epreuve WHERE epreuve.type = (?) and lib = (?);',
+            (request.form.get("type"), request.form.get("epreuve")))
         for i in c.fetchall():
             if i[0] in find_eps(request.form.get("type"), request.form.get("filiere")):
                 return redirect(f"/stats/{i[0]}/{request.form.get('filiere')}/{request.form.get('etablissement')}")
         return "Pas d'épreuve trouvée"
+    else:
+        db = getdb()
+        c = db.cursor()
+        epreuves = find_eps(request.form.get("type"), request.form.get("filiere"))
+        lib_epreuves = []
+        if epreuves:
+            for k in epreuves:
+                c.execute('SELECT lib from epreuve WHERE epreuve.id = (?);', (k,))
+                lib_epreuves.append(c.fetchall()[0][0])
+        return render_template("stats_forms.html", epreuves=lib_epreuves, filiere_select=request.form.get("filiere"),
+            type_select=request.form.get("type"))
 
 
 # Autre version de classement par popularité voeux des écoles

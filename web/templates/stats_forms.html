@@ -52,7 +52,7 @@
 
     <div class="form-group">
       <label for="selectfiliere">Sélectionnez une filière :</label>
-      <select class="form-control" name="filiere">
+      <select class="form-control" name="filiere" onchange="changeRegion(this[this.selectedIndex].value);">
         <option></option>
         <option {{"selected" if filiere_select=="MP"}}>MP</option>
         <option {{"selected" if filiere_select=="PC"}}>PC</option>
@@ -88,7 +88,7 @@
       <input type="text" class="form-control" name="etablissement">
     </div>
 
-    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+    <button name="button" value="1" type="submit" class="btn btn-primary btn-sm">Submit</button>
 
 
  
