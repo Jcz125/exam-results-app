@@ -362,11 +362,11 @@ def stats_epreuve_par_filiere(id_epreuve, filiere):
     epreuve = c.fetchall()[0]
     if filiere == "all":
         c.execute('SELECT score FROM notes WHERE epreuve=(?);', (id_epreuve,))
-        stats = calcul_stats(c.fetchall())
+        stats = calcul_stats(res)
         return render_template("stats_epreuve_filiere.html", moyenne=stats[0], Q1=stats[1], Q2=stats[2], Q3=stats[3], sigma=stats[4], nb_can=stats[5], epreuve=epreuve, filiere="")
     else:
         c.execute('SELECT score FROM notes JOIN epreuve ON id=epreuve JOIN candidat ON candidat.code=candidat JOIN concours ON concours.code=voie_concours WHERE concours.voie=(?) AND epreuve.id=(?);', (filiere, id_epreuve))
-        stats = calcul_stats(c.fetchall())
+        stats = calcul_stats(res)
         return render_template("stats_epreuve_filiere.html", moyenne=stats[0], Q1=stats[1], Q2=stats[2], Q3=stats[3], sigma=stats[4], nb_can=stats[5], epreuve=epreuve, filiere=filiere)
 
 
@@ -382,7 +382,7 @@ def stats_epreuve_par_filiere_par_etablissement(id_epreuve, filiere, rne):
         c.execute('SELECT score FROM notes JOIN epreuve ON id=epreuve JOIN candidat ON candidat.code=candidat WHERE epreuve.id=(?) AND etablissement=(?);', (id_epreuve, rne))
         res = c.fetchall()
         if len(res) != 0:
-            stats = calcul_stats(c.fetchall())
+            stats = calcul_stats(res)
             return render_template("stats_epreuve_etab.html", moyenne=stats[0], Q1=stats[1], Q2=stats[2], Q3=stats[3], sigma=stats[4], nb_can=stats[5], epreuve=epreuve, filiere="", etablissement=etablissement)
         else:
             return "Pas de résultat"
@@ -390,7 +390,7 @@ def stats_epreuve_par_filiere_par_etablissement(id_epreuve, filiere, rne):
         c.execute('SELECT score FROM notes JOIN epreuve ON id=epreuve JOIN candidat ON candidat.code=candidat JOIN concours ON concours.code=voie_concours WHERE concours.voie=(?) AND epreuve.id=(?) AND etablissement=(?);', (filiere, id_epreuve, rne))
         res = c.fetchall()
         if len(res) != 0:
-            stats = calcul_stats(c.fetchall())
+            stats = calcul_stats(res)
             return render_template("stats_epreuve_etab.html", moyenne=stats[0], Q1=stats[1], Q2=stats[2], Q3=stats[3], sigma=stats[4], nb_can=stats[5], epreuve=epreuve, filiere=filiere, etablissement=etablissement)
         else:
             return "Pas de résultat"
