@@ -20,12 +20,15 @@ def run_verif(database: sql.Connection, path: Path):
                 if ldata[0] == 'pk':
                     pkey = column
                 else:
+                    #creation de la requete SQL
                     select_req = f'SELECT {ldata[2]} FROM {ldata[0]} AS {ldata[1]} '
                     ldata = ldata[3:]
                     if ldata.pop(0)=='J':
                         select_req += f'JOIN {ldata[0]} AS {ldata[1]} ON {ldata[2]} '
                         ldata = ldata[3:]
                     select_req += f'WHERE {ldata[-1]} = ?'
+
+                    #Vérification de la donnée
                     for tabl in tableurs:
                         for i in range(len(tabl)):
                             if repr(tabl[pkey][i]) != 'nan':
