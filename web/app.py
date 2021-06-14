@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, render_template, abort, request, redirect, url_for
 from flask import g
 import sqlite3
+from numpy import *
 
 app = Flask(__name__)
 database= 'concours.db' # on définie le nom de notre base de données
@@ -297,67 +298,272 @@ def rech():
         return render_template("result_rech.html", liste=l)
 
 
-@app.route("/moyenne/<codepreuve>/<rne>") ### moyenne de l'epreuve  numéro 'codepreuve' des candidats de letab numero 'rne'
-def moyenne_epreuve_etablissement(codepreuve,rne):
-    db = getdb()
-    c = db.cursor()
-    c.execute('SELECT * from notes WHERE epreuve=(?)', (codepreuve,))
-    l = []
-    for i in c.fetchall():
-        l.append(i)
-    c = db.cursor()
-    c.execute('SELECT code from candidat WHERE etablissement=(?)', (rne,))
-    h=[]
-    for i in c.fetchall():
-        h.append(i)
-    out = [item for t in h for item in t] #convert list of tuples into list
-    total = []
-    for i in l :
-        if i[0] in out :
-            total.append(i)
-    somme = 0
-    for i in total:
-        somme = somme + i[2]
-    if len(total) != 0 :
-        moyenne = round(somme/len(total),2)
-    else :
-        moyenne = "Aucun candidat de l'établissement n'a passé cet épreuve"
-    ####recuperer des infos sur l'epreuve et l'etablissement
-    db = getdb()
-    c = db.cursor()
-    c.execute('SELECT * from epreuve WHERE id=(?)', (codepreuve,))
-    ep=[]
-    for i in c.fetchall():
-        ep.append(i)
-        db = getdb()
-    c = db.cursor()
-    c.execute('SELECT name,ville from etablissement WHERE etablissement.rne=(?)', (rne,))
-    etab=[]
-    for i in c.fetchall():
-        etab.append(i)
-    return render_template("moyenne_epreuve_etab.html", moyenne = moyenne, epreuve=ep , etablissement = etab)
+# @app.route("/moyenne/<codepreuve>/<rne>") ### moyenne de l'epreuve  numéro 'codepreuve' des candidats de letab numero 'rne'
+# def moyenne_epreuve_etablissement(codepreuve,rne):
+#     db = getdb()
+#     c = db.cursor()
+#     c.execute('SELECT * from notes WHERE epreuve=(?);', (codepreuve,))
+#     l = []
+#     for i in c.fetchall():
+#         l.append(i)
+#     c = db.cursor()
+#     c.execute('SELECT code from candidat WHERE etablissement=(?);', (rne,))
+#     h=[]
+#     for i in c.fetchall():
+#         h.append(i)
+#     out = [item for t in h for item in t] #convert list of tuples into list
+#     total = []
+#     for i in l :
+#         if i[0] in out :
+#             total.append(i)
+#     somme = 0
+#     for i in total:
+#         somme = somme + i[2]
+#     if len(total) != 0 :
+#         moyenne = round(somme/len(total),2)
+#     else :
+#         moyenne = "Aucun candidat de l'établissement n'a passé cet épreuve"
+#     ####recuperer des infos sur l'epreuve et l'etablissement
+#     db = getdb()
+#     c = db.cursor()
+#     c.execute('SELECT * from epreuve WHERE id=(?);', (codepreuve,))
+#     ep=[]
+#     for i in c.fetchall():
+#         ep.append(i)
+#         db = getdb()
+#     c = db.cursor()
+#     c.execute('SELECT name,ville from etablissement WHERE etablissement.rne=(?);', (rne,))
+#     etab=[]
+#     for i in c.fetchall():
+#         etab.append(i)
+#     return render_template("stats_epreuve_etab.html", moyenne = moyenne, epreuve=ep , etablissement = etab)
 
 
-@app.route("/moyenne_forms", methods=["get", "post"])
-def moyenne_forms():
+def calcul_stats(L):
+    val = []
+    for k in L:
+        val.append(k[0])
+    moy = round(mean(val), 2)
+    Q1 = quantile(val, 0.25)
+    med = median(val)
+    Q3 = quantile(val, 0.75)
+    sigma = 0
+    for i in val:
+        sigma += i**2
+    sigma = round(sqrt(sigma/len(val) - moy**2), 2)
+    return [moy, Q1, med, Q3, sigma, len(val)]
+
+
+@app.route("/stats/<id_epreuve>/<filiere>/") ### stats de l'épreuve numéro id_epreuve des candidats dans la filière filiere
+def stats_epreuve_par_filiere(id_epreuve, filiere):
+    db = getdb()
+    c = db.cursor()
+    c.execute('SELECT * FROM epreuve WHERE id=(?);', (id_epreuve,))
+    epreuve = c.fetchall()[0]
+    if filiere == "all":
+        c.execute('SELECT score FROM notes WHERE epreuve=(?);', (id_epreuve,))
+        stats = calcul_stats(res)
+        return render_template("stats_epreuve_filiere.html", moyenne=stats[0], Q1=stats[1], Q2=stats[2], Q3=stats[3], sigma=stats[4], nb_can=stats[5], epreuve=epreuve, filiere="")
+    else:
+        c.execute('SELECT score FROM notes JOIN epreuve ON id=epreuve JOIN candidat ON candidat.code=candidat JOIN concours ON concours.code=voie_concours WHERE concours.voie=(?) AND epreuve.id=(?);', (filiere, id_epreuve))
+        stats = calcul_stats(res)
+        return render_template("stats_epreuve_filiere.html", moyenne=stats[0], Q1=stats[1], Q2=stats[2], Q3=stats[3], sigma=stats[4], nb_can=stats[5], epreuve=epreuve, filiere=filiere)
+
+
+@app.route("/stats/<id_epreuve>/<filiere>/<rne>") ### stats de l'epreuve numéro id_epreuve des candidats de l'établissement numéro rne de la filière filiere
+def stats_epreuve_par_filiere_par_etablissement(id_epreuve, filiere, rne):
+    db = getdb()
+    c = db.cursor()
+    c.execute('SELECT * FROM epreuve WHERE id=(?);', (id_epreuve,))
+    epreuve = c.fetchall()[0]
+    c.execute('SELECT rne, name, ville FROM etablissement WHERE rne=(?);', (rne,))
+    etablissement = c.fetchall()[0]
+    if filiere == "all":
+        c.execute('SELECT score FROM notes JOIN epreuve ON id=epreuve JOIN candidat ON candidat.code=candidat WHERE epreuve.id=(?) AND etablissement=(?);', (id_epreuve, rne))
+        res = c.fetchall()
+        if len(res) != 0:
+            stats = calcul_stats(res)
+            return render_template("stats_epreuve_etab.html", moyenne=stats[0], Q1=stats[1], Q2=stats[2], Q3=stats[3], sigma=stats[4], nb_can=stats[5], epreuve=epreuve, filiere="", etablissement=etablissement)
+        else:
+            return "Pas de résultat"
+    else:
+        c.execute('SELECT score FROM notes JOIN epreuve ON id=epreuve JOIN candidat ON candidat.code=candidat JOIN concours ON concours.code=voie_concours WHERE concours.voie=(?) AND epreuve.id=(?) AND etablissement=(?);', (filiere, id_epreuve, rne))
+        res = c.fetchall()
+        if len(res) != 0:
+            stats = calcul_stats(res)
+            return render_template("stats_epreuve_etab.html", moyenne=stats[0], Q1=stats[1], Q2=stats[2], Q3=stats[3], sigma=stats[4], nb_can=stats[5], epreuve=epreuve, filiere=filiere, etablissement=etablissement)
+        else:
+            return "Pas de résultat"
+
+
+liste_ep_MP_ecrits = [28, 599, 600, 601, 602, 603, 604, 605, 1050, 9898, 9899]
+liste_ep_MP_oraux = [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999]
+liste_ep_MP_spe = [1, 2, 3, 4]
+liste_ep_MP_class = [10198, 10199, 10200, 10201]
+
+liste_ep_PC_ecrits = [28, 600, 601, 602, 603, 604, 605, 1050, 9898, 9899]
+liste_ep_PC_oraux = [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999]
+liste_ep_PC_spe = [1, 2, 3, 4]
+liste_ep_PC_class = [10198, 10199, 10200, 10201]
+
+liste_ep_PSI_ecrits = [28, 600, 601, 602, 603, 604, 605, 606, 1050, 9898, 9899]
+liste_ep_PSI_oraux = [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999]
+liste_ep_PSI_spe = [1, 2, 3, 4]
+liste_ep_PSI_class = [10198, 10199, 10200, 10201]
+
+liste_ep_PT_ecrits = [700, 701, 702, 703, 704, 705, 706, 707, 9898, 9899]
+liste_ep_PT_oraux = [5, 6, 7, 8, 400, 401, 9900, 9901, 9998, 9999]
+liste_ep_PT_spe = [1, 2, 3, 4]
+liste_ep_PT_class = [10198, 10199, 10200, 10201]
+
+liste_ep_TSI_ecrits = [800, 801, 802, 803, 804, 805, 806, 807, 9898, 9899]
+liste_ep_TSI_oraux = [14, 15, 16, 17, 18, 19, 400, 401, 9998, 9999]
+liste_ep_TSI_spe = [1, 2, 3, 4]
+liste_ep_TSI_class = [10198, 10199, 10201]
+
+liste_ep_ATS_ecrit = [9899, 9897, 9898, 956, 957, 958, 959, 960]
+liste_ep_ATS_oral = [9997, 9998, 961, 962, 963, 964, 981, 1030]
+
+
+def find_eps(type, filiere):
+    if type == "":
+        return [10000]
+    elif filiere == "MP":
+        if type == "ECRIT":
+            return liste_ep_MP_ecrits
+        elif type == "ORAL":
+            return liste_ep_MP_oraux
+        elif type == "SPECIFIQUE":
+            return liste_ep_MP_spe
+        elif type == "CLASSEMENT":
+            return liste_ep_MP_class
+    elif filiere == "PC":
+        if type == "ECRIT":
+            return liste_ep_PC_ecrits
+        elif type == "ORAL":
+            return liste_ep_PC_oraux
+        elif type == "SPECIFIQUE":
+            return liste_ep_PC_spe
+        elif type == "CLASSEMENT":
+            return liste_ep_PC_class
+    elif filiere == "PSI":
+        if type == "ECRIT":
+            return liste_ep_PSI_ecrits
+        elif type == "ORAL":
+            return liste_ep_PSI_oraux
+        elif type == "SPECIFIQUE":
+            return liste_ep_PSI_spe
+        elif type == "CLASSEMENT":
+            return liste_ep_PSI_class
+    elif filiere == "PT":
+        if type == "ECRIT":
+            return liste_ep_PT_ecrits
+        elif type == "ORAL":
+            return liste_ep_PT_oraux
+        elif type == "SPECIFIQUE":
+            return liste_ep_PT_spe
+        elif type == "CLASSEMENT":
+            return liste_ep_PT_class
+    elif filiere == "TSI":
+        if type == "ECRIT":
+            return liste_ep_TSI_ecrits
+        elif type == "ORAL":
+            return liste_ep_TSI_oraux
+        elif type == "SPECIFIQUE":
+            return liste_ep_TSI_spe
+        elif type == "CLASSEMENT":
+            return liste_ep_TSI_class
+    elif filiere == "ATS":
+        if request.form.get("type") == "ECRIT":
+            return liste_ep_ATS_ecrits
+        elif request.form.get("type") == "ORAL":
+            return liste_ep_ATS_oraux
+
+
+@app.route("/stats_forms", methods=["get", "post"]) ### recherche identique à la précédente mais par form,
+# en sélectionnant d'abord la filière puis le type de l'épreuve, une liste s'actualise,
+# puis on peut choisir l'épreuve concernée et le rne de l'établissement
+def stats_forms():
+    if request.method != "POST" and not request.form.get("epreuve") and not request.form.get("etablissement") and not request.form.get("type") and not request.form.get("filiere"):
+        return render_template("stats_forms.html")
     if request.method != "POST" and not request.form.get("epreuve") and not request.form.get("etablissement") and not request.form.get("type"):
-        return render_template("moyenne_forms.html")
+        return render_template("stats_forms.html")
     if request.method != "POST" or not request.form.get("epreuve") or not request.form.get("etablissement"):
         db = getdb()
         c = db.cursor()
-        c.execute('SELECT lib from epreuve WHERE epreuve.type = (?)', (request.form.get("type"),))
-        epreuves = []
-        for i in c.fetchall():
-            epreuves.append(i)
-        return render_template("moyenne_forms.html", epreuves=epreuves, type_select=request.form.get("type"))
+
+        # if request.form.get("type") == "":
+        #     epreuves = [10000]
+        # elif request.form.get("filiere") == "MP":
+        #     if request.form.get("type") == "ECRIT":
+        #         epreuves = liste_ep_MP_ecrits
+        #     elif request.form.get("type") == "ORAL":
+        #         epreuves = liste_ep_MP_oraux
+        #     elif request.form.get("type") == "SPECIFIQUE":
+        #         epreuves = liste_ep_MP_spe
+        #     elif request.form.get("type") == "CLASSEMENT":
+        #         epreuves = liste_ep_MP_class
+        # elif request.form.get("filiere") == "PC":
+        #     if request.form.get("type") == "ECRIT":
+        #         epreuves = liste_ep_PC_ecrits
+        #     elif request.form.get("type") == "ORAL":
+        #         epreuves = liste_ep_PC_oraux
+        #     elif request.form.get("type") == "SPECIFIQUE":
+        #         epreuves = liste_ep_PC_spe
+        #     elif request.form.get("type") == "CLASSEMENT":
+        #         epreuves = liste_ep_PC_class
+        # elif request.form.get("filiere") == "PSI":
+        #     if request.form.get("type") == "ECRIT":
+        #         epreuves = liste_ep_PSI_ecrits
+        #     elif request.form.get("type") == "ORAL":
+        #         epreuves = liste_ep_PSI_oraux
+        #     elif request.form.get("type") == "SPECIFIQUE":
+        #         epreuves = liste_ep_PSI_spe
+        #     elif request.form.get("type") == "CLASSEMENT":
+        #         epreuves = liste_ep_PSI_class
+        # elif request.form.get("filiere") == "PT":
+        #     if request.form.get("type") == "ECRIT":
+        #         epreuves = liste_ep_PT_ecrits
+        #     elif request.form.get("type") == "ORAL":
+        #         epreuves = liste_ep_PT_oraux
+        #     elif request.form.get("type") == "SPECIFIQUE":
+        #         epreuves = liste_ep_PT_spe
+        #     elif request.form.get("type") == "CLASSEMENT":
+        #         epreuves = liste_ep_PT_class
+        # elif request.form.get("filiere") == "TSI":
+        #     if request.form.get("type") == "ECRIT":
+        #         epreuves = liste_ep_TSI_ecrits
+        #     elif request.form.get("type") == "ORAL":
+        #         epreuves = liste_ep_TSI_oraux
+        #     elif request.form.get("type") == "SPECIFIQUE":
+        #         epreuves = liste_ep_TSI_spe
+        #     elif request.form.get("type") == "CLASSEMENT":
+        #         epreuves = liste_ep_TSI_class
+        # elif request.form.get("filiere") == "ATS":
+        #     if request.form.get("type") == "ECRIT":
+        #         epreuves = liste_ep_ATS_ecrits
+        #     elif request.form.get("type") == "ORAL":
+        #         epreuves = liste_ep_ATS_oraux
+        #     elif request.form.get("type") == "SPECIFIQUE":
+        #         epreuves = liste_ep_ATS_spe
+        #     elif request.form.get("type") == "CLASSEMENT":
+        #         epreuves = liste_ep_ATS_class
+
+        epreuves = find_eps(request.form.get("type"), request.form.get("filiere"))
+        lib_epreuves = []
+        for k in epreuves:
+            c.execute('SELECT lib from epreuve WHERE epreuve.id = (?);', (k,))
+            lib_epreuves.append(c.fetchall()[0][0])
+        return render_template("stats_forms.html", epreuves=lib_epreuves, filiere_select=request.form.get("filiere"), type_select=request.form.get("type"))
     else:
         db = getdb()
         c = db.cursor()
-        c.execute('SELECT id from epreuve WHERE epreuve.type = (?) and lib = (?)', (request.form.get("type"), request.form.get("epreuve")))
+        c.execute('SELECT id from epreuve WHERE epreuve.type = (?) and lib = (?);', (request.form.get("type"), request.form.get("epreuve")))
         id = []
         for i in c.fetchall():
-            id.append(i)
-        return moyenne_epreuve_etablissement(id[0][0],request.form.get("etablissement"))
+            if i[0] in find_eps(request.form.get("type"), request.form.get("filiere")):
+                return stats_epreuve_par_filiere_par_etablissement(i[0], request.form.get("filiere"), request.form.get("etablissement"))
+        return "Pas d'épreuve trouvée"
 
 
 # Autre version de classement par popularité voeux des écoles

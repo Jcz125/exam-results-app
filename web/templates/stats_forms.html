@@ -22,13 +22,13 @@
       <a class="nav-link " href="/">Accueil</a>
       </li>
         <li class="nav-item">
-          <a class="nav-link " href="/ecole">Ecoles</a>
+          <a class="nav-link " href="/ecole">Écoles</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/etablissement">Etablissements</a>
+          <a class="nav-link" href="/etablissement">Établissements</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/epreuve">Epreuves</a>
+          <a class="nav-link" href="/epreuve">Épreuves</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/option">Options</a>
@@ -40,7 +40,7 @@
             <a class="nav-link" href="/rech">Rechercher</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/moyenne_forms">Moyennes</a>
+            <a class="nav-link active" href="/stats_forms">Statistiques</a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="/voeuxparecole">Voeux par école</a>
@@ -50,6 +50,19 @@
 
 <form id="moyenne" name="moyenne" method="POST">
 
+    <div class="form-group">
+      <label for="selectfiliere">Sélectionnez une filière :</label>
+      <select class="form-control" name="filiere">
+        <option></option>
+        <option {{"selected" if filiere_select=="MP"}}>MP</option>
+        <option {{"selected" if filiere_select=="PC"}}>PC</option>
+        <option {{"selected" if filiere_select=="PSI"}}>PSI</option>
+        <option {{"selected" if filiere_select=="PT"}}>PT</option>
+        <option {{"selected" if filiere_select=="TSI"}}>TSI</option>
+        <option {{"selected" if filiere_select=="ATS"}}>ATS</option>
+
+      </select>
+    </div>
     <div class="form-group">
       <label for="selecttype">Sélectionnez le type de l'épreuve :</label>
       <select class="form-control" name="type" onchange="changeRegion(this[this.selectedIndex].value);">
@@ -65,7 +78,7 @@
       <label for="selectepreuve">Sélectionnez une épreuve :</label>
       <select class="form-control" name="epreuve">
         {% for ep in epreuves %}
-        <option>{{ep[0]}}</option>
+        <option>{{ep}}</option>
         {% endfor %}
 
       </select>
@@ -74,7 +87,6 @@
       <label for="etablissement">Entrez le RNE de l'établissement :</label>
       <input type="text" class="form-control" name="etablissement">
     </div>
-
 
     <button type="submit" class="btn btn-primary btn-sm">Submit</button>
 
