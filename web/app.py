@@ -298,47 +298,6 @@ def rech():
         return render_template("result_rech.html", liste=l)
 
 
-# @app.route("/moyenne/<codepreuve>/<rne>") ### moyenne de l'epreuve  numéro 'codepreuve' des candidats de letab numero 'rne'
-# def moyenne_epreuve_etablissement(codepreuve,rne):
-#     db = getdb()
-#     c = db.cursor()
-#     c.execute('SELECT * from notes WHERE epreuve=(?);', (codepreuve,))
-#     l = []
-#     for i in c.fetchall():
-#         l.append(i)
-#     c = db.cursor()
-#     c.execute('SELECT code from candidat WHERE etablissement=(?);', (rne,))
-#     h=[]
-#     for i in c.fetchall():
-#         h.append(i)
-#     out = [item for t in h for item in t] #convert list of tuples into list
-#     total = []
-#     for i in l :
-#         if i[0] in out :
-#             total.append(i)
-#     somme = 0
-#     for i in total:
-#         somme = somme + i[2]
-#     if len(total) != 0 :
-#         moyenne = round(somme/len(total),2)
-#     else :
-#         moyenne = "Aucun candidat de l'établissement n'a passé cet épreuve"
-#     ####recuperer des infos sur l'epreuve et l'etablissement
-#     db = getdb()
-#     c = db.cursor()
-#     c.execute('SELECT * from epreuve WHERE id=(?);', (codepreuve,))
-#     ep=[]
-#     for i in c.fetchall():
-#         ep.append(i)
-#         db = getdb()
-#     c = db.cursor()
-#     c.execute('SELECT name,ville from etablissement WHERE etablissement.rne=(?);', (rne,))
-#     etab=[]
-#     for i in c.fetchall():
-#         etab.append(i)
-#     return render_template("stats_epreuve_etab.html", moyenne = moyenne, epreuve=ep , etablissement = etab)
-
-
 def calcul_stats(L):
     val = []
     for k in L:
