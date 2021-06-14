@@ -396,89 +396,86 @@ def stats_epreuve_par_filiere_par_etablissement(id_epreuve, filiere, rne):
             return "Pas de résultat"
 
 
-liste_ep_MP_ecrits = [28, 599, 600, 601, 602, 603, 604, 605, 1050, 9898, 9899]
-liste_ep_MP_oraux = [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999]
-liste_ep_MP_spe = [1, 2, 3, 4]
-liste_ep_MP_class = [10198, 10199, 10200, 10201]
-
-liste_ep_PC_ecrits = [28, 600, 601, 602, 603, 604, 605, 1050, 9898, 9899]
-liste_ep_PC_oraux = [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999]
-liste_ep_PC_spe = [1, 2, 3, 4]
-liste_ep_PC_class = [10198, 10199, 10200, 10201]
-
-liste_ep_PSI_ecrits = [28, 600, 601, 602, 603, 604, 605, 606, 1050, 9898, 9899]
-liste_ep_PSI_oraux = [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999]
-liste_ep_PSI_spe = [1, 2, 3, 4]
-liste_ep_PSI_class = [10198, 10199, 10200, 10201]
-
-liste_ep_PT_ecrits = [700, 701, 702, 703, 704, 705, 706, 707, 9898, 9899]
-liste_ep_PT_oraux = [5, 6, 7, 8, 400, 401, 9900, 9901, 9998, 9999]
-liste_ep_PT_spe = [1, 2, 3, 4]
-liste_ep_PT_class = [10198, 10199, 10200, 10201]
-
-liste_ep_TSI_ecrits = [800, 801, 802, 803, 804, 805, 806, 807, 9898, 9899]
-liste_ep_TSI_oraux = [14, 15, 16, 17, 18, 19, 400, 401, 9998, 9999]
-liste_ep_TSI_spe = [1, 2, 3, 4]
-liste_ep_TSI_class = [10198, 10199, 10201]
-
-liste_ep_ATS_ecrits = [9899, 9897, 9898, 956, 957, 958, 959, 960]
-liste_ep_ATS_oraux = [9997, 9998, 961, 962, 963, 964, 981, 1030]
-
-
+dico_ep = {
+    ("ECRIT", "MP"): [28, 599, 600, 601, 602, 603, 604, 605, 1050, 9898, 9899],
+    ("ORAL", "MP"): [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999],
+    ("SPECIFIQUE", "MP"): [1, 2, 3, 4],
+    ("CLASSEMENT", "MP"): [10198, 10199, 10200, 10201],
+    ("ECRIT", "PC"): [28, 599, 600, 601, 602, 603, 604, 605, 1050, 9898, 9899],
+    ("ORAL", "PC"): [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999],
+    ("SPECIFIQUE", "PC"): [1, 2, 3, 4],
+    ("CLASSEMENT", "PC"): [10198, 10199, 10200, 10201],
+    ("ECRIT", "PSI"): [28, 600, 601, 602, 603, 604, 605, 606, 1050, 9898, 9899],
+    ("ORAL", "PSI"): [5, 6, 7, 8, 9, 10, 11, 12, 400, 401, 9900, 9901, 9998, 9999],
+    ("SPECIFIQUE", "PSI"): [1, 2, 3, 4],
+    ("CLASSEMENT", "PSI"): [10198, 10199, 10200, 10201],
+    ("ECRIT", "PT"): [700, 701, 702, 703, 704, 705, 706, 707, 9898, 9899],
+    ("ORAL", "PT"): [5, 6, 7, 8, 400, 401, 9900, 9901, 9998, 9999],
+    ("SPECIFIQUE", "PT"): [1, 2, 3, 4],
+    ("CLASSEMENT", "PT"): [10198, 10199, 10200, 10201],
+    ("ECRIT", "TSI"): [800, 801, 802, 803, 804, 805, 806, 807, 9898, 9899],
+    ("ORAL", "TSI"): [14, 15, 16, 17, 18, 19, 400, 401, 9998, 9999],
+    ("SPECIFIQUE", "TSI"): [1, 2, 3, 4],
+    ("CLASSEMENT", "TSI"): [10198, 10199, 10201],
+    ("ECRIT", "ATS"): [9899, 9897, 9898, 956, 957, 958, 959, 960],
+    ("ORAL", "ATS"): [9997, 9998, 961, 962, 963, 964, 981, 1030],
+}
 
 def find_eps(type, filiere):
     if type == "":
         return [10000]
-    elif filiere == "MP":
-        if type == "ECRIT":
-            return liste_ep_MP_ecrits
-        elif type == "ORAL":
-            return liste_ep_MP_oraux
-        elif type == "SPECIFIQUE":
-            return liste_ep_MP_spe
-        elif type == "CLASSEMENT":
-            return liste_ep_MP_class
-    elif filiere == "PC":
-        if type == "ECRIT":
-            return liste_ep_PC_ecrits
-        elif type == "ORAL":
-            return liste_ep_PC_oraux
-        elif type == "SPECIFIQUE":
-            return liste_ep_PC_spe
-        elif type == "CLASSEMENT":
-            return liste_ep_PC_class
-    elif filiere == "PSI":
-        if type == "ECRIT":
-            return liste_ep_PSI_ecrits
-        elif type == "ORAL":
-            return liste_ep_PSI_oraux
-        elif type == "SPECIFIQUE":
-            return liste_ep_PSI_spe
-        elif type == "CLASSEMENT":
-            return liste_ep_PSI_class
-    elif filiere == "PT":
-        if type == "ECRIT":
-            return liste_ep_PT_ecrits
-        elif type == "ORAL":
-            return liste_ep_PT_oraux
-        elif type == "SPECIFIQUE":
-            return liste_ep_PT_spe
-        elif type == "CLASSEMENT":
-            return liste_ep_PT_class
-    elif filiere == "TSI":
-        if type == "ECRIT":
-            return liste_ep_TSI_ecrits
-        elif type == "ORAL":
-            return liste_ep_TSI_oraux
-        elif type == "SPECIFIQUE":
-            return liste_ep_TSI_spe
-        elif type == "CLASSEMENT":
-            return liste_ep_TSI_class
-    elif filiere == "ATS":
-        if request.form.get("type") == "ECRIT":
-            return liste_ep_ATS_ecrits
-        elif request.form.get("type") == "ORAL":
-            return liste_ep_ATS_oraux
+    else:
+        return dico_ep[(type, filiere)]
+    # elif filiere == "MP":
+    #     if type == "ECRIT":
+    #         return liste_ep_MP_ecrits
+    #     elif type == "ORAL":
+    #         return liste_ep_MP_oraux
+    #     elif type == "SPECIFIQUE":
+    #         return liste_ep_MP_spe
+    #     elif type == "CLASSEMENT":
+    #         return liste_ep_MP_class
+    # elif filiere == "PC":
+    #     if type == "ECRIT":
+    #         return liste_ep_PC_ecrits
+    #     elif type == "ORAL":
+    #         return liste_ep_PC_oraux
+    #     elif type == "SPECIFIQUE":
+    #         return liste_ep_PC_spe
+    #     elif type == "CLASSEMENT":
+    #         return liste_ep_PC_class
+    # elif filiere == "PSI":
+    #     if type == "ECRIT":
+    #         return liste_ep_PSI_ecrits
+    #     elif type == "ORAL":
+    #         return liste_ep_PSI_oraux
+    #     elif type == "SPECIFIQUE":
+    #         return liste_ep_PSI_spe
+    #     elif type == "CLASSEMENT":
+    #         return liste_ep_PSI_class
+    # elif filiere == "PT":
+    #     if type == "ECRIT":
+    #         return liste_ep_PT_ecrits
+    #     elif type == "ORAL":
+    #         return liste_ep_PT_oraux
+    #     elif type == "SPECIFIQUE":
+    #         return liste_ep_PT_spe
+    #     elif type == "CLASSEMENT":
+    #         return liste_ep_PT_class
+    # elif filiere == "TSI":
+    #     if type == "ECRIT":
+    #         return liste_ep_TSI_ecrits
+    #     elif type == "ORAL":
+    #         return liste_ep_TSI_oraux
+    #     elif type == "SPECIFIQUE":
+    #         return liste_ep_TSI_spe
+    #     elif type == "CLASSEMENT":
+    #         return liste_ep_TSI_class
+    # elif filiere == "ATS":
+    #     if request.form.get("type") == "ECRIT":
+    #         return liste_ep_ATS_ecrits
+    #     elif request.form.get("type") == "ORAL":
+    #         return liste_ep_ATS_oraux
 
 
 @app.route("/stats_forms", methods=["get", "post"]) ### recherche identique à la précédente mais par form,
