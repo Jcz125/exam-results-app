@@ -227,7 +227,7 @@ def candidat_voeux(code):
     for i in range(longueur):
         tuple= (l[i][0], nomecole[i][0])
         final.append(tuple)
-    return render_template("liste_voeux.html", liste = l , nomecole = nomecole, final = final)
+    return render_template("liste_voeux.html", liste = l , nomecole = nomecole, final = final, code=code)
 
 
 @app.route("/notes/<code>") ### notes du candidat numéro 'code'
@@ -254,7 +254,7 @@ def candidat_notes(code):
     for i in range(longueur):
         tuple= (nomeepreuve[i][0], nomeepreuve[i][1] , l[i][1])
         final.append(tuple)
-    return render_template("liste_notes.html", liste = l , final = final)
+    return render_template("liste_notes.html", liste = l , final = final, code=code)
 
 
 @app.route("/classement/<code>") ### classement du candidat numéro 'code'
@@ -281,7 +281,7 @@ def candidat_classement(code):
     for i in range(longueur):
         tuple= (nomtype[i][0], l[i][0])
         final.append(tuple)
-    return render_template("liste_classement.html", liste = l , final = final)
+    return render_template("liste_classement.html", liste = l , final = final, code=code)
 
 
 @app.route("/rech", methods=["get", "post"])
@@ -296,47 +296,6 @@ def rech():
         for i in c.fetchall():
             l.append(i)
         return render_template("result_rech.html", liste=l)
-
-
-# @app.route("/moyenne/<codepreuve>/<rne>") ### moyenne de l'epreuve  numéro 'codepreuve' des candidats de letab numero 'rne'
-# def moyenne_epreuve_etablissement(codepreuve,rne):
-#     db = getdb()
-#     c = db.cursor()
-#     c.execute('SELECT * from notes WHERE epreuve=(?);', (codepreuve,))
-#     l = []
-#     for i in c.fetchall():
-#         l.append(i)
-#     c = db.cursor()
-#     c.execute('SELECT code from candidat WHERE etablissement=(?);', (rne,))
-#     h=[]
-#     for i in c.fetchall():
-#         h.append(i)
-#     out = [item for t in h for item in t] #convert list of tuples into list
-#     total = []
-#     for i in l :
-#         if i[0] in out :
-#             total.append(i)
-#     somme = 0
-#     for i in total:
-#         somme = somme + i[2]
-#     if len(total) != 0 :
-#         moyenne = round(somme/len(total),2)
-#     else :
-#         moyenne = "Aucun candidat de l'établissement n'a passé cet épreuve"
-#     ####recuperer des infos sur l'epreuve et l'etablissement
-#     db = getdb()
-#     c = db.cursor()
-#     c.execute('SELECT * from epreuve WHERE id=(?);', (codepreuve,))
-#     ep=[]
-#     for i in c.fetchall():
-#         ep.append(i)
-#         db = getdb()
-#     c = db.cursor()
-#     c.execute('SELECT name,ville from etablissement WHERE etablissement.rne=(?);', (rne,))
-#     etab=[]
-#     for i in c.fetchall():
-#         etab.append(i)
-#     return render_template("stats_epreuve_etab.html", moyenne = moyenne, epreuve=ep , etablissement = etab)
 
 
 def calcul_stats(L):
@@ -426,56 +385,6 @@ def find_eps(type, filiere):
         return [10000]
     else:
         return dico_ep[(type, filiere)]
-    # elif filiere == "MP":
-    #     if type == "ECRIT":
-    #         return liste_ep_MP_ecrits
-    #     elif type == "ORAL":
-    #         return liste_ep_MP_oraux
-    #     elif type == "SPECIFIQUE":
-    #         return liste_ep_MP_spe
-    #     elif type == "CLASSEMENT":
-    #         return liste_ep_MP_class
-    # elif filiere == "PC":
-    #     if type == "ECRIT":
-    #         return liste_ep_PC_ecrits
-    #     elif type == "ORAL":
-    #         return liste_ep_PC_oraux
-    #     elif type == "SPECIFIQUE":
-    #         return liste_ep_PC_spe
-    #     elif type == "CLASSEMENT":
-    #         return liste_ep_PC_class
-    # elif filiere == "PSI":
-    #     if type == "ECRIT":
-    #         return liste_ep_PSI_ecrits
-    #     elif type == "ORAL":
-    #         return liste_ep_PSI_oraux
-    #     elif type == "SPECIFIQUE":
-    #         return liste_ep_PSI_spe
-    #     elif type == "CLASSEMENT":
-    #         return liste_ep_PSI_class
-    # elif filiere == "PT":
-    #     if type == "ECRIT":
-    #         return liste_ep_PT_ecrits
-    #     elif type == "ORAL":
-    #         return liste_ep_PT_oraux
-    #     elif type == "SPECIFIQUE":
-    #         return liste_ep_PT_spe
-    #     elif type == "CLASSEMENT":
-    #         return liste_ep_PT_class
-    # elif filiere == "TSI":
-    #     if type == "ECRIT":
-    #         return liste_ep_TSI_ecrits
-    #     elif type == "ORAL":
-    #         return liste_ep_TSI_oraux
-    #     elif type == "SPECIFIQUE":
-    #         return liste_ep_TSI_spe
-    #     elif type == "CLASSEMENT":
-    #         return liste_ep_TSI_class
-    # elif filiere == "ATS":
-    #     if request.form.get("type") == "ECRIT":
-    #         return liste_ep_ATS_ecrits
-    #     elif request.form.get("type") == "ORAL":
-    #         return liste_ep_ATS_oraux
 
 
 @app.route("/stats_forms", methods=["get", "post"]) ### recherche identique à la précédente mais par form,
@@ -507,27 +416,6 @@ def stats_forms():
             type_select=request.form.get("type"))
 
 
-# Autre version de classement par popularité voeux des écoles
-# @app.route("/ecole_populaire", methods=["get", "post"]) ### les top n écoles les plus choisies, ecole = code de l'école
-# def ecole_populaire():
-#     db = getdb()
-#     c = db.cursor()
-#     ecoles = {}
-#     c.execute('SELECT * FROM ecole;')
-#     for k in c.fetchall():
-#         ecoles[k[0]] = k[1]
-#
-#     iteration = []
-#     for i in ecoles:
-#         c.execute('SELECT COUNT(ecole) FROM voeux WHERE ecole = (?);', (i,))
-#         cpt = c.fetchall()
-#         iteration.append((i, int(cpt[0][0])))
-#
-#     iteration.sort(key = lambda x: x[1], reverse=True)
-#
-#     return render_template("liste_popularite.html", iteration=iteration, ecoles=ecoles)
-
-
 @app.route("/voeuxparecole")
 def voeux_ecole():
     tri = request.args.get("order",default=None)
@@ -546,6 +434,4 @@ def voeux_ecole():
 @app.route("/")
 def home():
     return render_template("index.html")
-
-
 
