@@ -391,14 +391,17 @@ def find_eps(type, filiere):
 # en sélectionnant d'abord la filière puis le type de l'épreuve, une liste s'actualise,
 # puis on peut choisir l'épreuve concernée et le rne de l'établissement
 def stats_forms():
-    print(request.form)
     if request.method == "GET":
         return render_template("stats_forms.html")
     elif request.method == "POST" and request.form.get("button") == "1":
         db = getdb()
         c = db.cursor()
-        c.execute('SELECT id from epreuve WHERE epreuve.type = (?) and lib = (?);',
-            (request.form.get("type"), request.form.get("epreuve")))
+        if request.form.get("type") != "":
+            c.execute('SELECT id from epreuve WHERE epreuve.type = (?) and lib = (?);',
+                (request.form.get("type"), request.form.get("epreuve")))
+        else:
+            c.execute('SELECT id from epreuve WHERE epreuve.type IS NULL and lib = (?);',
+                ( request.form.get("epreuve"),))
         for i in c.fetchall():
             if i[0] in find_eps(request.form.get("type"), request.form.get("filiere")):
                 return redirect(f"/stats/{i[0]}/{request.form.get('filiere')}/{request.form.get('etablissement')}")
