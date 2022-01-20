@@ -1,4 +1,4 @@
-# Projet PII - Groupe 9
+# Projet PII - Groupe 9 - Exam Results Consulting App - Website Python
 
 ## Folder
 - ressources : contient des fichiers complémentaire, par exemple le schéma du modèle de données
